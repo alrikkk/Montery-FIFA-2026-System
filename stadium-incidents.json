@@ -1,0 +1,61 @@
+[
+  {
+    "id": "pre-1",
+    "timestamp": "14:02:11",
+    "classification": "CROWD_DENSITY_ALERT",
+    "query": "Staff report: Gate C is experiencing massive congestion. Traffic estimates around 520 entries in the last 5 minutes. Queue is overflowing onto outer concourse.",
+    "actionPlan": [
+      "Deploy dynamic digital wayfinding sign updates",
+      "Activate auxiliary entrance Gate D",
+      "Manually redirect queue tail to Gate D",
+      "Instruct security staff to pace scanning gates"
+    ],
+    "verbalRadioBriefingScript": "Montery Priority to Gate C and D staff: Gate C critical threshold breached at 520 entries. Redirecting queue tail to Gate D immediately. Enable signage divert. Over.",
+    "coordinates": {
+      "x": 55,
+      "y": 12,
+      "z": 55
+    },
+    "cameraPos": {
+      "x": 75,
+      "y": 15,
+      "z": 75
+    },
+    "lookAtPos": {
+      "x": 55,
+      "y": 5,
+      "z": 55
+    },
+    "glowColor": "#f97316",
+    "activeAnchor": "GATE_C"
+  },
+  {
+    "id": "pre-2",
+    "timestamp": "13:48:45",
+    "classification": "MEDICAL_EMERGENCY",
+    "query": "Spectator collapse reported near Section 143 concessions. Paramedic dispatcher requested.",
+    "actionPlan": [
+      "Dispatch local stadium paramedic unit Medic-4",
+      "Clear emergency vehicle ingress lane near Sector D/concessions",
+      "Notify stadium operations center"
+    ],
+    "verbalRadioBriefingScript": "OpsCortex to Medic-4: Spectator collapse near Section 143 concessions. Please respond immediately. Priority One. Over.",
+    "coordinates": {
+      "x": 35,
+      "y": 12,
+      "z": -40
+    },
+    "cameraPos": {
+      "x": 55,
+      "y": 20,
+      "z": -60
+    },
+    "lookAtPos": {
+      "x": 35,
+      "y": 10,
+      "z": -40
+    },
+    "glowColor": "#ef4444",
+    "activeAnchor": "SECTION_143"
+  }
+]

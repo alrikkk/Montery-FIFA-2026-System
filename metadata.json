@@ -1,0 +1,6 @@
+{
+  "name": "Montery",
+  "description": "High-fidelity Montery Operational Intelligence Engine and 3D Digital Twin visualizer for the FIFA World Cup 2026, featuring an AI-enforced security firewall kernel and rate-limiter.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

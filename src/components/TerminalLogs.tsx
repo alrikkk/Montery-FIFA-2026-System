@@ -32,6 +32,7 @@ export default function TerminalLogs({ logs, onClearLogs, selectedLanguage = "en
         </div>
         <button
           onClick={onClearLogs}
+          aria-label="Purge security logs archive"
           className="text-[10px] text-slate-500 hover:text-red-400 font-mono transition border border-slate-800 hover:border-red-900 px-2 py-0.5 rounded bg-slate-900/40"
         >
           SYS_PURGE_LOGS

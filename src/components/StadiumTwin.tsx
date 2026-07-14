@@ -832,12 +832,67 @@ export default function StadiumTwin({
   const [deferredReady, setDeferredReady] = useState(false);
 
   useEffect(() => {
-    // Defer heavy Three.js / WebGL calculations until after the initial page paint completes.
-    // This dramatically improves mobile First Contentful Paint (FCP) and Largest Contentful Paint (LCP).
-    const timer = setTimeout(() => {
-      setDeferredReady(true);
-    }, 350);
-    return () => clearTimeout(timer);
+    // Advanced asynchronous loading strategy to defer heavy Three.js / WebGL calculations
+    // until after the initial HTML/CSS shell has rendered and painted.
+    // This dramatically improves mobile First Contentful Paint (FCP) and Largest Contentful Paint (LCP)
+    // by yielding the main thread during the critical initial paint window.
+    let isMounted = true;
+    let timerId: any = null;
+    let rafId1: number | null = null;
+    let rafId2: number | null = null;
+    let idleId: any = null;
+
+    const triggerInitialization = () => {
+      // Execute double requestAnimationFrame to guarantee that the browser has painted
+      // the initial skeleton and UI elements of the HTML/CSS shell.
+      rafId1 = window.requestAnimationFrame(() => {
+        rafId2 = window.requestAnimationFrame(() => {
+          if (!isMounted) return;
+
+          // Once painted, leverage requestIdleCallback to begin Three.js construction
+          // during low-priority main-thread idle periods, preventing frame drops.
+          if (typeof window.requestIdleCallback === "function") {
+            idleId = window.requestIdleCallback(() => {
+              if (isMounted) setDeferredReady(true);
+            }, { timeout: 1000 });
+          } else {
+            // Fallback for browsers without requestIdleCallback (e.g. some Safari versions)
+            timerId = setTimeout(() => {
+              if (isMounted) setDeferredReady(true);
+            }, 150);
+          }
+        });
+      });
+    };
+
+    if (document.readyState === "complete") {
+      triggerInitialization();
+    } else {
+      const handleLoad = () => {
+        triggerInitialization();
+      };
+      window.addEventListener("load", handleLoad);
+      return () => {
+        isMounted = false;
+        window.removeEventListener("load", handleLoad);
+        if (timerId) clearTimeout(timerId);
+        if (rafId1) cancelAnimationFrame(rafId1);
+        if (rafId2) cancelAnimationFrame(rafId2);
+        if (idleId && typeof window.cancelIdleCallback === "function") {
+          window.cancelIdleCallback(idleId);
+        }
+      };
+    }
+
+    return () => {
+      isMounted = false;
+      if (timerId) clearTimeout(timerId);
+      if (rafId1) cancelAnimationFrame(rafId1);
+      if (rafId2) cancelAnimationFrame(rafId2);
+      if (idleId && typeof window.cancelIdleCallback === "function") {
+        window.cancelIdleCallback(idleId);
+      }
+    };
   }, []);
   const activeWeather = currentWeather || localWeatherState;
   const activeMatch = FIFA_2026_MATCHES[selectedLocation.id] || FIFA_2026_MATCHES.NEW_YORK_NEW_JERSEY;

@@ -235,6 +235,7 @@ export default function StadiumAIComplianceChat({
               key={idx}
               onClick={() => handlePresetClick(p.query)}
               disabled={isChatLoading}
+              aria-label={`Ask preset query: ${p.label}`}
               className="px-2.5 py-1.5 bg-slate-950/60 hover:bg-slate-900 border border-[#1b2531] hover:border-blue-500/30 text-slate-300 hover:text-blue-400 rounded text-[9.5px] cursor-pointer transition-all truncate max-w-full"
             >
               {p.label}

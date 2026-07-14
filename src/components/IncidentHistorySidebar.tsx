@@ -283,7 +283,7 @@ export default function IncidentHistorySidebar({
         </div>
 
         {/* Warning Banner / Instructions */}
-        <div className="px-4 py-2 bg-slate-950 border-b border-[#1b2531]/40 text-[9px] font-mono text-slate-500 uppercase tracking-tight flex items-center justify-between">
+        <div className="px-4 py-2 bg-slate-950 border-b border-[#1b2531]/40 text-[9px] font-mono text-slate-400 uppercase tracking-tight flex items-center justify-between">
           <span>OPERATIONAL ARCHIVE FILTER</span>
           <span className="text-cyan-500 animate-pulse">● FEED ONLINE</span>
         </div>
@@ -295,6 +295,7 @@ export default function IncidentHistorySidebar({
               setActiveTab("ACTIVE");
               playRegistryToggleSound();
             }}
+            aria-label="View Active Incidents Tab"
             className={`flex-1 py-2 text-center border-b-2 transition-all cursor-pointer ${
               activeTab === "ACTIVE"
                 ? "border-cyan-500 text-cyan-400 font-extrabold bg-cyan-950/20"
@@ -308,6 +309,7 @@ export default function IncidentHistorySidebar({
               setActiveTab("ARCHIVED");
               playRegistryToggleSound();
             }}
+            aria-label="View Archived Incidents Tab"
             className={`flex-1 py-2 text-center border-b-2 transition-all cursor-pointer ${
               activeTab === "ARCHIVED"
                 ? "border-amber-500 text-amber-400 font-extrabold bg-amber-950/20"
@@ -320,7 +322,7 @@ export default function IncidentHistorySidebar({
 
         {/* Tactical Category Filter Buttons */}
         <div className="px-3 py-2 border-b border-[#1b2531]/60 bg-[#070a0e] flex items-center justify-between gap-1.5 overflow-x-auto scrollbar-none">
-          <span className="text-[8px] font-mono text-slate-500 uppercase tracking-tight shrink-0">FILTER:</span>
+          <span className="text-[8px] font-mono text-slate-400 uppercase tracking-tight shrink-0">FILTER:</span>
           <div className="flex items-center gap-1">
             {[
               { id: "ALL", label: "ALL" },
@@ -336,6 +338,7 @@ export default function IncidentHistorySidebar({
                     setCategoryFilter(cat.id as any);
                     playRegistryToggleSound();
                   }}
+                  aria-label={`Filter incidents by ${cat.label}`}
                   className={`text-[9px] font-mono font-bold px-2.5 py-1 rounded transition border cursor-pointer select-none uppercase tracking-wide ${
                     isActive
                       ? "bg-cyan-950/70 text-cyan-400 border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.15)]"
@@ -372,13 +375,14 @@ export default function IncidentHistorySidebar({
             )}
           </div>
           <div className="flex flex-wrap items-center gap-1">
-            <span className="text-[8px] font-mono text-slate-500 uppercase mr-1">PRESETS:</span>
+            <span className="text-[8px] font-mono text-slate-400 uppercase mr-1">PRESETS:</span>
             {["Security", "Medical", "Crowd", "Ticketing", "Compliance"].map((tag) => {
               const isActive = searchQuery.toLowerCase() === tag.toLowerCase();
               return (
                 <button
                   key={tag}
                   onClick={() => setSearchQuery(isActive ? "" : tag)}
+                  aria-label={`Search tag ${tag}`}
                   className={`text-[8px] font-mono px-1.5 py-0.5 rounded transition border uppercase ${
                     isActive
                       ? "bg-cyan-950/60 text-cyan-400 border-cyan-800"
@@ -521,6 +525,7 @@ export default function IncidentHistorySidebar({
                       <div className="flex items-center gap-2">
                         <button
                           onClick={(e) => toggleExpand(incident.id, e)}
+                          aria-label={isExpanded ? "Hide incident details" : "View incident details"}
                           className="text-slate-400 hover:text-white p-0.5 rounded transition flex items-center gap-0.5 font-mono text-[9px] hover:underline"
                         >
                           {isExpanded ? "HIDE PLANS" : "VIEW DETAILS"}
@@ -589,6 +594,7 @@ export default function IncidentHistorySidebar({
                               e.stopPropagation();
                               onRestoreIncident(incident);
                             }}
+                            aria-label="Replay payload and camera fly-to"
                             className="w-full py-1.5 bg-cyan-950/40 border border-cyan-800/60 hover:bg-cyan-950/60 hover:border-cyan-500 text-cyan-400 rounded text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition select-none"
                           >
                             <Play className="w-3 h-3 shrink-0" />
@@ -601,6 +607,7 @@ export default function IncidentHistorySidebar({
                                 e.stopPropagation();
                                 onResolveIncident(incident.id);
                               }}
+                              aria-label="Resolve Incident"
                               className="w-full py-1.5 mt-2 bg-emerald-950 border border-emerald-800 hover:bg-emerald-900 hover:border-emerald-500 text-emerald-400 hover:text-emerald-200 rounded text-[9px] font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 transition select-none"
                             >
                               <Check className="w-3.5 h-3.5 shrink-0 text-emerald-400" />

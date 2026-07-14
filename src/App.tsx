@@ -4256,30 +4256,30 @@ export default function App() {
                         <div className="p-4 space-y-3.5">
                           <div className="flex justify-between border-b border-slate-900/40 pb-2 text-[10px]">
                             <div>
-                              <span className="text-slate-500 block uppercase font-mono text-[8.5px]">HOST STADIUM:</span>
+                              <span className="text-slate-400 block uppercase font-mono text-[8.5px]">HOST STADIUM:</span>
                               <span className="text-slate-200 font-bold font-mono text-[10.5px] uppercase">{currentStadiumName}</span>
                             </div>
                             <div className="text-right">
-                              <span className="text-slate-500 block uppercase font-mono text-[8.5px]">DATE & TIME:</span>
+                              <span className="text-slate-400 block uppercase font-mono text-[8.5px]">DATE & TIME:</span>
                               <span className="text-slate-200 font-bold font-mono text-[10.5px]">JULY 19, 2026 • 15:00</span>
                             </div>
                           </div>
 
                           <div className="bg-slate-950/40 border border-slate-900 p-3 rounded-lg text-center space-y-1">
-                            <span className="text-[8px] text-slate-500 block uppercase font-mono">ASSIGNED SPECTATOR CORRIDOR</span>
+                            <span className="text-[8px] text-slate-400 block uppercase font-mono">ASSIGNED SPECTATOR CORRIDOR</span>
                             <div className="flex justify-around items-center pt-1.5 font-mono">
                               <div className="text-center font-mono">
-                                <span className="text-[8px] text-slate-500 block uppercase">SECTION</span>
+                                <span className="text-[8px] text-slate-400 block uppercase">SECTION</span>
                                 <span className="text-cyan-400 text-sm font-extrabold">{currentSeat ? currentSeat.section : "N/A"}</span>
                               </div>
                               <div className="w-[1px] bg-[#1b2531]/40 h-8" />
                               <div className="text-center font-mono">
-                                <span className="text-[8px] text-slate-500 block uppercase">ROW</span>
+                                <span className="text-[8px] text-slate-400 block uppercase">ROW</span>
                                 <span className="text-white text-sm font-extrabold">{currentSeat ? currentSeat.row : "N/A"}</span>
                               </div>
                               <div className="w-[1px] bg-[#1b2531]/40 h-8" />
                               <div className="text-center font-mono">
-                                <span className="text-[8px] text-slate-500 block uppercase">SEAT</span>
+                                <span className="text-[8px] text-slate-400 block uppercase">SEAT</span>
                                 <span className="text-white text-sm font-extrabold">{currentSeat ? currentSeat.seat : "N/A"}</span>
                               </div>
                             </div>
@@ -5065,7 +5065,7 @@ export default function App() {
           </div>
         </main>
       ) : (
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col lg:flex-row gap-6">
+        <div className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col lg:flex-row gap-6">
           {/* Desktop Left Sidebar with smooth slide out */}
           <AnimatePresence initial={false}>
             {!(currentView === "DASHBOARD" && isFullScreenViewport) && (
@@ -5116,7 +5116,7 @@ export default function App() {
             )}
           </AnimatePresence>
 
-          <div className="flex-1 min-w-0 flex flex-col gap-4">
+          <main className="flex-1 min-w-0 flex flex-col gap-4">
             {currentView === "DASHBOARD" && (
               <section className="flex flex-col gap-4 w-full">
                 {/* Card: 3D digital Twin Container with layout transition */}
@@ -5840,13 +5840,13 @@ export default function App() {
                           {/* Stream Routing metadata */}
                           <div className="grid grid-cols-2 gap-2 bg-[#0d131a] p-2.5 rounded border border-[#1b2530]">
                             <div>
-                              <span className="text-slate-500 uppercase">Routing Stream:</span>
+                              <span className="text-slate-400 uppercase">Routing Stream:</span>
                               <div className={`font-bold mt-0.5 text-xs ${detectedPersona === "STAFF_STREAM" ? "text-amber-400" : "text-cyan-400"}`}>
                                 {detectedPersona || "UNKNOWN"}
                               </div>
                             </div>
                             <div>
-                              <span className="text-slate-500 uppercase">Urgency Assessment:</span>
+                              <span className="text-slate-400 uppercase">Urgency Assessment:</span>
                               <div className={`font-bold mt-0.5 text-xs ${
                                 engineResult.routing_metadata?.perceived_urgency_tier === "HIGH" || 
                                 engineResult.routing_metadata?.perceived_urgency_tier === "CRITICAL"
@@ -5856,13 +5856,13 @@ export default function App() {
                               </div>
                             </div>
                             <div className="mt-2">
-                              <span className="text-slate-500 uppercase font-sans">Input Language:</span>
+                              <span className="text-slate-400 uppercase font-sans">Input Language:</span>
                               <div className="text-slate-200 mt-0.5 text-[10px] font-semibold uppercase">
                                 {engineResult.routing_metadata?.input_language || "en"}
                               </div>
                             </div>
                             <div className="mt-2">
-                              <span className="text-slate-500 uppercase">Confidence Score:</span>
+                              <span className="text-slate-400 uppercase">Confidence Score:</span>
                               <div className="text-slate-200 mt-0.5 text-[10px] font-semibold">
                                 {engineResult.system_diagnostics?.confidence_score?.toFixed(2) || "1.00"}
                               </div>
@@ -6732,8 +6732,8 @@ export default function App() {
         )}
       </section>
     )}
-  </div>
-</main>
+  </main>
+</div>
 )}
 
       {/* FOOTER credit and guidelines reference */}

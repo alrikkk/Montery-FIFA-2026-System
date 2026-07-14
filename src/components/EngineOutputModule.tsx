@@ -275,6 +275,7 @@ export default function EngineOutputModule({
               <button
                 onClick={() => setIsExportMenuOpen(!isExportMenuOpen)}
                 disabled={!engineResult}
+                aria-label="Export Current Telemetry as CSV or JSON"
                 className={`border text-[9px] font-mono font-bold px-2.5 py-0.5 rounded flex items-center gap-1.5 transition select-none cursor-pointer ${
                   engineResult
                     ? "bg-slate-950 hover:bg-slate-900 border-[#2b3a4a] hover:border-slate-700 text-amber-400 hover:text-amber-300"
@@ -301,6 +302,7 @@ export default function EngineOutputModule({
                         exportTelemetryAsJSON();
                         setIsExportMenuOpen(false);
                       }}
+                      aria-label="Export telemetry as JSON file"
                       className="w-full text-left px-3 py-1.5 hover:bg-slate-900 hover:text-cyan-400 flex items-center gap-2 transition"
                     >
                       <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
@@ -311,6 +313,7 @@ export default function EngineOutputModule({
                         exportTelemetryAsCSV();
                         setIsExportMenuOpen(false);
                       }}
+                      aria-label="Export telemetry as CSV spreadsheet"
                       className="w-full text-left px-3 py-1.5 hover:bg-slate-900 hover:text-amber-400 flex items-center gap-2 transition"
                     >
                       <FileSpreadsheet className="w-3 h-3 text-amber-500" />
@@ -323,6 +326,7 @@ export default function EngineOutputModule({
 
             <button
               onClick={() => setIsSidebarOpen(true)}
+              aria-label="Open Tactical Incident History Logs"
               className="bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-850 text-[9px] font-mono text-cyan-400 hover:text-cyan-300 font-bold px-2 py-0.5 rounded flex items-center gap-1.5 transition select-none cursor-pointer"
               title="Open Tactical Incident History Logs"
             >
@@ -332,12 +336,14 @@ export default function EngineOutputModule({
             <div className="flex bg-slate-950/80 p-0.5 rounded border border-slate-900 text-[9px] font-mono">
               <button
                 onClick={() => setActiveTab("visuals")}
+                aria-label="View decoded visuals tab"
                 className={`px-2 py-0.5 rounded ${activeTab === "visuals" ? "bg-slate-800 text-cyan-400 font-bold" : "text-slate-400"}`}
               >
                 DECODED
               </button>
               <button
                 onClick={() => setActiveTab("json")}
+                aria-label="View raw JSON data tab"
                 className={`px-2 py-0.5 rounded ${activeTab === "json" ? "bg-slate-800 text-cyan-400 font-bold" : "text-slate-400"}`}
               >
                 RAW JSON
@@ -371,6 +377,7 @@ export default function EngineOutputModule({
               </div>
               <button
                 onClick={() => setCurrentView("COMMAND")}
+                aria-label="Open Command Console to run query"
                 className="px-4 py-2 bg-emerald-950 hover:bg-emerald-900 text-emerald-400 border border-emerald-800/80 rounded text-xs font-bold transition flex items-center gap-1.5 cursor-pointer uppercase"
               >
                 <Terminal className="w-3.5 h-3.5 animate-pulse" />
@@ -507,13 +514,13 @@ export default function EngineOutputModule({
                       {/* Stream Routing metadata */}
                       <div className="grid grid-cols-2 gap-2 bg-[#0d131a] p-2.5 rounded border border-[#1b2530]">
                         <div>
-                          <span className="text-slate-500 uppercase">Routing Stream:</span>
+                          <span className="text-slate-400 uppercase">Routing Stream:</span>
                           <div className={`font-bold mt-0.5 text-xs ${detectedPersona === "STAFF_STREAM" ? "text-amber-400" : "text-cyan-400"}`}>
                             {detectedPersona || "UNKNOWN"}
                           </div>
                         </div>
                         <div>
-                          <span className="text-slate-500 uppercase">Urgency Assessment:</span>
+                          <span className="text-slate-400 uppercase">Urgency Assessment:</span>
                           <div className={`font-bold mt-0.5 text-xs ${
                             engineResult.routing_metadata?.perceived_urgency_tier === "HIGH" || 
                             engineResult.routing_metadata?.perceived_urgency_tier === "CRITICAL"
@@ -523,13 +530,13 @@ export default function EngineOutputModule({
                           </div>
                         </div>
                         <div className="mt-2">
-                          <span className="text-slate-500 uppercase font-sans">Input Language:</span>
+                          <span className="text-slate-400 uppercase font-sans">Input Language:</span>
                           <div className="text-slate-200 mt-0.5 text-[10px] font-semibold uppercase">
                             {engineResult.routing_metadata?.input_language || "en"}
                           </div>
                         </div>
                         <div className="mt-2">
-                          <span className="text-slate-500 uppercase">Confidence Score:</span>
+                          <span className="text-slate-400 uppercase">Confidence Score:</span>
                           <div className="text-slate-200 mt-0.5 text-[10px] font-semibold">
                             {engineResult.system_diagnostics?.confidence_score?.toFixed(2) || "1.00"}
                           </div>
@@ -820,6 +827,7 @@ export default function EngineOutputModule({
                                     });
                                     playDispatchSuccessSound();
                                   }}
+                                  aria-label="Dispatch Security Detail"
                                   className={`px-2 py-1 rounded font-mono text-[9px] font-bold uppercase tracking-wider transition border text-center cursor-pointer select-none flex flex-col items-center justify-center min-h-[42px] ${
                                     dispatchedAction?.action === "Dispatch Security Detail"
                                       ? "bg-emerald-950/30 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.1)]"
@@ -839,6 +847,7 @@ export default function EngineOutputModule({
                                     });
                                     playDispatchSuccessSound();
                                   }}
+                                  aria-label="Dispatch Medical Emergency Alert"
                                   className={`px-2 py-1 rounded font-mono text-[9px] font-bold uppercase tracking-wider transition border text-center cursor-pointer select-none flex flex-col items-center justify-center min-h-[42px] ${
                                     dispatchedAction?.action === "Medical Alert Broadcast"
                                       ? "bg-emerald-950/30 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.1)]"
@@ -858,6 +867,7 @@ export default function EngineOutputModule({
                                     });
                                     playDispatchSuccessSound();
                                   }}
+                                  aria-label="Dispatch Queue Re-Route Command"
                                   className={`px-2 py-1 rounded font-mono text-[9px] font-bold uppercase tracking-wider transition border text-center cursor-pointer select-none flex flex-col items-center justify-center min-h-[42px] ${
                                     dispatchedAction?.action === "Queue Re-Route Command"
                                       ? "bg-emerald-950/30 border-emerald-500 text-emerald-400 shadow-[0_0_10px_rgba(16,185,129,0.1)]"
@@ -901,19 +911,19 @@ export default function EngineOutputModule({
 
                           <div className="grid grid-cols-2 gap-3.5 text-[10px]">
                             <div className="space-y-1">
-                              <span className="text-slate-500 uppercase text-[8px]">Venue ID:</span>
+                              <span className="text-slate-400 uppercase text-[8px]">Venue ID:</span>
                               <div className="text-white font-bold text-[11px] tracking-wide">
                                 {engineResult.venue_structural_profile.active_stadium_id}
                               </div>
                             </div>
                             <div className="space-y-1">
-                              <span className="text-slate-500 uppercase text-[8px]">Capacity:</span>
+                              <span className="text-slate-400 uppercase text-[8px]">Capacity:</span>
                               <div className="text-cyan-400 font-extrabold text-[11px]">
                                 {engineResult.venue_structural_profile.official_tournament_capacity?.toLocaleString()} Seats
                               </div>
                             </div>
                             <div className="space-y-1 col-span-2">
-                              <span className="text-slate-500 uppercase text-[8px]">Architectural & Design Tag:</span>
+                              <span className="text-slate-400 uppercase text-[8px]">Architectural & Design Tag:</span>
                               <div className="text-slate-300 font-semibold italic bg-[#05070a]/90 px-2 py-1 border border-slate-900 rounded">
                                 "{engineResult.venue_structural_profile.architectural_style_tag}"
                               </div>
@@ -967,6 +977,7 @@ export default function EngineOutputModule({
                   <div className="absolute top-2 right-2 flex gap-1 z-10">
                     <button
                       onClick={handleCopyJSON}
+                      aria-label="Copy Raw JSON text to clipboard"
                       className="bg-slate-900 border border-slate-800 text-[10px] text-slate-400 hover:text-white px-2.5 py-1 rounded flex items-center gap-1.5"
                     >
                       {copied ? (

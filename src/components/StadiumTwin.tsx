@@ -829,6 +829,16 @@ export default function StadiumTwin({
   // Weather & environmental telemetry states
   const [selectedLocation, setSelectedLocation] = useState<LocationConfig>(LOCATIONS[0]);
   const [localWeatherState, setLocalWeatherState] = useState<"SUNSHINE" | "RAIN" | "FOG" | "SNOW">("SUNSHINE");
+  const [deferredReady, setDeferredReady] = useState(false);
+
+  useEffect(() => {
+    // Defer heavy Three.js / WebGL calculations until after the initial page paint completes.
+    // This dramatically improves mobile First Contentful Paint (FCP) and Largest Contentful Paint (LCP).
+    const timer = setTimeout(() => {
+      setDeferredReady(true);
+    }, 350);
+    return () => clearTimeout(timer);
+  }, []);
   const activeWeather = currentWeather || localWeatherState;
   const activeMatch = FIFA_2026_MATCHES[selectedLocation.id] || FIFA_2026_MATCHES.NEW_YORK_NEW_JERSEY;
 
@@ -1946,6 +1956,7 @@ export default function StadiumTwin({
   }, [isFloorHeatmapEnabled, isHeatmapOverlayEnabled, isFanMode, sceneReady]);
 
   useEffect(() => {
+    if (!deferredReady) return;
     if (!mountRef.current) return;
 
     // Clear any leftover canvases or elements to prevent duplicates or static overlapping images
@@ -4026,7 +4037,7 @@ export default function StadiumTwin({
       }
       renderer.dispose();
     };
-  }, [isFanMode]);
+  }, [isFanMode, deferredReady]);
 
   // Update scanner laser colors immediately if glowColor changes dynamically
   useEffect(() => {
@@ -4079,7 +4090,7 @@ export default function StadiumTwin({
       />
 
       {/* High-fidelity digital twin skeleton loader overlay */}
-      {isLoading && (
+      {(isLoading || !deferredReady) && (
         <div className="absolute inset-0 z-50 bg-[#06080c] flex flex-col items-center justify-center p-6 border border-white/5 shadow-inner rounded-b-lg overflow-hidden select-none">
           {/* Cyber scanner twin grid lines */}
           <div className="absolute inset-0 ops-grid-overlay opacity-35" />
@@ -4156,6 +4167,7 @@ export default function StadiumTwin({
                   }}
                   className="p-1 hover:bg-cyan-900/40 border border-cyan-800/60 rounded text-cyan-300 hover:text-cyan-100 transition cursor-pointer flex items-center justify-center"
                   title={isScoreboardCollapsed ? "Expand match info window" : "Collapse match info window"}
+                  aria-label={isScoreboardCollapsed ? "Expand match info window" : "Collapse match info window"}
                 >
                   {isScoreboardCollapsed ? (
                     <ChevronDown className="w-3 h-3" />
@@ -4243,19 +4255,19 @@ export default function StadiumTwin({
                 {/* Dynamic location metrics & sensor telemetry */}
                 <div className="bg-cyan-950/15 border border-cyan-900/40 p-2 rounded-md space-y-1 text-[8.5px] text-slate-400 relative">
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-500 font-semibold">VENUE:</span>
+                    <span className="text-slate-400 font-semibold">VENUE:</span>
                     <span className="text-cyan-200 font-bold truncate max-w-[170px] uppercase">
                       {selectedLocation.stadium}
                     </span>
                   </div>
                   <div className="flex justify-between items-center">
-                    <span className="text-slate-500 font-semibold">KICKOFF:</span>
+                    <span className="text-slate-400 font-semibold">KICKOFF:</span>
                     <span className="text-white font-semibold">
                       {activeMatch.dateTime}
                     </span>
                   </div>
                   <div className="flex justify-between items-center border-t border-cyan-900/20 pt-1 mt-1">
-                    <span className="text-slate-500 font-semibold">STADIUM STATE:</span>
+                    <span className="text-slate-400 font-semibold">STADIUM STATE:</span>
                     <span className={`font-black tracking-wider ${activeMatch.status === 'LIVE' ? 'text-emerald-400' : 'text-cyan-400'}`}>
                       {activeMatch.crowdDensity}
                     </span>
@@ -4280,6 +4292,7 @@ export default function StadiumTwin({
                           : "bg-slate-900 text-slate-400 border-slate-800 hover:text-slate-300"
                       }`}
                       title="Toggle Live Simulation Stream"
+                      aria-label="Toggle Live Simulation Stream"
                     >
                       {isSimulatingLive ? "🔴 SIMULATING" : "⏸ PAUSED"}
                     </button>
@@ -4308,7 +4321,7 @@ export default function StadiumTwin({
                     {/* Passes Summary */}
                     <div className="grid grid-cols-2 gap-2 text-[8px] border-t border-slate-800/40 pt-1 mt-1">
                       <div>
-                        <span className="text-slate-500 font-semibold">{activeMatch.team1}:</span>
+                        <span className="text-slate-400 font-semibold">{activeMatch.team1}:</span>
                         <div className="text-cyan-400 font-bold mt-0.5">
                           {passes.team1.completed}/{passes.team1.total} passes
                           <span className="text-slate-400 font-normal ml-1">
@@ -4317,7 +4330,7 @@ export default function StadiumTwin({
                         </div>
                       </div>
                       <div className="text-right">
-                        <span className="text-slate-500 font-semibold">{activeMatch.team2}:</span>
+                        <span className="text-slate-400 font-semibold">{activeMatch.team2}:</span>
                         <div className="text-amber-400 font-bold mt-0.5">
                           {passes.team2.completed}/{passes.team2.total} passes
                           <span className="text-slate-400 font-normal ml-1">
@@ -4330,12 +4343,12 @@ export default function StadiumTwin({
 
                   {/* Ball Pass Tracker Event Feed */}
                   <div className="space-y-1">
-                    <span className="text-slate-500 font-extrabold text-[8px] tracking-wider uppercase block">
+                    <span className="text-slate-400 font-extrabold text-[8px] tracking-wider uppercase block">
                       BALL PASS TRACKER (RECENT PASSES)
                     </span>
                     <div className="max-h-[60px] overflow-y-auto space-y-1 pr-1 scrollbar-thin scrollbar-thumb-cyan-900/40">
                       {passEventsLog.length === 0 ? (
-                        <div className="text-slate-600 italic text-[8px] text-center py-1">
+                        <div className="text-slate-400 italic text-[8px] text-center py-1">
                           Waiting for kickoff pass...
                         </div>
                       ) : (
@@ -4351,7 +4364,7 @@ export default function StadiumTwin({
                               </span>
                             </div>
                             <div className="flex items-center gap-1.5 shrink-0">
-                              <span className="text-slate-500 text-[7px]">{evt.speed}</span>
+                              <span className="text-slate-400 text-[7px]">{evt.speed}</span>
                               <span
                                 className={`font-extrabold px-1 rounded-sm text-[7px] ${
                                   evt.success
@@ -4383,7 +4396,7 @@ export default function StadiumTwin({
 
                   <div className="max-h-[60px] overflow-y-auto space-y-1 pr-1 scrollbar-thin scrollbar-thumb-rose-900/40">
                     {foulsLog.length === 0 ? (
-                      <div className="text-slate-600 italic text-[8px] text-center py-1 bg-slate-900/20 border border-slate-900/40 rounded-sm">
+                      <div className="text-slate-400 italic text-[8px] text-center py-1 bg-slate-900/20 border border-slate-900/40 rounded-sm">
                         No fouls or yellow/red cards logged.
                       </div>
                     ) : (
@@ -4393,10 +4406,10 @@ export default function StadiumTwin({
                           className="bg-slate-900/30 border border-slate-800/40 p-1 rounded-sm flex items-center justify-between text-[8px]"
                         >
                           <div className="flex items-center gap-1.5 truncate max-w-[190px]">
-                            <span className="text-slate-500 font-bold shrink-0">{foul.time}</span>
+                            <span className="text-slate-400 font-bold shrink-0">{foul.time}</span>
                             <span>{foul.flag}</span>
                             <span className="text-slate-200 font-medium truncate">
-                              {foul.player} <span className="text-slate-500 text-[7px.5] font-bold">#{foul.jersey}</span>
+                              {foul.player} <span className="text-slate-400 text-[7px.5] font-bold">#{foul.jersey}</span>
                             </span>
                           </div>
                           <div className="flex items-center gap-1 shrink-0">
@@ -4406,7 +4419,7 @@ export default function StadiumTwin({
                             {foul.card === "red" && (
                               <span className="w-2 h-3 bg-red-500 rounded-sm shadow-[0_0_6px_rgba(239,68,68,0.6)] animate-pulse" title="Red Card" />
                             )}
-                            <span className="text-slate-500 text-[7px] uppercase font-bold px-1">{foul.team.substring(0, 3)}</span>
+                            <span className="text-slate-400 text-[7px] uppercase font-bold px-1">{foul.team.substring(0, 3)}</span>
                           </div>
                         </div>
                       ))
@@ -4422,6 +4435,8 @@ export default function StadiumTwin({
                       setIsMoreDetailsExpanded(!isMoreDetailsExpanded);
                     }}
                     className="w-full flex items-center justify-between text-cyan-400 font-bold tracking-wide text-[9px] hover:text-cyan-300 transition cursor-pointer"
+                    aria-label={isMoreDetailsExpanded ? "Collapse ball tracker details" : "Expand ball tracker details"}
+                    aria-expanded={isMoreDetailsExpanded}
                   >
                     <span className="flex items-center gap-1.5">
                       <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
@@ -4435,14 +4450,14 @@ export default function StadiumTwin({
                       {/* Active Pass Telemetry */}
                       <div className="grid grid-cols-2 gap-1.5 border-b border-cyan-900/20 pb-1.5">
                         <div>
-                          <span className="text-slate-500 font-semibold uppercase text-[7.5px]">BALL STATUS:</span>
+                          <span className="text-slate-400 font-semibold uppercase text-[7.5px]">BALL STATUS:</span>
                           <div className="text-emerald-400 font-bold flex items-center gap-1 mt-0.5 animate-pulse">
                             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
                             IN PLAY
                           </div>
                         </div>
                         <div>
-                          <span className="text-slate-500 font-semibold uppercase text-[7.5px]">PASS TYPE:</span>
+                          <span className="text-slate-400 font-semibold uppercase text-[7.5px]">PASS TYPE:</span>
                           <div className="text-cyan-300 font-bold mt-0.5 uppercase">
                             {currentPass3DState?.type || "Short Pass"}
                           </div>
@@ -4470,13 +4485,13 @@ export default function StadiumTwin({
                           </span>
                         </div>
                         <div className="flex justify-between items-center text-[7.5px] border-t border-slate-900 pt-1 mt-1 font-sans">
-                          <span className="text-slate-500 font-semibold">VELOCITY:</span>
+                          <span className="text-slate-400 font-semibold">VELOCITY:</span>
                           <span className="text-white font-bold">
                             {currentPass3DState?.speed || 52} KM/H
                           </span>
                         </div>
                         <div className="flex justify-between items-center text-[7.5px]">
-                          <span className="text-slate-500 font-semibold">TRAJECTORY ARC:</span>
+                          <span className="text-slate-400 font-semibold">TRAJECTORY ARC:</span>
                           <span className="text-cyan-300 font-extrabold uppercase text-[7px] bg-cyan-950/40 px-1 rounded border border-cyan-900/30">
                             QUADRATIC BEZIER
                           </span>
@@ -4525,6 +4540,7 @@ export default function StadiumTwin({
                 : "bg-[#111827] text-slate-500 border-slate-900 hover:text-slate-300 hover:border-slate-800"
             }`}
             title="Toggle 3D Visitor Heatmap Overlay"
+            aria-label="Toggle 3D Visitor Heatmap Overlay"
           >
             <Flame className={`w-2.5 h-2.5 shrink-0 ${isHeatmapOverlayEnabled ? "text-red-500 animate-pulse" : "text-slate-500"}`} />
             <span>VISITOR HEATMAP</span>
@@ -4542,6 +4558,7 @@ export default function StadiumTwin({
                 : "bg-[#111827] text-slate-500 border-slate-900 hover:text-slate-300 hover:border-slate-800"
             }`}
             title="Toggle 3D Weather Structural Warning Overlay"
+            aria-label="Toggle 3D Weather Structural Warning Overlay"
           >
             <AlertTriangle className={`w-2.5 h-2.5 shrink-0 ${isStructuralWarningEnabled ? "text-amber-500 animate-pulse" : "text-slate-500"}`} />
             <span>STRUCTURAL WARN</span>
@@ -4750,6 +4767,7 @@ export default function StadiumTwin({
                     ? "bg-amber-950/40 text-amber-400 border-amber-900 hover:bg-amber-950/60 shadow-[0_0_10px_rgba(245,158,11,0.2)]"
                     : "bg-cyan-950/40 text-cyan-400 border-cyan-800 hover:bg-cyan-950/60 shadow-[0_0_10px_rgba(6,182,212,0.2)]"
                 }`}
+                aria-label="Toggle Stadium Floodlights / Night Mode"
               >
                 {floodlightsOn ? (
                   <>
@@ -4785,6 +4803,7 @@ export default function StadiumTwin({
                     : "bg-[#111827] text-slate-400 border-slate-900 hover:text-slate-300 hover:border-slate-800"
                 }`}
                 title="Toggle Visitor Heatmap Seating Density Overlay"
+                aria-label="Toggle Visitor Heatmap Seating Density Overlay"
               >
                 <Flame className={`w-3.5 h-3.5 shrink-0 ${isHeatmapOverlayEnabled ? "text-red-500 animate-bounce" : "text-slate-500"}`} style={{ animationDuration: "1.2s" }} />
                 <span>{isHeatmapOverlayEnabled ? "Deactivate Heatmap Overlay" : "Activate Visitor Heatmap"}</span>
@@ -4811,6 +4830,7 @@ export default function StadiumTwin({
                     : "bg-[#111827] text-slate-400 border-slate-900 hover:text-slate-300 hover:border-slate-800"
                 }`}
                 title="Toggle Weather Structural Warning Overlay"
+                aria-label="Toggle Weather Structural Warning Overlay"
               >
                 <AlertTriangle className={`w-3.5 h-3.5 shrink-0 ${isStructuralWarningEnabled ? "text-amber-500 animate-bounce" : "text-slate-500"}`} style={{ animationDuration: "1.2s" }} />
                 <span>{isStructuralWarningEnabled ? "Deactivate Warning Overlay" : "Activate Warning Overlay"}</span>
@@ -4836,6 +4856,7 @@ export default function StadiumTwin({
                         ? "bg-cyan-950 text-cyan-400 border-cyan-700 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
                         : "bg-[#111827] text-slate-500 border-slate-900 hover:text-slate-300 hover:border-slate-800"
                     }`}
+                    aria-label={`Simulate ${ws} Weather`}
                   >
                     {ws}
                   </button>

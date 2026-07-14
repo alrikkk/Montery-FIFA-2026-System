@@ -2068,7 +2068,7 @@ export default function App() {
 
       {/* 2. Main tactical viewport grid or starting screen */}
       {currentSessionRole === "UNASSIGNED" ? (
-        <div className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden bg-[#07090c]">
+        <main className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden bg-[#07090c]">
           {/* FIFA 2026 World Cup themed stadium background image */}
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
             <img
@@ -2709,7 +2709,7 @@ export default function App() {
               </button>
             </div>
           </motion.div>
-        </div>
+        </main>
       ) : currentSessionRole === "FAN" ? (
         <main className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col gap-6" id="fan-portal-root">
           {/* Header Portal Info */}

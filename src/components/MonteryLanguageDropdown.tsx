@@ -38,6 +38,7 @@ export function MonteryLanguageDropdown({ selectedLanguage = 'en', onLanguageCha
         <select 
           value={selectedLanguage} 
           onChange={handleChange}
+          aria-label="Select language"
           className="bg-transparent text-slate-200 outline-none cursor-pointer font-mono font-medium focus:text-slate-100 pr-1 border-none"
         >
           {options.map((lang) => (
@@ -59,6 +60,7 @@ export function MonteryLanguageDropdown({ selectedLanguage = 'en', onLanguageCha
       <select 
         value={selectedLanguage} 
         onChange={handleChange}
+        aria-label="Select language"
         className="h-8 px-3 bg-slate-900 border border-white/5 rounded-lg text-slate-200 outline-none focus:border-emerald-500/40 hover:border-white/20 cursor-pointer font-mono font-medium transition-all"
       >
         {options.map((lang) => (

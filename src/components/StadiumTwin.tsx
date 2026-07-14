@@ -5,6 +5,7 @@ import { IncidentLog } from "./IncidentHistorySidebar";
 import { CloudRain, CloudSnow, CloudFog, Sun, Wind, Droplets, Thermometer, RefreshCw, AlertCircle, AlertTriangle, Moon, Lightbulb, Flame, Trophy, Calendar, ChevronDown, ChevronUp } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import PixelLinkIcon from "./PixelLinkIcon";
+import { LocationConfig, LOCATIONS } from "../utils/stadiumLocations";
 
 // Helper function to synthesize a retro 8-bit cartoony "POOFF" puff sound using the Web Audio API
 const playPoofSound = () => {
@@ -311,34 +312,6 @@ const getRosterForTeam = (teamName: string): { name: string; jersey: number }[] 
     { name: `Player J (${teamName})`, jersey: 23 },
   ];
 };
-
-export interface LocationConfig {
-  id: string;
-  name: string;
-  stadium: string;
-  lat: number;
-  lon: number;
-  defaultWeather: "SUNSHINE" | "RAIN" | "FOG" | "SNOW";
-}
-
-export const LOCATIONS: LocationConfig[] = [
-  { id: "NEW_YORK_NEW_JERSEY", name: "East Rutherford, NJ", stadium: "MetLife Stadium", lat: 40.8135, lon: -74.0744, defaultWeather: "SUNSHINE" },
-  { id: "LOS_ANGELES", name: "Los Angeles, CA", stadium: "SoFi Stadium", lat: 33.9534, lon: -118.3390, defaultWeather: "SUNSHINE" },
-  { id: "MEXICO_CITY", name: "Mexico City, Mexico", stadium: "Estadio Azteca", lat: 19.3029, lon: -99.1505, defaultWeather: "SUNSHINE" },
-  { id: "DALLAS", name: "Dallas, TX", stadium: "AT&T Stadium", lat: 32.7473, lon: -97.0945, defaultWeather: "SUNSHINE" },
-  { id: "ATLANTA", name: "Atlanta, GA", stadium: "Mercedes-Benz Stadium", lat: 33.7573, lon: -84.4010, defaultWeather: "SUNSHINE" },
-  { id: "VANCOUVER", name: "Vancouver, Canada", stadium: "BC Place", lat: 49.2767, lon: -123.1120, defaultWeather: "RAIN" },
-  { id: "TORONTO", name: "Toronto, Canada", stadium: "BMO Field", lat: 43.6328, lon: -79.4186, defaultWeather: "RAIN" },
-  { id: "GUADALAJARA", name: "Guadalajara, Mexico", stadium: "Estadio Akron", lat: 20.6811, lon: -103.4628, defaultWeather: "SUNSHINE" },
-  { id: "MONTERREY", name: "Monterrey, Mexico", stadium: "Estadio BBVA", lat: 25.6691, lon: -100.2443, defaultWeather: "SUNSHINE" },
-  { id: "MIAMI", name: "Miami, FL", stadium: "Hard Rock Stadium", lat: 25.9581, lon: -80.2389, defaultWeather: "SUNSHINE" },
-  { id: "SEATTLE", name: "Seattle, WA", stadium: "Lumen Field", lat: 47.5952, lon: -122.3316, defaultWeather: "RAIN" },
-  { id: "SAN_FRANCISCO", name: "San Francisco, CA", stadium: "Levi's Stadium", lat: 37.4033, lon: -121.9694, defaultWeather: "SUNSHINE" },
-  { id: "KANSAS_CITY", name: "Kansas City, MO", stadium: "Arrowhead Stadium", lat: 39.0489, lon: -94.4839, defaultWeather: "SUNSHINE" },
-  { id: "HOUSTON", name: "Houston, TX", stadium: "NRG Stadium", lat: 29.6847, lon: -95.4078, defaultWeather: "SUNSHINE" },
-  { id: "BOSTON", name: "Boston, MA", stadium: "Gillette Stadium", lat: 42.0909, lon: -71.2643, defaultWeather: "SUNSHINE" },
-  { id: "PHILADELPHIA", name: "Philadelphia, PA", stadium: "Lincoln Financial Field", lat: 39.9008, lon: -75.1675, defaultWeather: "SUNSHINE" },
-];
 
 export interface FifaMatchInfo {
   matchNumber: string;
@@ -2015,6 +1988,8 @@ export default function StadiumTwin({
     const controls = new OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.minDistance = 22; // Stop zooming in at a reasonable point
+    controls.maxDistance = 140; // Stop zooming out too far
     controls.target.copy(currentLook.current);
     controls.addEventListener("start", () => {
       userTakingManualControlRef.current = true;
@@ -3932,15 +3907,15 @@ export default function StadiumTwin({
             matchOverlayRef.current.style.pointerEvents = targetVisibility === 1 ? "auto" : "none";
 
             // Perspective dynamic scale
-            let baseScale = 0.82; // A bit smaller default scale so the user can easily see the entire window
-            if (distanceToCam > 90) {
-              baseScale = Math.max(0.6, (90 / distanceToCam) * 0.82);
-            } else if (distanceToCam < 35) {
-              // Scale down gracefully as the camera gets extremely close, but stop shrinking at a clear minimum of 0.65
+            let baseScale = 0.74; // A little smaller default scale so the user can easily see the entire window
+            if (distanceToCam > 85) {
+              baseScale = Math.max(0.58, (85 / distanceToCam) * 0.74);
+            } else if (distanceToCam < 45) {
+              // Scale down gracefully as the camera gets close, but stop shrinking at a clear minimum of 0.60
               // so it remains perfectly legible and doesn't get too small.
-              baseScale = Math.max(0.65, (distanceToCam / 35) * 0.82);
+              baseScale = Math.max(0.60, (distanceToCam / 45) * 0.74);
             } else {
-              baseScale = 0.82;
+              baseScale = 0.74;
             }
 
             const currentScale = baseScale * (0.8 + 0.2 * overlayTransitionRef.current);
@@ -4623,6 +4598,7 @@ export default function StadiumTwin({
                   onClick={() => setIsEnvPanelOpen(false)}
                   className="p-1 hover:bg-[#161f2b] border border-slate-800/60 hover:border-cyan-500/50 rounded transition cursor-pointer select-none shrink-0"
                   title="Close Environmental Panel"
+                  aria-label="Close Environmental Panel"
                 >
                   <PixelLinkIcon width={14} height={13} />
                 </button>
@@ -4631,13 +4607,15 @@ export default function StadiumTwin({
 
             {/* Location Dropdown Selector */}
             <div className="space-y-1">
-              <label className="text-[8px] text-slate-400 uppercase font-semibold">Active Venue Target:</label>
+              <label htmlFor="active-venue-selector" className="text-[8px] text-slate-400 uppercase font-semibold">Active Venue Target:</label>
               <select
+                id="active-venue-selector"
                 value={selectedLocation.id}
                 onChange={(e) => {
                   const loc = LOCATIONS.find(l => l.id === e.target.value);
                   if (loc) setSelectedLocation(loc);
                 }}
+                aria-label="Active Venue Target"
                 className="w-full bg-[#111827] border border-slate-800 text-white rounded px-1.5 py-1 text-[10px] focus:outline-none focus:border-cyan-500 cursor-pointer font-sans"
               >
                 {LOCATIONS.map((loc) => (

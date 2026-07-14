@@ -128,6 +128,7 @@ export default function SidebarNavigation({
             <button
               key={item.id}
               onClick={() => setCurrentView(item.id)}
+              aria-label={getTranslation(item.translationKey, selectedLanguage) || item.label}
               className={`group relative flex flex-col p-3 rounded border text-left transition-all duration-300 cursor-pointer ${
                 isActive
                   ? `bg-[#0e1319] border-cyan-500/60 shadow-[0_0_15px_${item.glowColor}]`

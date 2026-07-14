@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
   ShieldAlert,
@@ -53,7 +53,8 @@ import {
   Edit2,
   MessageSquare
 } from "lucide-react";
-import StadiumTwin, { LOCATIONS } from "./components/StadiumTwin";
+import { LOCATIONS } from "./utils/stadiumLocations";
+const StadiumTwin = lazy(() => import("./components/StadiumTwin"));
 import GroundingManual from "./components/GroundingManual";
 import SidebarNavigation from "./components/SidebarNavigation";
 import StadiumAIComplianceChat from "./components/StadiumAIComplianceChat";
@@ -1812,6 +1813,7 @@ export default function App() {
                 <span className="text-slate-400">SECURE ACCESS ROLE:</span>
                 <select
                   value={currentSessionRole}
+                  aria-label="Secure Access Role Selector"
                   onChange={(e) => {
                     const selectedRole = e.target.value as any;
                     setCurrentSessionRole(selectedRole);
@@ -1848,6 +1850,7 @@ export default function App() {
                 <span className="text-slate-400">OPERATIONAL HUB:</span>
                 <select
                   value={fanSelectedStadiumId}
+                  aria-label="Operational Hub Selector"
                   onChange={(e) => {
                     const newStadium = e.target.value;
                     setFanSelectedStadiumId(newStadium);
@@ -2324,12 +2327,14 @@ export default function App() {
                         </div>
 
                         <div>
-                          <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">
+                          <label htmlFor="fan-primary-destination-select" className="block text-[10px] font-mono text-slate-400 uppercase mb-1">
                             Primary Stadium Destination
                           </label>
                           <select
+                            id="fan-primary-destination-select"
                             value={fanInputStadium}
                             onChange={(e) => setFanInputStadium(e.target.value)}
+                            aria-label="Primary Stadium Destination"
                             className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-sky-500 transition-colors"
                           >
                             <option value="NEW_YORK_NEW_JERSEY">MetLife Stadium (New York/New Jersey)</option>
@@ -2412,10 +2417,11 @@ export default function App() {
 
                       <div className="space-y-3">
                         <div>
-                          <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">
+                          <label htmlFor="volunteer-registration-name" className="block text-[10px] font-mono text-slate-400 uppercase mb-1">
                             {getTranslation("volunteer_name", selectedLanguage, engineResult)}
                           </label>
                           <input
+                            id="volunteer-registration-name"
                             type="text"
                             value={volunteerInputName}
                             onChange={(e) => setVolunteerInputName(e.target.value)}
@@ -2425,12 +2431,14 @@ export default function App() {
                         </div>
 
                         <div>
-                          <label className="block text-[10px] font-mono text-slate-400 uppercase mb-1">
+                          <label htmlFor="volunteer-assigned-stadium-select" className="block text-[10px] font-mono text-slate-400 uppercase mb-1">
                             {getTranslation("assigned_stadium", selectedLanguage, engineResult)}
                           </label>
                           <select
+                            id="volunteer-assigned-stadium-select"
                             value={volunteerInputStadium}
                             onChange={(e) => setVolunteerInputStadium(e.target.value)}
+                            aria-label="Assigned Stadium"
                             className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-3 py-2 text-sm text-slate-100 focus:outline-none focus:border-emerald-500 transition-colors"
                           >
                             <option value="Arrowhead Stadium">Arrowhead Stadium (Kansas City) [Active Match]</option>
@@ -2703,7 +2711,7 @@ export default function App() {
           </motion.div>
         </div>
       ) : currentSessionRole === "FAN" ? (
-        <div className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col gap-6" id="fan-portal-root">
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col gap-6" id="fan-portal-root">
           {/* Header Portal Info */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -2888,12 +2896,12 @@ export default function App() {
                               {item.label}
                             </div>
                             <div className="flex items-center justify-between mt-0.5">
-                              <span className="text-[8px] text-slate-600 font-semibold tracking-wide">
+                              <span className="text-[8px] text-slate-400 font-semibold tracking-wide">
                                 STATUS:
                               </span>
                               <span
                                 className={`text-[8px] font-extrabold tracking-widest ${
-                                  isActive ? item.color : "text-slate-500"
+                                  isActive ? item.color : "text-slate-400"
                                 } uppercase`}
                               >
                                 {item.status}
@@ -2909,7 +2917,7 @@ export default function App() {
                   })}
                 </nav>
 
-                <div className="bg-[#07090c] border border-[#1b2530] p-2.5 rounded text-[8px] text-slate-500 space-y-1 select-none leading-relaxed">
+                <div className="bg-[#07090c] border border-[#1b2530] p-2.5 rounded text-[8px] text-slate-400 space-y-1 select-none leading-relaxed">
                   <div className="flex justify-between">
                     <span>SECTOR LATENCY:</span>
                     <span className="text-emerald-400 font-bold">12ms</span>
@@ -2951,41 +2959,48 @@ export default function App() {
                       </div>
 
                       <div className="flex-1 relative bg-[#07090c]">
-                        <StadiumTwin
-                          cameraPos={fanCameraPos}
-                          lookAtPos={fanLookAtPos}
-                          glowColor="#22d3ee"
-                          activeAnchor={fanActiveAnchor}
-                          currentWeather={currentWeather}
-                          incident={null}
-                          incidents={null}
-                          isFanMode={true}
-                          isFloorHeatmapEnabled={isFloorHeatmapEnabled}
-                          isLoading={isInitialLoading}
-                          venueStructuralProfile={{
-                            active_stadium_id: fanSelectedStadiumId,
-                            official_tournament_capacity: fanSelectedStadiumId === "NEW_YORK_NEW_JERSEY" ? 82500 : fanSelectedStadiumId === "MEXICO_CITY" ? 87523 : 70240,
-                            architectural_style_tag: "MODERN",
-                            programmatic_texture_directives: {
-                              wall_color_hex: fanSelectedStadiumId === "MEXICO_CITY" ? "#10b981" : fanSelectedStadiumId === "LOS_ANGELES" ? "#f59e0b" : fanSelectedStadiumId === "VANCOUVER" ? "#22d3ee" : "#3b82f6",
-                              material_roughness: 0.18, material_transparency_alpha: 0.35, stadium_geometry_extrusion_multiplier: 1.05
-                            }
-                          }}
-                          onWeatherChange={(weather, locName, stadiumName, temp) => {
-                            setCurrentWeather(weather);
-                            setCurrentLocationName(locName);
-                            setCurrentStadiumName(stadiumName);
-                            setCurrentTemperature(temp);
-                            
-                            const interferenceMap = {
-                              SUNSHINE: "LOW (0.05)",
-                              RAIN: "MODERATE (0.45)",
-                              FOG: "HIGH (0.75)",
-                              SNOW: "SEVERE (0.90)"
-                            };
-                            setAtmosphericInterference(interferenceMap[weather] || "LOW (0.05)");
-                          }}
-                        />
+                        <Suspense fallback={
+                          <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#07090c] text-cyan-400 font-mono text-xs z-50">
+                            <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mb-3"></div>
+                            <span>LOADING 3D DIGITAL TWIN ENGINE...</span>
+                          </div>
+                        }>
+                          <StadiumTwin
+                            cameraPos={fanCameraPos}
+                            lookAtPos={fanLookAtPos}
+                            glowColor="#22d3ee"
+                            activeAnchor={fanActiveAnchor}
+                            currentWeather={currentWeather}
+                            incident={null}
+                            incidents={null}
+                            isFanMode={true}
+                            isFloorHeatmapEnabled={isFloorHeatmapEnabled}
+                            isLoading={isInitialLoading}
+                            venueStructuralProfile={{
+                              active_stadium_id: fanSelectedStadiumId,
+                              official_tournament_capacity: fanSelectedStadiumId === "NEW_YORK_NEW_JERSEY" ? 82500 : fanSelectedStadiumId === "MEXICO_CITY" ? 87523 : 70240,
+                              architectural_style_tag: "MODERN",
+                              programmatic_texture_directives: {
+                                wall_color_hex: fanSelectedStadiumId === "MEXICO_CITY" ? "#10b981" : fanSelectedStadiumId === "LOS_ANGELES" ? "#f59e0b" : fanSelectedStadiumId === "VANCOUVER" ? "#22d3ee" : "#3b82f6",
+                                material_roughness: 0.18, material_transparency_alpha: 0.35, stadium_geometry_extrusion_multiplier: 1.05
+                              }
+                            }}
+                            onWeatherChange={(weather, locName, stadiumName, temp) => {
+                              setCurrentWeather(weather);
+                              setCurrentLocationName(locName);
+                              setCurrentStadiumName(stadiumName);
+                              setCurrentTemperature(temp);
+                              
+                              const interferenceMap = {
+                                SUNSHINE: "LOW (0.05)",
+                                RAIN: "MODERATE (0.45)",
+                                FOG: "HIGH (0.75)",
+                                SNOW: "SEVERE (0.90)"
+                              };
+                              setAtmosphericInterference(interferenceMap[weather] || "LOW (0.05)");
+                            }}
+                          />
+                        </Suspense>
                       </div>
                     </div>
                   </div>
@@ -3033,10 +3048,12 @@ export default function App() {
                       </div>
 
                       <div className="space-y-1.5 pt-1">
-                        <label className="text-[9px] text-slate-400 uppercase font-mono font-bold">ALL 16 TOURNAMENT VENUES:</label>
+                        <label htmlFor="fan-all-tournament-venues-select" className="text-[9px] text-slate-400 uppercase font-mono font-bold">ALL 16 TOURNAMENT VENUES:</label>
                         <select
+                          id="fan-all-tournament-venues-select"
                           value={fanSelectedStadiumId}
                           onChange={(e) => setFanSelectedStadiumId(e.target.value)}
+                          aria-label="All 16 Tournament Venues"
                           className="w-full bg-[#111827] border border-slate-800 text-white rounded px-2.5 py-2 text-xs focus:outline-none focus:border-cyan-500 cursor-pointer font-sans"
                         >
                           {LOCATIONS.map((loc) => (
@@ -3657,12 +3674,12 @@ export default function App() {
                               <Clock className="w-3.5 h-3.5 text-amber-400 animate-pulse" />
                               LIVE ORDER STATUS
                             </span>
-                            <span className="text-slate-500 text-[9px]">{activeOrder.orderNo}</span>
+                            <span className="text-slate-400 text-[9px]">{activeOrder.orderNo}</span>
                           </div>
 
                           <div className="space-y-2">
                             <div className="flex justify-between items-center">
-                              <span className="text-slate-500">PREPARATION STATUS:</span>
+                              <span className="text-slate-400">PREPARATION STATUS:</span>
                               <span className={`font-extrabold px-2 py-0.5 rounded text-[10px] ${
                                 activeOrder.status === "READY" 
                                   ? "bg-emerald-950 border border-emerald-800 text-emerald-400 animate-pulse" 
@@ -3675,7 +3692,7 @@ export default function App() {
                             {activeOrder.status === "PREPARING" ? (
                               <div className="space-y-1">
                                 <div className="flex justify-between">
-                                  <span className="text-slate-500">ESTIMATED TIMER:</span>
+                                  <span className="text-slate-400">ESTIMATED TIMER:</span>
                                   <span className="text-white font-bold">{activeOrder.secondsLeft} SECONDS REMAINING</span>
                                 </div>
                                 <div className="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden border border-slate-900">
@@ -3692,7 +3709,7 @@ export default function App() {
                               </div>
                             )}
 
-                            <div className="pt-2 border-t border-[#1b2531]/30 text-[9px] text-slate-500">
+                            <div className="pt-2 border-t border-[#1b2531]/30 text-[9px] text-slate-400">
                               <span>
                                 {currentSeat && currentSeat.section 
                                   ? `Express order mapped to spectator zone: seat ${currentSeat.section}-${currentSeat.row}-${currentSeat.seat}.` 
@@ -3758,19 +3775,19 @@ export default function App() {
 
                           <div className="p-4 bg-slate-950/80 border border-slate-900 rounded-lg space-y-2.5 font-mono text-[10.5px]">
                             <div className="flex justify-between">
-                              <span className="text-slate-500">TICKET CATEGORY:</span>
+                              <span className="text-slate-400">TICKET CATEGORY:</span>
                               <span className="text-red-400 font-extrabold uppercase">{helpCategory.replace("_", " ")}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-slate-500">REPORTED LOCATION:</span>
+                              <span className="text-slate-400">REPORTED LOCATION:</span>
                               <span className="text-white font-bold uppercase">{helpLocation}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-slate-500">INCIDENT ID:</span>
+                              <span className="text-slate-400">INCIDENT ID:</span>
                               <span className="text-cyan-400 font-bold uppercase font-mono">INC-{Math.floor(1000 + Math.random() * 9000)}</span>
                             </div>
                             <div className="flex justify-between">
-                              <span className="text-slate-500">CURRENT STATUS:</span>
+                              <span className="text-slate-400">CURRENT STATUS:</span>
                               <span className="text-amber-400 font-extrabold uppercase tracking-widest animate-pulse">TRIAGING - AGENT DISPATCHED</span>
                             </div>
                           </div>
@@ -3789,10 +3806,12 @@ export default function App() {
                         <div className="space-y-4 font-mono text-xs bg-slate-950/40 border border-[#1b2531]/40 rounded-xl p-5">
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div className="space-y-1.5">
-                              <label className="text-slate-400 block font-bold text-[10px] uppercase">INCIDENT CLASSIFICATION:</label>
+                              <label htmlFor="volunteer-incident-classification-select" className="text-slate-400 block font-bold text-[10px] uppercase">INCIDENT CLASSIFICATION:</label>
                               <select
+                                id="volunteer-incident-classification-select"
                                 value={helpCategory}
                                 onChange={(e) => setHelpCategory(e.target.value)}
+                                aria-label="Incident Classification"
                                 className="w-full bg-[#111827] border border-slate-800 text-white rounded px-3 py-2 focus:outline-none focus:border-red-500 cursor-pointer font-sans"
                               >
                                 <option value="FACILITY_ISSUE">FACILITY / INFRASTRUCTURE DAMAGE</option>
@@ -4983,7 +5002,7 @@ export default function App() {
                                     }`}
                                   >
                                     <span>{scenario.label}</span>
-                                    <span className="text-[9px] font-mono text-slate-500 uppercase">
+                                    <span className="text-[9px] font-mono text-slate-400 uppercase">
                                       {isSelected ? "COLLAPSE" : "SIMULATE"}
                                     </span>
                                   </button>
@@ -4991,7 +5010,7 @@ export default function App() {
                                   {isSelected && (
                                     <div className="mt-1 bg-[#07090c] border border-slate-900 rounded-lg p-3 space-y-2 animate-fadeIn text-[10.5px]">
                                       <div className="flex justify-between items-center font-mono">
-                                        <span className="text-slate-500 text-[8.5px] uppercase">ANALYSIS STATUS</span>
+                                        <span className="text-slate-400 text-[8.5px] uppercase">ANALYSIS STATUS</span>
                                         <span className={`px-1.5 py-0.5 rounded border text-[8.5px] font-extrabold uppercase ${scenario.color}`}>
                                           {scenario.status}
                                         </span>
@@ -5044,7 +5063,7 @@ export default function App() {
 
             </div>
           </div>
-        </div>
+        </main>
       ) : (
         <main className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col lg:flex-row gap-6">
           {/* Desktop Left Sidebar with smooth slide out */}
@@ -5149,38 +5168,45 @@ export default function App() {
               transition={{ duration: 0.5, ease: "easeInOut" }}
               className="relative bg-[#080a0c] overflow-hidden"
             >
-              <StadiumTwin
-                cameraPos={cameraPos}
-                lookAtPos={lookAtPos}
-                glowColor={glowColor}
-                activeAnchor={activeAnchor}
-                currentWeather={currentWeather}
-                isLoading={isInitialLoading}
-                incident={
-                  engineResult?.staff_operations_payload
-                    ? {
-                        type: engineResult.staff_operations_payload.incident_classification,
-                        coordinates: engineResult.staff_operations_payload.incident_coordinates,
-                      }
-                    : null
-                }
-                incidents={incidentHistory}
-                venueStructuralProfile={engineResult?.venue_structural_profile}
-                onWeatherChange={(weather, locName, stadiumName, temp) => {
-                  setCurrentWeather(weather);
-                  setCurrentLocationName(locName);
-                  setCurrentStadiumName(stadiumName);
-                  setCurrentTemperature(temp);
-                  
-                  const interferenceMap = {
-                    SUNSHINE: "LOW (0.05)",
-                    RAIN: "MODERATE (0.45)",
-                    FOG: "HIGH (0.75)",
-                    SNOW: "SEVERE (0.90)"
-                  };
-                  setAtmosphericInterference(interferenceMap[weather] || "LOW (0.05)");
-                }}
-              />
+              <Suspense fallback={
+                <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#080a0c] text-cyan-400 font-mono text-xs z-50">
+                  <div className="w-8 h-8 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin mb-3"></div>
+                  <span>LOADING 3D DIGITAL TWIN ENGINE...</span>
+                </div>
+              }>
+                <StadiumTwin
+                  cameraPos={cameraPos}
+                  lookAtPos={lookAtPos}
+                  glowColor={glowColor}
+                  activeAnchor={activeAnchor}
+                  currentWeather={currentWeather}
+                  isLoading={isInitialLoading}
+                  incident={
+                    engineResult?.staff_operations_payload
+                      ? {
+                          type: engineResult.staff_operations_payload.incident_classification,
+                          coordinates: engineResult.staff_operations_payload.incident_coordinates,
+                        }
+                      : null
+                  }
+                  incidents={incidentHistory}
+                  venueStructuralProfile={engineResult?.venue_structural_profile}
+                  onWeatherChange={(weather, locName, stadiumName, temp) => {
+                    setCurrentWeather(weather);
+                    setCurrentLocationName(locName);
+                    setCurrentStadiumName(stadiumName);
+                    setCurrentTemperature(temp);
+                    
+                    const interferenceMap = {
+                      SUNSHINE: "LOW (0.05)",
+                      RAIN: "MODERATE (0.45)",
+                      FOG: "HIGH (0.75)",
+                      SNOW: "SEVERE (0.90)"
+                    };
+                    setAtmosphericInterference(interferenceMap[weather] || "LOW (0.05)");
+                  }}
+                />
+              </Suspense>
 
               {/* Tactical Digital Twin Simulation Legend Overlay */}
               <div className="absolute bottom-3 left-3 bg-[#07090c]/90 border border-[#1b2531] rounded p-2.5 font-mono text-[9px] text-slate-300 pointer-events-none select-none max-w-[190px] shadow-[0_4px_20px_rgba(0,0,0,0.8)] backdrop-blur-sm z-10 space-y-1.5">
@@ -6531,8 +6557,9 @@ export default function App() {
               <div className="space-y-3.5 text-xs">
                 {/* Full Name */}
                 <div className="space-y-1">
-                  <label className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Full Name:</label>
+                  <label htmlFor="edit-fan-fullname-input" className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Full Name:</label>
                   <input
+                    id="edit-fan-fullname-input"
                     type="text"
                     value={editFanName}
                     onChange={(e) => setEditFanName(e.target.value)}
@@ -6542,8 +6569,9 @@ export default function App() {
 
                 {/* Phone number */}
                 <div className="space-y-1">
-                  <label className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Verified Phone Number:</label>
+                  <label htmlFor="edit-fan-phone-input" className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Verified Phone Number:</label>
                   <input
+                    id="edit-fan-phone-input"
                     type="text"
                     value={editFanPhone}
                     onChange={(e) => setEditFanPhone(e.target.value)}
@@ -6553,10 +6581,12 @@ export default function App() {
 
                 {/* Selected Stadium */}
                 <div className="space-y-1">
-                  <label className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Facility Hub Assignment:</label>
+                  <label htmlFor="edit-fan-stadium-select" className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Facility Hub Assignment:</label>
                   <select
+                    id="edit-fan-stadium-select"
                     value={editFanStadium}
                     onChange={(e) => setEditFanStadium(e.target.value)}
+                    aria-label="Facility Hub Assignment"
                     className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500 cursor-pointer"
                   >
                     <option value="NEW_YORK_NEW_JERSEY">NEW YORK NEW JERSEY</option>

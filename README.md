@@ -6,7 +6,18 @@ Montery is an advanced, high-fidelity 3D Digital Twin and operations compliance 
 
 ## 🚀 How Montery Addresses Challenge 4: Smart Stadiums & Tournament Operations
 
-Montery has been engineered to solve critical matchday friction points and streamline complex stadium operations under heavy crowd conditions. Each module directly aligns with the operational requirements of FIFA Challenge 4:
+Montery has been engineered to solve critical matchday friction points and streamline complex stadium operations under heavy crowd conditions.
+
+### Direct Feature Mapping to Challenge 4 Friction Points
+
+| Major Feature | Challenge 4 Friction Point | Operational Impact & Solution |
+| :--- | :--- | :--- |
+| **3D Digital Twin Command Center** | **Real-Time Staff Decision-Making** | Centralizes real-time camera coordinates, 3D stadium mock sensors, visual incident logging, and automated dispatcher checklists. |
+| **Crowd & Turnstile Flow Monitors** | **Crowd Control** | Tracks entrance queues against safety thresholds (e.g., Gate C warning limit) and automatically suggests crowd-redirection plans. |
+| **Interactive Wayfinder & ADA Router** | **Navigation** | Models complex transit exits and seat-to-facility maps, including a togglable step-free ADA route option that bypasses stairs. |
+| **Gemini Multilingual Safety Assistant** | **Multilingual Support** | Performs instant safety sign translation, ticket dispute parsing, and emergency announcements with automatic language detection. |
+
+### Core Feature Breakdowns
 
 ### 1. Ops Command Center (Friction Point: Delayed Real-Time Decision-Making)
 * **The Problem:** Operations directors and security dispatchers face fragmented communication and lack real-time visual telemetry, delaying emergency dispatches and flow adjustments.

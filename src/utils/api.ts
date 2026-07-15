@@ -4,11 +4,17 @@
  * and implements global error handling.
  */
 
+import { API_ENDPOINT_CHAT, API_ENDPOINT_QUERY } from "./constants";
+
 // Global error store for subscription
 type ErrorListener = (error: string | null) => void;
 let globalError: string | null = null;
 const listeners = new Set<ErrorListener>();
 
+/**
+ * Global reactive error store for API call failures.
+ * Provides subscription capabilities to notify user interfaces on communication loss.
+ */
 export const apiGlobalErrorStore = {
   getError: () => globalError,
   setError: (error: string | null) => {
@@ -24,7 +30,12 @@ export const apiGlobalErrorStore = {
 };
 
 /**
- * Standardized API call wrapper with global error handling & mapping
+ * Standardized API call wrapper with global error handling & mapping.
+ * 
+ * @param {string} endpoint - The target API route/endpoint (e.g., '/api/query')
+ * @param {unknown} payload - The request body payload to send
+ * @returns {Promise<T>} Promise resolving to the typed server response
+ * @throws {Error} Enhanced error with user-friendly descriptions and original error metadata
  */
 export async function fetchStadiumApi<T = unknown>(
   endpoint: string,
@@ -85,9 +96,13 @@ export async function fetchStadiumApi<T = unknown>(
  * Unified helper function for Gemini API interaction logic (via backend proxy /api/chat and /api/query).
  * Wraps calls in a try/catch block, manages the global error state,
  * and triggers user-facing notifications on failure.
+ * 
+ * @param {typeof API_ENDPOINT_CHAT | typeof API_ENDPOINT_QUERY} endpoint - The target Gemini endpoint constant
+ * @param {unknown} payload - The chat context or dynamic prompt request payload
+ * @returns {Promise<T>} Promise resolving to the typed Gemini response schema
  */
 export async function fetchGeminiApi<T = unknown>(
-  endpoint: "/api/chat" | "/api/query",
+  endpoint: typeof API_ENDPOINT_CHAT | typeof API_ENDPOINT_QUERY,
   payload: unknown
 ): Promise<T> {
   try {
@@ -104,4 +119,5 @@ export async function fetchGeminiApi<T = unknown>(
     throw errObj;
   }
 }
+
 

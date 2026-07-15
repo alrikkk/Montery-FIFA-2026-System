@@ -25,3 +25,24 @@ export const LOCATIONS: LocationConfig[] = [
   { id: "BOSTON", name: "Boston, MA", stadium: "Gillette Stadium", lat: 42.0909, lon: -71.2643, defaultWeather: "SUNSHINE" },
   { id: "PHILADELPHIA", name: "Philadelphia, PA", stadium: "Lincoln Financial Field", lat: 39.9008, lon: -75.1675, defaultWeather: "SUNSHINE" },
 ];
+
+/**
+ * Maps a visual description or raw anchor string to a normalized physical location anchor ID
+ * used to trigger camera movements, highlight sections on the 3D digital twin,
+ * and display localized contextual instructions.
+ * 
+ * @param {string | null} anchor - The raw, potentially user-entered or model-generated visual anchor string (e.g., "Gate A" or "Section 118")
+ * @returns {string | null} The mapped uppercase physical anchor identifier, or null if unmapped
+ */
+export function mapLocationAnchor(anchor: string | null): string | null {
+  if (!anchor) return null;
+  const uAnchor = anchor.toUpperCase();
+  if (uAnchor.includes("GATE_A") || uAnchor.includes("GATE A")) return "GATE_A";
+  if (uAnchor.includes("GATE_B") || uAnchor.includes("GATE B")) return "GATE_B";
+  if (uAnchor.includes("GATE_C") || uAnchor.includes("GATE C")) return "GATE_C";
+  if (uAnchor.includes("GATE_D") || uAnchor.includes("GATE D")) return "GATE_D";
+  if (uAnchor.includes("TROUBLE") || uAnchor.includes("BOOTH")) return "TROUBLESHOOTING_BOOTH";
+  if (uAnchor.includes("118") || uAnchor.includes("104")) return "SECTION_118";
+  if (uAnchor.includes("143") || uAnchor.includes("112")) return "SECTION_143";
+  return null;
+}

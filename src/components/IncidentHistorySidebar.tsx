@@ -30,7 +30,7 @@ export interface IncidentLog {
   lookAtPos: { x: number; y: number; z: number } | null;
   glowColor: string;
   activeAnchor: string | null;
-  fullPayload: any;
+  fullPayload: unknown;
   resolved?: boolean;
   status?: string;
 }
@@ -63,7 +63,7 @@ const getBadgeStyle = (classification: string) => {
 // Synthesize a retro, randomized "poof" or "digital hiss" sound effect on toggle using Web Audio API
 const playRegistryToggleSound = () => {
   try {
-    const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
+    const AudioContextClass = window.AudioContext || (window as typeof window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!AudioContextClass) return;
     const ctx = new AudioContextClass();
 
@@ -335,7 +335,7 @@ export default function IncidentHistorySidebar({
                 <button
                   key={cat.id}
                   onClick={() => {
-                    setCategoryFilter(cat.id as any);
+                    setCategoryFilter(cat.id as "ALL" | "MEDICAL" | "SECURITY" | "CONGESTION");
                     playRegistryToggleSound();
                   }}
                   aria-label={`Filter incidents by ${cat.label}`}

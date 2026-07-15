@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -53,7 +54,7 @@ import {
   Edit2,
   MessageSquare
 } from "lucide-react";
-import { LOCATIONS } from "./utils/stadiumLocations";
+import { LOCATIONS, mapLocationAnchor } from "./utils/stadiumLocations";
 const StadiumTwin = lazy(() => import("./components/StadiumTwin"));
 import GroundingManual from "./components/GroundingManual";
 import SidebarNavigation from "./components/SidebarNavigation";
@@ -741,13 +742,22 @@ export default function App() {
     // Local heuristic language detection for instant UI response context
     const detectMessageLanguageLocal = (message: string): string => {
       const norm = message.toLowerCase();
-      if (["hola", "buenos dias", "buenas tardes", "bolsa", "mochila", "boleto", "entrada", "estadio", "baño", "ascensor", "partido", "juego", "por favor", "ayuda", "regla", "seguridad"].some(term => norm.includes(term))) {
+      
+      const localHasTerm = (text: string, term: string): boolean => {
+        if (term.includes(" ") || term.includes("'") || term.includes("-") || term.includes("ー") || term.includes("à")) {
+          return text.includes(term);
+        }
+        const regex = new RegExp(`(?:^|[\\s,.:;?!()¿¡\"'])` + term + `(?:$|[\\s,.:;?!()¿¡\"'])`);
+        return regex.test(text);
+      };
+
+      if (["hola", "buenos dias", "buenas tardes", "bolsa", "mochila", "boleto", "entrada", "estadio", "baño", "ascensor", "partido", "juego", "por favor", "ayuda", "regla", "seguridad"].some(term => localHasTerm(norm, term))) {
         return "es";
       }
-      if (["bonjour", "salut", "sac", "sac à dos", "billet", "stade", "toilettes", "ascenseur", "match", "s'il vous plaît", "aide", "règle", "sécurité"].some(term => norm.includes(term))) {
+      if (["bonjour", "salut", "sac", "sac à dos", "billet", "stade", "toilettes", "ascenseur", "match", "s'il vous plaît", "aide", "règle", "sécurité"].some(term => localHasTerm(norm, term))) {
         return "fr";
       }
-      if (["hallo", "guten tag", "tasche", "rucksack", "ticket", "stadion", "toilette", "aufzug", "spiel", "bitte", "hilfe", "regel", "sicherheit"].some(term => norm.includes(term))) {
+      if (["hallo", "guten tag", "tasche", "rucksack", "eintrittskarte", "stadion", "toilette", "aufzug", "spiel", "bitte", "hilfe", "regel", "sicherheit"].some(term => localHasTerm(norm, term))) {
         return "de";
       }
       if (["こんにちは", "バッグ", "リュック", "チケット", "スタジアム", "トイレ", "エレベーター", "試合", "おねがい", "助け", "ルール", "セキュリティ"].some(term => norm.includes(term))) {
@@ -792,7 +802,8 @@ export default function App() {
       const data = await fetchGeminiApi<{ detectedLanguage?: string; text: string }>("/api/chat", {
         message: textToSend,
         history: chatMessages,
-        identity: currentSessionRole
+        identity: currentSessionRole,
+        target_language: selectedLanguage
       });
 
       if (data.detectedLanguage) {
@@ -1453,7 +1464,10 @@ export default function App() {
       });
       
       // Adapt / Normalize response to maintain both 100% legacy UI compatibility AND full 16-venue transition integration
-      const isStaffStream = rawData.staff_and_volunteer_payload?.is_field_incident_report || 
+      const isStaffStream = activeRole === "ORGANIZER" || 
+                            activeRole === "VENUE_STAFF" || 
+                            activeRole === "VOLUNTEER" ||
+                            rawData.staff_and_volunteer_payload?.is_field_incident_report || 
                             rawData.operational_intelligence_payload?.detected_persona === "STAFF_STREAM" || 
                             rawData.routing_metadata?.detected_persona === "STAFF_STREAM";
       
@@ -1473,7 +1487,22 @@ export default function App() {
 
        const data = {
         ...rawData,
-        stadium_quadrant_occupancy: rawData.stadium_quadrant_occupancy || rawData.administrative_ops_payload?.stadium_quadrant_occupancy || null,
+        stadium_quadrant_occupancy: (() => {
+          const rawOcc = rawData.stadium_quadrant_occupancy || rawData.administrative_ops_payload?.stadium_quadrant_occupancy;
+          if (!rawOcc) return null;
+          const north = rawOcc.north_concourse_pct ?? 62;
+          const south = rawOcc.south_concourse_pct ?? 58;
+          const east = rawOcc.east_concourse_pct ?? 65;
+          const west = rawOcc.west_concourse_pct ?? 60;
+          const globalPct = rawOcc.global_venue_occupancy_pct ?? Math.round((north + south + east + west) / 4);
+          return {
+            north_concourse_pct: north,
+            south_concourse_pct: south,
+            east_concourse_pct: east,
+            west_concourse_pct: west,
+            global_venue_occupancy_pct: globalPct
+          };
+        })(),
         gate_analytics_table: rawData.gate_analytics_table || rawData.administrative_ops_payload?.gate_analytics_table || [],
         routing_metadata: {
           detected_persona: isStaffStream ? "STAFF_STREAM" : "FAN_STREAM",
@@ -1554,17 +1583,7 @@ export default function App() {
         setGlowColor(color || "#22c55e");
         
         // Clean up visual anchor text for component mapping
-        let mappedAnchor: string | null = null;
-        if (anchor) {
-          const uAnchor = anchor.toUpperCase();
-          if (uAnchor.includes("GATE_A") || uAnchor.includes("GATE A")) mappedAnchor = "GATE_A";
-          else if (uAnchor.includes("GATE_B") || uAnchor.includes("GATE B")) mappedAnchor = "GATE_B";
-          else if (uAnchor.includes("GATE_C") || uAnchor.includes("GATE C")) mappedAnchor = "GATE_C";
-          else if (uAnchor.includes("GATE_D") || uAnchor.includes("GATE D")) mappedAnchor = "GATE_D";
-          else if (uAnchor.includes("TROUBLE") || uAnchor.includes("BOOTH")) mappedAnchor = "TROUBLESHOOTING_BOOTH";
-          else if (uAnchor.includes("118") || uAnchor.includes("104")) mappedAnchor = "SECTION_118";
-          else if (uAnchor.includes("143") || uAnchor.includes("112")) mappedAnchor = "SECTION_143";
-        }
+        const mappedAnchor = mapLocationAnchor(anchor);
         setActiveAnchor(mappedAnchor);
       }
 
@@ -1576,21 +1595,9 @@ export default function App() {
         const now = new Date();
         const timeString = now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", second: "2-digit" });
         
-        let mappedAnchorLocal = null;
-        if (data.threejs_camera_matrix) {
-          const anchor = data.fan_experience_payload?.ui_action_routing?.location_anchor || 
-                         data.threejs_camera_matrix.target_view_zone;
-          if (anchor) {
-            const uAnchor = anchor.toUpperCase();
-            if (uAnchor.includes("GATE_A") || uAnchor.includes("GATE A")) mappedAnchorLocal = "GATE_A";
-            else if (uAnchor.includes("GATE_B") || uAnchor.includes("GATE B")) mappedAnchorLocal = "GATE_B";
-            else if (uAnchor.includes("GATE_C") || uAnchor.includes("GATE C")) mappedAnchorLocal = "GATE_C";
-            else if (uAnchor.includes("GATE_D") || uAnchor.includes("GATE D")) mappedAnchorLocal = "GATE_D";
-            else if (uAnchor.includes("TROUBLE") || uAnchor.includes("BOOTH")) mappedAnchorLocal = "TROUBLESHOOTING_BOOTH";
-            else if (uAnchor.includes("118") || uAnchor.includes("104")) mappedAnchorLocal = "SECTION_118";
-            else if (uAnchor.includes("143") || uAnchor.includes("112")) mappedAnchorLocal = "SECTION_143";
-          }
-        }
+        const mappedAnchorLocal = data.threejs_camera_matrix
+          ? mapLocationAnchor(data.fan_experience_payload?.ui_action_routing?.location_anchor || data.threejs_camera_matrix.target_view_zone)
+          : null;
 
         const newIncident: IncidentLog = {
           id: Math.random().toString(),
@@ -3584,11 +3591,30 @@ export default function App() {
                         </div>
 
                         {foodCart.length === 0 ? (
-                          <div className="py-8 text-center text-slate-500 text-[10px] font-mono space-y-1">
-                            <ShoppingBag className="w-6 h-6 mx-auto text-slate-700 animate-pulse" />
-                            <p>BASKET IS CURRENTLY EMPTY</p>
-                            <p className="text-[8.5px] text-slate-600">Select food items from the menu to build your concessions order.</p>
-                          </div>
+                          activeOrder ? (
+                            <div className="py-5 text-center text-slate-400 text-[10px] font-mono space-y-2 bg-amber-950/10 border border-amber-900/20 rounded p-3">
+                              <RefreshCw className="w-5 h-5 mx-auto text-amber-500 animate-spin" />
+                              <p className="text-amber-400 font-extrabold uppercase tracking-wider text-[9px]">ORDER COOKING & SYNCED</p>
+                              <p className="text-[8.5px] text-slate-400 leading-normal">
+                                Your concessions order <span className="text-white font-bold">{activeOrder.orderNo}</span> is currently in progress. The basket is locked during preparation.
+                              </p>
+                              <div className="text-left text-[8.5px] text-slate-500 border-t border-slate-900 pt-2 mt-2">
+                                <span className="font-bold text-slate-400 block uppercase mb-1">Items cooking:</span>
+                                {activeOrder.items.map((i: any, idx: number) => (
+                                  <div key={idx} className="flex justify-between">
+                                    <span>{i.qty}x {i.name}</span>
+                                    <span>${(i.price * i.qty).toFixed(2)}</span>
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          ) : (
+                            <div className="py-8 text-center text-slate-500 text-[10px] font-mono space-y-1">
+                              <ShoppingBag className="w-6 h-6 mx-auto text-slate-700 animate-pulse" />
+                              <p>BASKET IS CURRENTLY EMPTY</p>
+                              <p className="text-[8.5px] text-slate-600">Select food items from the menu to build your concessions order.</p>
+                            </div>
+                          )
                         ) : (
                           <div className="space-y-3">
                             <div className="space-y-2 max-h-[160px] overflow-y-auto pr-1">

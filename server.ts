@@ -218,9 +218,12 @@ const responseSchema = {
           nullable: true,
           properties: {
             north_concourse_pct: { type: Type.INTEGER, nullable: true },
-            south_concourse_pct: { type: Type.INTEGER, nullable: true }
+            south_concourse_pct: { type: Type.INTEGER, nullable: true },
+            east_concourse_pct: { type: Type.INTEGER, nullable: true },
+            west_concourse_pct: { type: Type.INTEGER, nullable: true },
+            global_venue_occupancy_pct: { type: Type.INTEGER, nullable: true }
           },
-          required: ["north_concourse_pct", "south_concourse_pct"]
+          required: ["north_concourse_pct", "south_concourse_pct", "east_concourse_pct", "west_concourse_pct", "global_venue_occupancy_pct"]
         },
         gate_analytics_table: {
           type: Type.ARRAY,
@@ -861,7 +864,10 @@ export function evaluateHeuristicFallback(
   const administrativeOps = isFan ? null : {
     stadium_quadrant_occupancy: {
       north_concourse_pct: 75,
-      south_concourse_pct: 68
+      south_concourse_pct: 68,
+      east_concourse_pct: 62,
+      west_concourse_pct: 58,
+      global_venue_occupancy_pct: 66
     },
     gate_analytics_table: [
       { gate_id: "Gate A", queue_count: 45, throughput_per_min: 25, predicted_wait_minutes: 1.8, status: "OK" },
@@ -1101,40 +1107,48 @@ export function checkRateLimit(key: string): { allowed: boolean; waitSeconds?: n
   return { allowed: true };
 }
 
+export function hasTerm(norm: string, term: string): boolean {
+  if (term.includes(" ") || term.includes("'") || term.includes("-") || term.includes("ー") || term.includes("à")) {
+    return norm.includes(term);
+  }
+  const regex = new RegExp(`(?:^|[\\s,.:;?!()¿¡\"'])` + term + `(?:$|[\\s,.:;?!()¿¡\"'])`);
+  return regex.test(norm);
+}
+
 export function detectMessageLanguage(message: string): string {
   const norm = message.toLowerCase();
   
-  if (["hola", "buenos dias", "buenas tardes", "bolsa", "mochila", "boleto", "entrada", "estadio", "baño", "ascensor", "partido", "juego", "por favor", "ayuda", "regla", "seguridad"].some(term => norm.includes(term))) {
+  if (["hola", "buenos dias", "buenas tardes", "bolsa", "mochila", "boleto", "entrada", "estadio", "baño", "ascensor", "partido", "juego", "por favor", "ayuda", "regla", "seguridad"].some(term => hasTerm(norm, term))) {
     return "es";
   }
-  if (["bonjour", "salut", "sac", "sac à dos", "billet", "stade", "toilettes", "ascenseur", "match", "s'il vous plaît", "aide", "règle", "sécurité"].some(term => norm.includes(term))) {
+  if (["bonjour", "salut", "sac", "sac à dos", "billet", "stade", "toilettes", "ascenseur", "match", "s'il vous plaît", "aide", "règle", "sécurité"].some(term => hasTerm(norm, term))) {
     return "fr";
   }
-  if (["hallo", "guten tag", "tasche", "rucksack", "ticket", "stadion", "toilette", "aufzug", "spiel", "bitte", "hilfe", "regel", "sicherheit"].some(term => norm.includes(term))) {
+  if (["hallo", "guten tag", "tasche", "rucksack", "eintrittskarte", "stadion", "toilette", "aufzug", "spiel", "bitte", "hilfe", "regel", "sicherheit"].some(term => hasTerm(norm, term))) {
     return "de";
   }
-  if (["こんにちは", "バッグ", "リュック", "チケット", "スタジアム", "トイレ", "エレベーター", "試合", "おねがい", "助け", "ルール", "セキュリティ"].some(term => norm.includes(term))) {
+  if (["こんにちは", "バッグ", "リュック", "チケット", "スタジアム", "トイレ", "エレベーター", "試合", "おねがい", "助け", "ルール", "セキュリティ"].some(term => hasTerm(norm, term))) {
     return "ja";
   }
-  if (["مرحبا", "سلام", "حقيبة", "تذكرة", "استاد", "مرحاض", "مصعد", "مباراة", "من فضلك", "مساعدة", "قاعدة", "أمان"].some(term => norm.includes(term))) {
+  if (["مرحبا", "سلام", "حقيبة", "تذكرة", "استاد", "مرحاض", "مصعد", "مباراة", "من فضلك", "مساعدة", "قاعدة", "أمان"].some(term => hasTerm(norm, term))) {
     return "ar";
   }
-  if (["olá", "bom dia", "bolsa", "mochila", "ingresso", "estádio", "banheiro", "elevador", "jogo", "por favor", "ajuda", "regra", "segurança"].some(term => norm.includes(term))) {
+  if (["olá", "bom dia", "bolsa", "mochila", "ingresso", "estádio", "banheiro", "elevador", "jogo", "por favor", "ajuda", "regra", "segurança"].some(term => hasTerm(norm, term))) {
     return "pt";
   }
-  if (["ciao", "buongiorno", "borsa", "zaino", "biglietto", "stadio", "bagno", "ascensore", "partita", "per favore", "aiuto", "regola", "sicurezza"].some(term => norm.includes(term))) {
+  if (["ciao", "buongiorno", "borsa", "zaino", "biglietto", "stadio", "bagno", "ascensore", "partita", "per favore", "aiuto", "regola", "sicurezza"].some(term => hasTerm(norm, term))) {
     return "it";
   }
-  if (["안녕하세요", "가방", "배낭", "티켓", "경기장", "화장실", "엘리베이터", "경기", "부탁", "도움", "규칙", "보안"].some(term => norm.includes(term))) {
+  if (["안녕하세요", "가방", "배낭", "티켓", "경기장", "화장실", "엘리베이터", "경기", "부탁", "도움", "규칙", "보안"].some(term => hasTerm(norm, term))) {
     return "ko";
   }
-  if (["你好", "早上好", "包", "背包", "票", "体育场", "厕所", "洗手间", "电梯", "比赛", "请", "帮助", "规则", "安全"].some(term => norm.includes(term))) {
+  if (["你好", "早上好", "包", "背包", "票", "体育场", "厕所", "洗手间", "电梯", "比赛", "请", "帮助", "规则", "安全"].some(term => hasTerm(norm, term))) {
     return "zh";
   }
-  if (["hallo", "tas", "rugzak", "ticket", "stadion", "toilet", "lift", "wedstrijd", "alsjeblieft", "hulp", "regel", "veiligheid"].some(term => norm.includes(term))) {
+  if (["hallo", "rugzak", "toegangsbewijs", "stadion", "toilet", "lift", "wedstrijd", "alsjeblieft", "hulp", "regel", "veiligheid"].some(term => hasTerm(norm, term))) {
     return "nl";
   }
-  if (["नमस्ते", "बैग", "टिकट", "स्टेडियम", "शौचालय", "लिफ्ट", "मैच", "कृपया", "मदद", "नियम", "सुरक्षा"].some(term => norm.includes(term))) {
+  if (["नमस्ते", "बैग", "टिकट", "स्टेडियम", "शौचालय", "लिफ्ट", "मैच", "कृपया", "मदद", "नियम", "सुरक्षा"].some(term => hasTerm(norm, term))) {
     return "hi";
   }
   
@@ -1336,7 +1350,7 @@ export function evaluateChatHeuristicFallback(message: string, identity?: string
 }
 
 app.post("/api/chat", async (req, res) => {
-  const { message, history, identity } = req.body;
+  const { message, history, identity, target_language } = req.body;
   if (!message || message.trim() === "") {
     return res.status(400).json({ error: "Missing message content" });
   }
@@ -1374,7 +1388,13 @@ app.post("/api/chat", async (req, res) => {
     "विश्व कप", "टिकट", "शौचालय", "गेट"
   ].some(term => norm.includes(term));
 
-  const detectedLang = detectMessageLanguage(message);
+  let detectedLang = detectMessageLanguage(message);
+  
+  // If query is detected as "en" (or weak) but target_language is explicitly provided, use target_language
+  if (detectedLang === "en" && target_language && target_language !== "en") {
+    detectedLang = target_language;
+  }
+
   const fallbacks = LOCALIZED_CHAT_FALLBACKS[detectedLang] || LOCALIZED_CHAT_FALLBACKS["en"];
 
   if (isBypass) {

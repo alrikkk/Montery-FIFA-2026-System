@@ -553,6 +553,13 @@ export const LOCALIZED_DICTIONARIES: { [lang: string]: { [key: string]: string }
   }
 };
 
+/**
+ * Automatically detects the language of a dynamic dictionary object returned by the Gemini engine.
+ * Computes match density against pre-registered localized dictionary schemas.
+ * 
+ * @param {Record<string, string>} dict - The dynamic dictionary map to evaluate
+ * @returns {string} The detected language ISO code (e.g., 'en', 'es', 'pt', 'hi', 'fr')
+ */
 function detectDictionaryLanguage(dict: Record<string, string>): string {
   let bestLang = 'en';
   let maxMatches = -1;
@@ -573,7 +580,17 @@ function detectDictionaryLanguage(dict: Record<string, string>): string {
   return bestLang;
 }
 
-export function getTranslation(key: string, selectedLanguage: string, engineResult?: any): string {
+/**
+ * Resolves the appropriate translated value for a given localization key.
+ * Prioritizes custom sidebar configurations, selected UI locale dictionaries, and falls back
+ * to dynamic Gemini localized dictionary payloads before default English terms.
+ * 
+ * @param {string} key - The unique lookup key for the visual element
+ * @param {string} selectedLanguage - The current active user UI locale (e.g., 'en', 'es')
+ * @param {{ ui_localized_dictionary?: Record<string, string> }} [engineResult] - Optional active engine result containing live-translated keys
+ * @returns {string} The localized human-readable string representation
+ */
+export function getTranslation(key: string, selectedLanguage: string, engineResult?: { ui_localized_dictionary?: Record<string, string> }): string {
   const customDict = SIDEBAR_TRANSLATIONS[selectedLanguage] || SIDEBAR_TRANSLATIONS['en'];
   if (customDict && customDict[key]) {
     return customDict[key];

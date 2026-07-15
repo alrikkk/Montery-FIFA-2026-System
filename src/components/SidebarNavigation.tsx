@@ -16,7 +16,7 @@ interface SidebarNavigationProps {
   setCurrentView: (view: "DASHBOARD" | "COMMAND" | "CORPUS" | "PAYLOAD" | "LOGS" | "REGISTRY" | "CHAT") => void;
   logsCount: number;
   hasEngineResult: boolean;
-  fanAccountsList?: any[];
+  fanAccountsList?: unknown[];
   onRefreshFans?: () => void;
   selectedLanguage: string;
   onLanguageChange: (lang: string) => void;

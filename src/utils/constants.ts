@@ -37,3 +37,18 @@ export const SCHEMA_KEY_SYSTEM_DIAGNOSTICS = "system_diagnostics";
 // 4. Multi-port Venue Limits and thresholds
 export const GATE_C_THRESHOLD_WARNING = 500;
 export const GATE_QUEUE_CONGESTION_METRIC_YARDS = 50;
+
+// 5. API Endpoint paths used across the components
+export const API_ENDPOINT_CHAT = "/api/chat";
+export const API_ENDPOINT_QUERY = "/api/query";
+export const API_ENDPOINT_FANS = "/api/fans";
+export const API_ENDPOINT_FANS_CLEAR = "/api/fans/clear";
+export const API_ENDPOINT_FANS_SEAT = "/api/fans/seat";
+export const API_ENDPOINT_INCIDENTS = "/api/incidents";
+
+// 6. Common UI and simulator timeout values (in milliseconds)
+export const TIMEOUT_COPY_FEEDBACK_MS = 2000;
+export const TIMEOUT_DECODER_SIMULATION_DELAY_MS = 350;
+export const TIMEOUT_SMOKE_EFFECT_DURATION_MS = 800;
+export const TIMEOUT_DEFAULT_INCIDENT_POLLING_MS = 3000;
+

@@ -1118,6 +1118,44 @@ export function hasTerm(norm: string, term: string): boolean {
 export function detectMessageLanguage(message: string): string {
   const norm = message.toLowerCase();
   
+  // 1. Unicode Character-Range Script Detection (Priority)
+  
+  // Arabic Range
+  const hasArabic = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/.test(norm);
+  if (hasArabic) {
+    return "ar";
+  }
+
+  // Japanese Kana Range (Hiragana, Katakana, Half-width Katakana)
+  const hasJapaneseKana = /[\u3040-\u309F\u30A0-\u30FF\uFF66-\uFF9F]/.test(norm);
+  if (hasJapaneseKana) {
+    return "ja";
+  }
+
+  // Korean Hangul Range
+  const hasKorean = /[\uAC00-\uD7AF\u1100-\u11FF\u3130-\u318F]/.test(norm);
+  if (hasKorean) {
+    return "ko";
+  }
+
+  // Chinese CJK Unified Ideographs Range (excluding Japanese and Korean unique blocks)
+  const hasChinese = /[\u4E00-\u9FFF\u3400-\u4DBF]/.test(norm);
+  if (hasChinese) {
+    // If it contains CJK characters but also matches Japanese keywords or Kana, classify as Japanese
+    const jaKeywords = ["こんにちは", "バッグ", "リュック", "チケット", "スタジアム", "トイレ", "エレベーター", "試合", "おねがい", "助け", "ルール", "セキュリティ"];
+    if (hasJapaneseKana || jaKeywords.some(term => norm.includes(term))) {
+      return "ja";
+    }
+    return "zh";
+  }
+
+  // Hindi Devanagari Range
+  const hasHindi = /[\u0900-\u097F]/.test(norm);
+  if (hasHindi) {
+    return "hi";
+  }
+
+  // 2. Keyword-Based Matching Fallback
   if (["hola", "buenos dias", "buenas tardes", "bolsa", "mochila", "boleto", "entrada", "estadio", "baño", "ascensor", "partido", "juego", "por favor", "ayuda", "regla", "seguridad"].some(term => hasTerm(norm, term))) {
     return "es";
   }

@@ -2153,7 +2153,7 @@ export default function App() {
                         <span className="text-sm font-bold text-sky-400 group-hover:text-sky-300 transition-colors uppercase tracking-wide font-mono">
                           {getTranslation("role_fan_title", selectedLanguage, engineResult)}
                         </span>
-                        <span className="text-[9px] font-mono text-sky-500 bg-sky-950 px-2 py-0.5 rounded border border-sky-900/40 font-bold">LEVEL 1</span>
+                        <span className="text-[9px] font-mono text-[#7dd3fc] bg-[#0c4a6e] px-2 py-0.5 rounded border border-sky-900/40 font-bold">LEVEL 1</span>
                       </div>
                       <p className="text-[11px] text-slate-400 leading-normal">
                         {getTranslation("role_fan_desc", selectedLanguage, engineResult)}
@@ -2177,7 +2177,7 @@ export default function App() {
                         <span className="text-sm font-bold text-emerald-400 group-hover:text-emerald-300 transition-colors uppercase tracking-wide font-mono">
                           {getTranslation("role_volunteer_title", selectedLanguage, engineResult)}
                         </span>
-                        <span className="text-[9px] font-mono text-emerald-500 bg-emerald-950 px-2 py-0.5 rounded border border-emerald-900/40 font-bold">LEVEL 2</span>
+                        <span className="text-[9px] font-mono text-[#6ee7b7] bg-[#064e3b] px-2 py-0.5 rounded border border-emerald-900/40 font-bold">LEVEL 2</span>
                       </div>
                       <p className="text-[11px] text-slate-400 leading-normal">
                         {getTranslation("role_volunteer_desc", selectedLanguage, engineResult)}
@@ -2201,7 +2201,7 @@ export default function App() {
                         <span className="text-sm font-bold text-amber-400 group-hover:text-amber-300 transition-colors uppercase tracking-wide font-mono">
                           {getTranslation("role_staff_title", selectedLanguage, engineResult)}
                         </span>
-                        <span className="text-[9px] font-mono text-amber-500 bg-amber-950 px-2 py-0.5 rounded border border-amber-900/40 font-bold">LEVEL 3</span>
+                        <span className="text-[9px] font-mono text-[#fde047] bg-[#78350f] px-2 py-0.5 rounded border border-amber-900/40 font-bold">LEVEL 3</span>
                       </div>
                       <p className="text-[11px] text-slate-400 leading-normal">
                         {getTranslation("role_staff_desc", selectedLanguage, engineResult)}
@@ -2225,7 +2225,7 @@ export default function App() {
                         <span className="text-sm font-bold text-rose-400 group-hover:text-rose-300 transition-colors uppercase tracking-wide font-mono">
                           {getTranslation("role_organizer_title", selectedLanguage, engineResult)}
                         </span>
-                        <span className="text-[9px] font-mono text-rose-500 bg-rose-950 px-2 py-0.5 rounded border border-rose-900/40 font-bold">LEVEL 4</span>
+                        <span className="text-[9px] font-mono text-[#ff6b8a] bg-[#4d0218] px-2 py-0.5 rounded border border-rose-900/40 font-bold">LEVEL 4</span>
                       </div>
                       <p className="text-[11px] text-slate-400 leading-normal">
                         {getTranslation("role_organizer_desc", selectedLanguage, engineResult)}

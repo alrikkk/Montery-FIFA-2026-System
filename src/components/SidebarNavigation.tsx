@@ -152,12 +152,12 @@ export default function SidebarNavigation({
                     {getTranslation(item.translationKey, selectedLanguage)}
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
-                    <span className="text-[8px] text-slate-400 font-semibold tracking-wide">
+                    <span className="text-[8px] text-slate-200 font-semibold tracking-wide">
                       {getTranslation("nav_status", selectedLanguage)}:
                     </span>
                     <span
                       className={`text-[8.5px] font-extrabold tracking-widest ${
-                        isActive ? item.color : "text-slate-400"
+                        isActive ? item.color : "text-slate-200"
                       } uppercase`}
                     >
                       {item.status}
@@ -176,7 +176,7 @@ export default function SidebarNavigation({
       </nav>
 
       {/* Mini Diagnostic readout */}
-      <div className="bg-[#07090c] border border-[#1b2530] p-2.5 rounded text-[8.5px] select-none leading-relaxed">
+      <div className="bg-[#07090c] border border-[#1b2530] p-2.5 rounded text-[8.5px] select-none leading-relaxed text-slate-200">
         <div className="flex justify-between">
           <span>PORT INGRESS:</span>
           <span className="text-emerald-400 font-bold">3000/TCP</span>

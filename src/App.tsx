@@ -6167,7 +6167,7 @@ export default function App() {
                                 </div>
 
                               {/* Density Trend Chart Visualization */}
-                              <Suspense fallback={<div className="h-[120px] flex items-center justify-center text-slate-500 font-mono text-[9px]">LOADING GRAPH...</div>}>
+                              <Suspense fallback={<div className="h-[120px] flex items-center justify-center text-slate-300 font-mono text-[9px]">LOADING GRAPH...</div>}>
                                 <DensityTrendChart data={densityHistory} />
                               </Suspense>
 

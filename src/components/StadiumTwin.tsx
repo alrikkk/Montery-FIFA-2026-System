@@ -4735,7 +4735,7 @@ export default function StadiumTwin({
                 {/* Roof Shear Stress */}
                 <div className="space-y-0.5">
                   <div className="flex justify-between text-[8px] font-mono">
-                    <span className="text-slate-400">ROOF WIND SHEAR:</span>
+                    <span className="text-slate-200">ROOF WIND SHEAR:</span>
                     <span className={`font-bold ${activeWeather === "RAIN" || activeWeather === "SNOW" || (weatherData?.windspeed && weatherData.windspeed > 15) ? "text-red-400 font-bold animate-pulse" : "text-emerald-400"}`}>
                       {activeWeather === "RAIN" ? "38%" : activeWeather === "SNOW" ? "54%" : (weatherData?.windspeed && weatherData.windspeed > 15) ? "42%" : "8%"}
                     </span>
@@ -4750,7 +4750,7 @@ export default function StadiumTwin({
                 {/* Pitch Saturation */}
                 <div className="space-y-0.5">
                   <div className="flex justify-between text-[8px] font-mono">
-                    <span className="text-slate-400">FIELD SATURATION:</span>
+                    <span className="text-slate-200">FIELD SATURATION:</span>
                     <span className={`font-bold ${activeWeather === "RAIN" ? "text-red-400 font-bold animate-pulse" : activeWeather === "SNOW" ? "text-amber-400" : "text-emerald-400"}`}>
                       {activeWeather === "RAIN" ? "79%" : activeWeather === "SNOW" ? "32%" : "12%"}
                     </span>
@@ -4765,7 +4765,7 @@ export default function StadiumTwin({
                 {/* Upper Deck Drag */}
                 <div className="space-y-0.5">
                   <div className="flex justify-between text-[8px] font-mono">
-                    <span className="text-slate-400">UPPER TIER WIND LOADS:</span>
+                    <span className="text-slate-200">UPPER TIER WIND LOADS:</span>
                     <span className={`font-bold ${activeWeather === "RAIN" || activeWeather === "SNOW" ? "text-amber-400" : "text-emerald-400"}`}>
                       {activeWeather === "RAIN" ? "45%" : activeWeather === "SNOW" ? "60%" : "15%"}
                     </span>
@@ -4781,7 +4781,7 @@ export default function StadiumTwin({
             )}
 
             {/* Dynamic Warning and Tactical Overlay Indicators */}
-            <div className="text-[8px] bg-slate-950/90 p-1.5 border border-[#1b2530]/40 rounded text-slate-400">
+            <div className="text-[8px] bg-slate-950/90 p-1.5 border border-[#1b2530]/40 rounded text-slate-200">
               {activeWeather === "SUNSHINE" && (
                 <div className="flex items-center gap-1.5">
                   <span className="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse" />

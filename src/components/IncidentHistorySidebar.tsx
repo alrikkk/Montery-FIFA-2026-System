@@ -285,7 +285,7 @@ export default function IncidentHistorySidebar({
         {/* Warning Banner / Instructions */}
         <div className="px-4 py-2 bg-slate-950 border-b border-[#1b2531]/40 text-[9px] font-mono text-slate-400 uppercase tracking-tight flex items-center justify-between">
           <span>OPERATIONAL ARCHIVE FILTER</span>
-          <span className="text-cyan-500 animate-pulse">● FEED ONLINE</span>
+          <span className="text-cyan-500 animate-pulse">● SIMULATED FEED</span>
         </div>
 
         {/* Active vs Archived Tabs */}

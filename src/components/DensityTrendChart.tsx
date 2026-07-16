@@ -55,7 +55,7 @@ export default function DensityTrendChart({ data }: DensityTrendChartProps) {
           <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
           DENSITY LEVEL TREND OVER TIME
         </span>
-        <span className="text-[8px] text-slate-400">REALTIME TELEMETRY</span>
+        <span className="text-[8px] text-slate-400">SIMULATED REALTIME</span>
       </div>
 
       <div className="h-28 w-full">

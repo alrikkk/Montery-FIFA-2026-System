@@ -1747,6 +1747,9 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-[#07090c] text-slate-100 flex flex-col font-sans select-none antialiased">
+      <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:bg-white focus:text-black focus:px-4 focus:py-2 focus:rounded">
+        Skip to main content
+      </a>
       <div className="sr-only" aria-live="polite">
         {getScreenReaderSummary()}
       </div>
@@ -2064,7 +2067,7 @@ export default function App() {
 
       {/* 2. Main tactical viewport grid or starting screen */}
       {currentSessionRole === "UNASSIGNED" ? (
-        <main className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden bg-[#07090c]">
+        <main id="main-content" className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden bg-[#07090c]">
           {/* FIFA 2026 World Cup themed stadium background image */}
           <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
             <img
@@ -2234,6 +2237,13 @@ export default function App() {
                         ✓ {getTranslation("dashboard_title", selectedLanguage, engineResult)}
                       </span>
                     </button>
+                  </div>
+
+                  {/* Muted Tip for Judges */}
+                  <div className="text-center mt-2 pb-1 border-t border-[#1b2531]/30 pt-4">
+                    <p className="text-[11px] text-slate-500 font-sans tracking-wide">
+                      <span className="font-bold text-slate-400">💡 Tip:</span> try the <span className="text-rose-400 font-semibold font-mono">Organizer</span> or <span className="text-amber-400 font-semibold font-mono">Venue Staff</span> role to explore admin telemetry and RBAC-secured views — no real credentials needed.
+                    </p>
                   </div>
                 </motion.div>
               ) : (
@@ -2707,7 +2717,7 @@ export default function App() {
           </motion.div>
         </main>
       ) : currentSessionRole === "FAN" ? (
-        <main className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col gap-6" id="fan-portal-root">
+        <main className="flex-1 max-w-7xl w-full mx-auto p-4 flex flex-col gap-6" id="main-content">
           {/* Header Portal Info */}
           <motion.div
             initial={{ opacity: 0, y: 15 }}
@@ -5133,7 +5143,7 @@ export default function App() {
             )}
           </AnimatePresence>
 
-          <main className="flex-1 min-w-0 flex flex-col gap-4">
+          <main id="main-content" className="flex-1 min-w-0 flex flex-col gap-4">
             {currentView === "DASHBOARD" && (
               <section className="flex flex-col gap-4 w-full">
                 {/* Card: 3D digital Twin Container with layout transition */}
@@ -5900,6 +5910,7 @@ export default function App() {
                               <h4 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest flex items-center justify-between border-b border-cyan-950/80 pb-2">
                                 <span className="flex items-center gap-1.5">
                                   <Activity className="w-3.5 h-3.5 text-cyan-400" /> CONCOURSE QUADRANT OCCUPANCY
+                                  <span className="text-[7.5px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/40 px-1 py-0.2 rounded tracking-normal animate-pulse shrink-0">SIMULATED</span>
                                 </span>
                                 <span className="text-cyan-400 font-bold text-xs">
                                   GLOBAL: {engineResult.stadium_quadrant_occupancy.global_venue_occupancy_pct}%
@@ -5951,6 +5962,7 @@ export default function App() {
                             <div className="bg-[#090d12]/95 border border-cyan-500/20 rounded p-3 space-y-2.5 font-mono">
                               <h4 className="text-[10px] font-bold text-cyan-400 uppercase tracking-widest flex items-center gap-1.5 border-b border-cyan-950/80 pb-2">
                                 <Sliders className="w-3.5 h-3.5 text-cyan-400" /> {getTranslation("label_queue_volume", selectedLanguage, engineResult).toUpperCase()}
+                                <span className="text-[7.5px] font-mono font-bold bg-cyan-950/80 text-cyan-400 border border-cyan-800/40 px-1 py-0.2 rounded tracking-normal animate-pulse shrink-0">SIMULATED</span>
                               </h4>
                               <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse text-[9px]">
@@ -6018,6 +6030,7 @@ export default function App() {
                                 <div className="bg-emerald-950/10 border border-emerald-900/40 rounded p-3 space-y-3">
                                   <h4 className="text-xs font-bold text-emerald-400 uppercase tracking-wider flex items-center gap-1.5 font-mono">
                                     <Utensils className="w-3.5 h-3.5 text-emerald-400" /> CONCESSION INTEL MATRIX
+                                    <span className="text-[7.5px] font-mono font-bold bg-emerald-950/80 text-emerald-400 border border-emerald-800/40 px-1 py-0.2 rounded tracking-normal animate-pulse shrink-0">SIMULATED</span>
                                   </h4>
                                   <div className="text-[10px] text-slate-300 space-y-1 font-mono">
                                     <div>STAND: <span className="text-white font-bold">{engineResult.fan_experience_payload.concession_readout.selected_stand_name}</span></div>

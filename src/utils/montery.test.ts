@@ -136,6 +136,41 @@ describe("Montery Smart Stadiums - Security and Compliance Test Suite", () => {
       expect(lang).toBe("ar");
     });
 
+    it("should correctly detect German language with 'hallo'", () => {
+      const lang = detectMessageLanguage("Guten Tag, wo ist das Stadion?");
+      expect(lang).toBe("de");
+    });
+
+    it("should correctly detect Portuguese language with 'olá'", () => {
+      const lang = detectMessageLanguage("Olá, bom dia, onde fica o estádio?");
+      expect(lang).toBe("pt");
+    });
+
+    it("should correctly detect Italian language with 'ciao'", () => {
+      const lang = detectMessageLanguage("Ciao, buongiorno, dove si trova lo stadio?");
+      expect(lang).toBe("it");
+    });
+
+    it("should correctly detect Korean language with Hangul characters", () => {
+      const lang = detectMessageLanguage("안녕하세요, 경기장 어디입니까?");
+      expect(lang).toBe("ko");
+    });
+
+    it("should correctly detect Chinese language with CJK characters", () => {
+      const lang = detectMessageLanguage("你好，体育场在哪里？");
+      expect(lang).toBe("zh");
+    });
+
+    it("should correctly detect Dutch language with unique Dutch keywords", () => {
+      const lang = detectMessageLanguage("Waar is mijn rugzak?");
+      expect(lang).toBe("nl");
+    });
+
+    it("should correctly detect Hindi language with Devanagari characters", () => {
+      const lang = detectMessageLanguage("नमस्ते, स्टेडियम कहाँ है?");
+      expect(lang).toBe("hi");
+    });
+
     it("should default to English for unrecognized general inputs", () => {
       const lang = detectMessageLanguage("Greetings, where is my reserved seat?");
       expect(lang).toBe("en");

@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect, useRef, lazy, Suspense } from "react";
 import { motion, AnimatePresence } from "motion/react";
 import {
@@ -72,6 +71,9 @@ import OrganizerPixelArt from "./components/OrganizerPixelArt";
 import { MonteryLanguageDropdown } from "./components/MonteryLanguageDropdown";
 import { getTranslation, LOCALIZED_DICTIONARIES } from "./utils/localization";
 import { fetchGeminiApi, apiGlobalErrorStore } from "./utils/api";
+import { COUNTRY_CODES } from "./utils/countryCodes";
+import { Fan, CartItem, ActiveOrder } from "./types";
+import { FanEditModal } from "./components/FanEditModal";
 
 // Base64 mini image presets to avoid large files, while supporting visual capabilities testing
 const PRESET_IMAGES = [
@@ -99,62 +101,6 @@ const PRESET_IMAGES = [
     data: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAACXBIWXMAAAsTAAALEwEAmpwYAAAAMklEQVR42u3PMRUAAADIoPh37S0GD0hAQUEhISEhISEhISEhISEhISEhISEhISEhISEhkIsBbeIBApMyKlcAAAAASUVORK5CYII=",
     mimeType: "image/png"
   }
-];
-
-export const COUNTRY_CODES = [
-  { code: "+1", name: "United States / Canada", flag: "🇺🇸" },
-  { code: "+52", name: "Mexico", flag: "🇲🇽" },
-  { code: "+44", name: "United Kingdom", flag: "🇬🇧" },
-  { code: "+91", name: "India", flag: "🇮🇳" },
-  { code: "+81", name: "Japan", flag: "🇯🇵" },
-  { code: "+61", name: "Australia", flag: "🇦🇺" },
-  { code: "+55", name: "Brazil", flag: "🇧🇷" },
-  { code: "+49", name: "Germany", flag: "🇩🇪" },
-  { code: "+33", name: "France", flag: "🇫🇷" },
-  { code: "+54", name: "Argentina", flag: "🇦🇷" },
-  { code: "+86", name: "China", flag: "🇨🇳" },
-  { code: "+82", name: "South Korea", flag: "🇰🇷" },
-  { code: "+34", name: "Spain", flag: "🇪🇸" },
-  { code: "+39", name: "Italy", flag: "🇮🇹" },
-  { code: "+27", name: "South Africa", flag: "🇿🇦" },
-  { code: "+234", name: "Nigeria", flag: "🇳🇬" },
-  { code: "+254", name: "Kenya", flag: "🇰🇪" },
-  { code: "+20", name: "Egypt", flag: "🇪🇬" },
-  { code: "+971", name: "UAE", flag: "🇦🇪" },
-  { code: "+966", name: "Saudi Arabia", flag: "🇸🇦" },
-  { code: "+974", name: "Qatar", flag: "🇶🇦" },
-  { code: "+57", name: "Colombia", flag: "🇨🇴" },
-  { code: "+51", name: "Peru", flag: "🇵🇪" },
-  { code: "+31", name: "Netherlands", flag: "🇳🇱" },
-  { code: "+41", name: "Switzerland", flag: "🇨🇭" },
-  { code: "+46", name: "Sweden", flag: "🇸🇪" },
-  { code: "+47", name: "Norway", flag: "🇳🇴" },
-  { code: "+45", name: "Denmark", flag: "🇩🇰" },
-  { code: "+64", name: "New Zealand", flag: "🇳🇿" },
-  { code: "+65", name: "Singapore", flag: "🇸🇬" },
-  { code: "+60", name: "Malaysia", flag: "🇲🇾" },
-  { code: "+62", name: "Indonesia", flag: "🇮🇩" },
-  { code: "+63", name: "Philippines", flag: "🇵🇭" },
-  { code: "+66", name: "Thailand", flag: "🇹🇭" },
-  { code: "+84", name: "Vietnam", flag: "🇻🇳" },
-  { code: "+90", name: "Turkey", flag: "🇹🇷" },
-  { code: "+7", name: "Russia", flag: "🇷🇺" },
-  { code: "+48", name: "Poland", flag: "🇵🇱" },
-  { code: "+351", name: "Portugal", flag: "🇵🇹" },
-  { code: "+30", name: "Greece", flag: "🇬🇷" },
-  { code: "+380", name: "Ukraine", flag: "🇺🇦" },
-  { code: "+56", name: "Chile", flag: "🇨🇱" },
-  { code: "+593", name: "Ecuador", flag: "🇪🇨" },
-  { code: "+212", name: "Morocco", flag: "🇲🇦" },
-  { code: "+233", name: "Ghana", flag: "🇬🇭" },
-  { code: "+213", name: "Algeria", flag: "🇩🇿" },
-  { code: "+221", name: "Senegal", flag: "🇸🇳" },
-  { code: "+237", name: "Cameroon", flag: "🇨🇲" },
-  { code: "+225", name: "Ivory Coast", flag: "🇨🇮" },
-  { code: "+598", name: "Uruguay", flag: "🇺🇾" },
-  { code: "+506", name: "Costa Rica", flag: "🇨🇷" },
-  { code: "+507", name: "Panama", flag: "🇵🇦" },
-  { code: "+1-876", name: "Jamaica", flag: "🇯🇲" }
 ];
 
 const PRELOADED_INCIDENTS: IncidentLog[] = [
@@ -443,15 +389,9 @@ export default function App() {
   const [showHeader, setShowHeader] = useState(true);
   // Spectator Registry states
   const [fanSearchQuery, setFanSearchQuery] = useState("");
-  const [editingFan, setEditingFan] = useState<any>(null);
-  const [deletingFan, setDeletingFan] = useState<any>(null);
+  const [editingFan, setEditingFan] = useState<Fan | null>(null);
+  const [deletingFan, setDeletingFan] = useState<Fan | null>(null);
   const [showClearConfirm, setShowClearConfirm] = useState(false);
-  const [editFanName, setEditFanName] = useState("");
-  const [editFanPhone, setEditFanPhone] = useState("");
-  const [editFanStadium, setEditFanStadium] = useState("");
-  const [editFanSeatSection, setEditFanSeatSection] = useState("");
-  const [editFanSeatRow, setEditFanSeatRow] = useState("");
-  const [editFanSeatNumber, setEditFanSeatNumber] = useState("");
   const [isUpdatingFan, setIsUpdatingFan] = useState(false);
 
   // Wrapper to toggle viewport size and smoothly animate camera zoom closer
@@ -499,6 +439,7 @@ export default function App() {
   const [activeAnchor, setActiveAnchor] = useState<string | null>(null);
 
   // Core Intelligence Engine Output state
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [engineResult, setEngineResult] = useState<any>(null);
   const [isSoundMuted, setIsSoundMuted] = useState(false);
   const [dispatchedAction, setDispatchedAction] = useState<{ action: string; timestamp: string } | null>(null);
@@ -525,7 +466,7 @@ export default function App() {
     if (engineResult) {
       const dict = LOCALIZED_DICTIONARIES[selectedLanguage] || LOCALIZED_DICTIONARIES['en'];
       if (engineResult.ui_localized_dictionary && engineResult.ui_localized_dictionary.dashboard_title !== dict.dashboard_title) {
-        setEngineResult((prev: any) => {
+        setEngineResult((prev) => {
           if (!prev) return prev;
           return {
             ...prev,
@@ -541,8 +482,8 @@ export default function App() {
 
   // Secure Identity Login and Persistence States
   const [selectedLoginRole, setSelectedLoginRole] = useState<"FAN" | "VOLUNTEER" | "VENUE_STAFF" | "ORGANIZER" | null>(null);
-  const [loggedInUser, setLoggedInUser] = useState<{ name: string; role: string; details?: any } | null>(null);
-  const [fanAccountsList, setFanAccountsList] = useState<any[]>([]);
+  const [loggedInUser, setLoggedInUser] = useState<{ name: string; role: string; details?: Fan } | null>(null);
+  const [fanAccountsList, setFanAccountsList] = useState<Fan[]>([]);
 
   // Fan Login Form states
   const [fanInputName, setFanInputName] = useState("");
@@ -607,48 +548,25 @@ export default function App() {
   // Spectator Registry operations
   const [registryError, setRegistryError] = useState("");
 
-  const handleStartEditFan = (fan: any) => {
+  const handleStartEditFan = (fan: Fan) => {
     setEditingFan(fan);
     setRegistryError("");
-    setEditFanName(fan.name || "");
-    setEditFanPhone(fan.phoneNumber || "");
-    setEditFanStadium(fan.selectedStadium || "NEW_YORK_NEW_JERSEY");
-    if (fan.seat) {
-      setEditFanSeatSection(fan.seat.section || "118");
-      setEditFanSeatRow(fan.seat.row || "K");
-      setEditFanSeatNumber(fan.seat.seat || "");
-    } else {
-      setEditFanSeatSection("");
-      setEditFanSeatRow("");
-      setEditFanSeatNumber("");
-    }
   };
 
-  const handleSaveEditFan = async () => {
+  const handleSaveEditFan = async (updatedDetails: {
+    name: string;
+    phoneNumber: string;
+    selectedStadium: string;
+    seat: { section: string; row: string; seat: string } | null;
+  }) => {
     if (!editingFan) return;
-    if (!editFanName.trim()) {
-      setRegistryError("Full Name is required");
-      return;
-    }
     setIsUpdatingFan(true);
     setRegistryError("");
     try {
-      const hasSeatDetails = editFanSeatSection.trim() || editFanSeatRow.trim() || editFanSeatNumber.trim();
-      const seatPayload = hasSeatDetails ? {
-        section: editFanSeatSection.trim() || "118",
-        row: editFanSeatRow.trim() || "K",
-        seat: editFanSeatNumber.trim() || "1"
-      } : null;
-
       const res = await fetch(`/api/fans/${editingFan.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: editFanName,
-          phoneNumber: editFanPhone,
-          selectedStadium: editFanStadium,
-          seat: seatPayload
-        })
+        body: JSON.stringify(updatedDetails)
       });
       if (!res.ok) {
         const errData = await res.json();
@@ -656,8 +574,8 @@ export default function App() {
       }
       setEditingFan(null);
       fetchFanAccounts();
-    } catch (err: any) {
-      setRegistryError(err.message || "Failed to save edits");
+    } catch (err) {
+      setRegistryError((err as Error).message || "Failed to save edits");
     } finally {
       setIsUpdatingFan(false);
     }
@@ -677,8 +595,8 @@ export default function App() {
       }
       setDeletingFan(null);
       fetchFanAccounts();
-    } catch (err: any) {
-      setRegistryError(err.message || "Failed to delete account");
+    } catch (err) {
+      setRegistryError((err as Error).message || "Failed to delete account");
     } finally {
       setIsUpdatingFan(false);
     }
@@ -697,8 +615,8 @@ export default function App() {
       }
       setShowClearConfirm(false);
       fetchFanAccounts();
-    } catch (err: any) {
-      setRegistryError(err.message || "Failed to clear database");
+    } catch (err) {
+      setRegistryError((err as Error).message || "Failed to clear database");
     } finally {
       setIsUpdatingFan(false);
     }
@@ -874,11 +792,12 @@ export default function App() {
         ...prev,
         [roleKey]: [...updatedMessages, { role: "model" as const, text: data.text || "No response received." }]
       }));
-    } catch (err: any) {
+    } catch (err) {
       console.error("Chat error:", err);
+      const errMsg = err instanceof Error ? err.message : String(err);
       setChatHistories(prev => ({
         ...prev,
-        [roleKey]: [...updatedMessages, { role: "model" as const, text: `⚠️ Connection error: ${err.message || "Failed to connect to the Monterrey Security Firewall."}` }]
+        [roleKey]: [...updatedMessages, { role: "model" as const, text: `⚠️ Connection error: ${errMsg || "Failed to connect to the Monterrey Security Firewall."}` }]
       }));
     } finally {
       setIsChatLoading(false);
@@ -886,8 +805,8 @@ export default function App() {
   };
 
   // Food and concessions state
-  const [foodCart, setFoodCart] = useState<{ id: string; name: string; price: number; qty: number; options?: string }[]>([]);
-  const [activeOrder, setActiveOrder] = useState<{ orderNo: string; items: any[]; total: number; secondsLeft: number; status: "PREPARING" | "READY" } | null>(null);
+  const [foodCart, setFoodCart] = useState<CartItem[]>([]);
+  const [activeOrder, setActiveOrder] = useState<ActiveOrder | null>(null);
 
   // Staff help state
   const [helpCategory, setHelpCategory] = useState("FACILITY_ISSUE");
@@ -1121,6 +1040,7 @@ export default function App() {
   const playDispatchSuccessSound = () => {
     if (isSoundMuted) return;
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioContextClass) return;
       const ctx = new AudioContextClass();
@@ -1155,6 +1075,7 @@ export default function App() {
   // Synthesize a blaring tactical alarm signal that rings for 5 seconds
   const playLowFrequencyAlertSound = () => {
     try {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const AudioContextClass = window.AudioContext || (window as any).webkitAudioContext;
       if (!AudioContextClass) return;
       
@@ -1519,6 +1440,7 @@ export default function App() {
         };
       }
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const rawData = await fetchGeminiApi<any>("/api/query", {
         query: activeQuery,
         Requests_In_Last_60s: requestsInLast60s,
@@ -1733,7 +1655,7 @@ export default function App() {
       setLogs(prev => [newLog, ...prev]);
       setCurrentView("PAYLOAD");
 
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       setAnalysisStep("SYS_ERR: ENGINE CONNECTION LOST. REBOOTING MATRIX...");
     } finally {
@@ -1889,7 +1811,7 @@ export default function App() {
                   value={currentSessionRole}
                   aria-label="Secure Access Role Selector"
                   onChange={(e) => {
-                    const selectedRole = e.target.value as any;
+                    const selectedRole = e.target.value as "UNASSIGNED" | "FAN" | "ORGANIZER" | "VENUE_STAFF" | "VOLUNTEER";
                     setCurrentSessionRole(selectedRole);
                     if (selectedRole !== "UNASSIGNED") {
                       let initialQuery = "";
@@ -2461,8 +2383,8 @@ export default function App() {
 
                             // Log in
                             handleSelectRole("FAN");
-                          } catch (err: any) {
-                            setLoginError(err.message || "Failed to connect to server database");
+                          } catch (err) {
+                            setLoginError((err as Error).message || "Failed to connect to server database");
                           } finally {
                             setIsLoggingIn(false);
                           }
@@ -3667,7 +3589,7 @@ export default function App() {
                               </p>
                               <div className="text-left text-[8.5px] text-slate-400 border-t border-slate-900 pt-2 mt-2">
                                 <span className="font-bold text-slate-400 block uppercase mb-1">Items cooking:</span>
-                                {activeOrder.items.map((i: any, idx: number) => (
+                                {activeOrder.items.map((i, idx) => (
                                   <div key={idx} className="flex justify-between">
                                     <span>{i.qty}x {i.name}</span>
                                     <span>${(i.price * i.qty).toFixed(2)}</span>
@@ -4190,7 +4112,7 @@ export default function App() {
                                               // Refresh visual grid data with latest database state
                                               setFanAccountsList(latestFans);
 
-                                              const isDbOccupiedRealtime = latestFans.some((fan: any) => {
+                                              const isDbOccupiedRealtime = latestFans.some((fan: Fan) => {
                                                 const sameStadium = fan.selectedStadium === fanSelectedStadiumId;
                                                 const sameSeat = fan.seat && 
                                                                  fan.seat.section === "118" && 
@@ -6042,7 +5964,7 @@ export default function App() {
                                     </tr>
                                   </thead>
                                   <tbody className="divide-y divide-slate-900/30">
-                                    {engineResult.gate_analytics_table.map((gate: any, i: number) => (
+                                    {engineResult.gate_analytics_table.map((gate, i: number) => (
                                       <tr key={i} className="hover:bg-slate-950/40 text-slate-300">
                                         <td className="py-1.5 font-bold text-white">{gate.gate_id}</td>
                                         <td className="py-1.5 text-center">{gate.queue_count}</td>
@@ -6104,7 +6026,7 @@ export default function App() {
                                   <div className="bg-[#080a0c] border border-emerald-950 p-2.5 rounded space-y-2">
                                     <div className="text-[8.5px] font-bold text-slate-400 uppercase tracking-wider font-mono">AVAILABLE MENU ITEMS:</div>
                                     <div className="space-y-1.5">
-                                      {engineResult.fan_experience_payload.concession_readout.available_menu_items?.map((item: any, i: number) => (
+                                      {engineResult.fan_experience_payload.concession_readout.available_menu_items?.map((item, i: number) => (
                                         <div key={i} className="flex justify-between items-start text-[10px] leading-tight text-slate-300 border-b border-slate-900/50 pb-1.5 last:border-0 last:pb-0">
                                           <div className="space-y-0.5">
                                             <div className="font-semibold text-slate-200 font-sans">{item.item_name}</div>
@@ -6639,125 +6561,14 @@ export default function App() {
 
         {/* MODAL: Edit Fan */}
         {editingFan && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/85 backdrop-blur-sm p-4 font-mono">
-            <div className="bg-[#0b0e12] border border-amber-500/50 rounded-xl max-w-md w-full p-6 shadow-[0_0_50px_rgba(245,158,11,0.15)] space-y-4">
-              <div className="border-b border-slate-900 pb-3 flex justify-between items-center">
-                <span className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
-                  <Edit2 className="w-4 h-4" /> Edit Spectator Profile
-                </span>
-                <button aria-label="Action Button" 
-                  onClick={() => setEditingFan(null)}
-                  className="text-slate-400 hover:text-white text-xs font-bold uppercase cursor-pointer"
-                >
-                  [Cancel]
-                </button>
-              </div>
-
-              {registryError && (
-                <div className="p-2.5 bg-red-950/20 border border-red-900/40 text-red-400 text-[10px] rounded leading-relaxed">
-                  ⚠️ {registryError}
-                </div>
-              )}
-
-              <div className="space-y-3.5 text-xs">
-                {/* Full Name */}
-                <div className="space-y-1">
-                  <label htmlFor="edit-fan-fullname-input" className="block text-[9px] text-slate-400 uppercase tracking-wider font-bold">Full Name:</label>
-                  <input
-                    id="edit-fan-fullname-input"
-                    type="text"
-                    value={editFanName}
-                    onChange={(e) => setEditFanName(e.target.value)}
-                    className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                {/* Phone number */}
-                <div className="space-y-1">
-                  <label htmlFor="edit-fan-phone-input" className="block text-[9px] text-slate-400 uppercase tracking-wider font-bold">Verified Phone Number:</label>
-                  <input
-                    id="edit-fan-phone-input"
-                    type="text"
-                    value={editFanPhone}
-                    onChange={(e) => setEditFanPhone(e.target.value)}
-                    className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500"
-                  />
-                </div>
-
-                {/* Selected Stadium */}
-                <div className="space-y-1">
-                  <label htmlFor="edit-fan-stadium-select" className="block text-[9px] text-slate-400 uppercase tracking-wider font-bold">Facility Hub Assignment:</label>
-                  <select
-                    id="edit-fan-stadium-select"
-                    value={editFanStadium}
-                    onChange={(e) => setEditFanStadium(e.target.value)}
-                    aria-label="Facility Hub Assignment"
-                    className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-3 py-2 text-slate-100 focus:outline-none focus:border-amber-500 cursor-pointer"
-                  >
-                    <option value="NEW_YORK_NEW_JERSEY">NEW YORK NEW JERSEY</option>
-                    <option value="LOS_ANGELES">LOS ANGELES</option>
-                    <option value="MEXICO_CITY">MEXICO CITY</option>
-                    <option value="MIAMI">MIAMI</option>
-                    <option value="TORONTO">TORONTO</option>
-                    <option value="DALLAS">DALLAS</option>
-                  </select>
-                </div>
-
-                {/* Seat Assignment details */}
-                <div className="space-y-1.5 pt-1 border-t border-slate-900">
-                  <span className="block text-[9.5px] text-sky-400 uppercase tracking-widest font-bold mb-2">Stadium Seat Allocation:</span>
-                  <div className="grid grid-cols-3 gap-2">
-                    <div>
-                      <label className="block text-[8px] text-slate-400 uppercase tracking-wider font-bold mb-1">Section:</label>
-                      <input
-                        type="text"
-                        value={editFanSeatSection}
-                        onChange={(e) => setEditFanSeatSection(e.target.value)}
-                        placeholder="e.g. 118"
-                        className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-2.5 py-1.5 text-center text-slate-100 focus:outline-none focus:border-amber-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[8px] text-slate-400 uppercase tracking-wider font-bold mb-1">Row:</label>
-                      <input
-                        type="text"
-                        value={editFanSeatRow}
-                        onChange={(e) => setEditFanSeatRow(e.target.value)}
-                        placeholder="e.g. K"
-                        className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-2.5 py-1.5 text-center text-slate-100 focus:outline-none focus:border-amber-500"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-[8px] text-slate-400 uppercase tracking-wider font-bold mb-1">Seat Number:</label>
-                      <input
-                        type="text"
-                        value={editFanSeatNumber}
-                        onChange={(e) => setEditFanSeatNumber(e.target.value)}
-                        placeholder="e.g. 14"
-                        className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg px-2.5 py-1.5 text-center text-slate-100 focus:outline-none focus:border-amber-500"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-3 border-t border-slate-900 flex justify-end gap-2 text-xs">
-                <button aria-label="Action Button"
-                  onClick={() => setEditingFan(null)}
-                  className="px-4 py-2 hover:bg-slate-950 border border-slate-900 hover:border-slate-800 text-slate-400 hover:text-slate-200 rounded font-bold cursor-pointer"
-                >
-                  Cancel
-                </button>
-                <button aria-label="Action Button"
-                  onClick={handleSaveEditFan}
-                  disabled={isUpdatingFan}
-                  className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded font-bold cursor-pointer transition-colors"
-                >
-                  {isUpdatingFan ? "Saving..." : "Save Modifications"}
-                </button>
-              </div>
-            </div>
-          </div>
+          <FanEditModal
+            editingFan={editingFan}
+            onClose={() => setEditingFan(null)}
+            onSave={handleSaveEditFan}
+            isUpdating={isUpdatingFan}
+            registryError={registryError}
+            setRegistryError={setRegistryError}
+          />
         )}
 
         {/* MODAL: Delete Fan Confirmation */}

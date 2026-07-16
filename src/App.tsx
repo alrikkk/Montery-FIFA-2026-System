@@ -56,13 +56,15 @@ import {
 } from "lucide-react";
 import { LOCATIONS, mapLocationAnchor } from "./utils/stadiumLocations";
 const StadiumTwin = lazy(() => import("./components/StadiumTwin"));
-import GroundingManual from "./components/GroundingManual";
+const GroundingManual = lazy(() => import("./components/GroundingManual"));
 import SidebarNavigation from "./components/SidebarNavigation";
-import StadiumAIComplianceChat from "./components/StadiumAIComplianceChat";
-import TerminalLogs, { LogEntry } from "./components/TerminalLogs";
+const StadiumAIComplianceChat = lazy(() => import("./components/StadiumAIComplianceChat"));
+const TerminalLogs = lazy(() => import("./components/TerminalLogs"));
+import { LogEntry } from "./components/TerminalLogs";
 import PixelDuckLogo from "./components/PixelDuckLogo";
-import DensityTrendChart from "./components/DensityTrendChart";
-import IncidentHistorySidebar, { IncidentLog } from "./components/IncidentHistorySidebar";
+const DensityTrendChart = lazy(() => import("./components/DensityTrendChart"));
+const IncidentHistorySidebar = lazy(() => import("./components/IncidentHistorySidebar"));
+import { IncidentLog } from "./components/IncidentHistorySidebar";
 import VolunteerPixelArt from "./components/VolunteerPixelArt";
 import FanPixelArt from "./components/FanPixelArt";
 import StaffPixelArt from "./components/StaffPixelArt";
@@ -1877,12 +1879,12 @@ export default function App() {
           </div>
 
           {/* Real-time telemetries */}
-          <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-slate-400">
+          <div className="flex flex-wrap items-center gap-4 text-[10px] font-mono text-slate-200">
             {/* SECURE ACCESS ROLE MULTIPLEX */}
             {currentSessionRole !== "FAN" && (
               <div className="bg-slate-950/80 border border-indigo-950/80 hover:border-indigo-500/50 transition-colors rounded px-2 py-0.5 flex items-center gap-2 shadow-[0_0_15px_rgba(99,102,241,0.05)]">
                 <UserCheck className="w-3.5 h-3.5 text-indigo-400" />
-                <span className="text-slate-400">SECURE ACCESS ROLE:</span>
+                <span className="text-slate-200">SECURE ACCESS ROLE:</span>
                 <select
                   value={currentSessionRole}
                   aria-label="Secure Access Role Selector"
@@ -1919,7 +1921,7 @@ export default function App() {
             {currentSessionRole !== "FAN" && currentSessionRole !== "UNASSIGNED" && (
               <div className="bg-slate-950/80 border border-emerald-950/85 hover:border-emerald-500/50 transition-colors rounded px-2 py-0.5 flex items-center gap-2 shadow-[0_0_15px_rgba(16,185,129,0.05)]">
                 <Globe className="w-3.5 h-3.5 text-emerald-400" />
-                <span className="text-slate-400">OPERATIONAL HUB:</span>
+                <span className="text-slate-200">OPERATIONAL HUB:</span>
                 <select
                   value={fanSelectedStadiumId}
                   aria-label="Operational Hub Selector"
@@ -1953,7 +1955,7 @@ export default function App() {
             {loggedInUser && (
               <div className="bg-slate-950/80 border border-emerald-950/80 rounded px-2.5 py-1 flex items-center gap-2 shadow-[0_0_10px_rgba(16,185,129,0.05)]">
                 <UserCheck className="w-3.5 h-3.5 text-emerald-400" />
-                <span>ACTIVE: <span className="text-white font-bold uppercase">{loggedInUser.name}</span> <span className="text-[9px] text-emerald-500 bg-emerald-950/40 px-1.5 py-0.5 rounded font-mono font-bold ml-1">{loggedInUser.role}</span></span>
+                <span className="text-slate-200">ACTIVE: <span className="text-white font-bold uppercase">{loggedInUser.name}</span> <span className="text-[9px] text-emerald-500 bg-emerald-950/40 px-1.5 py-0.5 rounded font-mono font-bold ml-1">{loggedInUser.role}</span></span>
               </div>
             )}
 
@@ -2028,17 +2030,17 @@ export default function App() {
               {currentWeather === "FOG" && <CloudFog className="w-3.5 h-3.5 text-slate-400 animate-pulse" />}
               {currentWeather === "SNOW" && <CloudSnow className="w-3.5 h-3.5 text-sky-300 animate-bounce" style={{ animationDuration: "4s" }} />}
               <span className="flex items-center gap-1">
-                <span>ENV:</span>
+                <span className="text-slate-200">ENV:</span>
                 <span className="text-white font-semibold uppercase">{currentWeather === "SUNSHINE" ? "SUNNY" : currentWeather}</span>
                 {currentTemperature !== undefined && (
                   <span className="text-cyan-400 font-semibold font-mono ml-0.5">({currentTemperature}°C)</span>
                 )}
                 {currentStadiumName && (
-                  <span className="text-slate-400 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden md:inline">
+                  <span className="text-slate-200 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden md:inline">
                     {currentStadiumName} • {currentLocationName}
                   </span>
                 )}
-                <span className="text-slate-400 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden sm:inline">
+                <span className="text-slate-200 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden sm:inline">
                   INTERFERENCE: <span className="text-cyan-400 font-semibold">{atmosphericInterference}</span>
                 </span>
               </span>
@@ -2968,12 +2970,12 @@ export default function App() {
                               {item.label}
                             </div>
                             <div className="flex items-center justify-between mt-0.5">
-                              <span className="text-[8px] text-slate-400 font-semibold tracking-wide">
+                              <span className="text-[8px] text-slate-200 font-semibold tracking-wide">
                                 STATUS:
                               </span>
                               <span
                                 className={`text-[8px] font-extrabold tracking-widest ${
-                                  isActive ? item.color : "text-slate-400"
+                                  isActive ? item.color : "text-slate-200"
                                 } uppercase`}
                               >
                                 {item.status}
@@ -2989,7 +2991,7 @@ export default function App() {
                   })}
                 </nav>
 
-                <div className="bg-[#07090c] border border-[#1b2530] p-2.5 rounded text-[8px] text-slate-400 space-y-1 select-none leading-relaxed">
+                <div className="bg-[#07090c] border border-[#1b2530] p-2.5 rounded text-[8px] text-slate-200 space-y-1 select-none leading-relaxed">
                   <div className="flex justify-between">
                     <span>SECTOR LATENCY:</span>
                     <span className="text-emerald-400 font-bold">12ms</span>
@@ -3151,25 +3153,25 @@ export default function App() {
 
                       <div className="bg-[#07090c] border border-[#1b2531]/40 rounded-lg p-3.5 space-y-3 font-mono text-xs">
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-400 font-semibold uppercase">ACTIVE LOCATION:</span>
+                          <span className="text-slate-200 font-semibold uppercase">ACTIVE LOCATION:</span>
                           <span className="text-white font-extrabold text-right truncate max-w-[150px]">
                             {currentLocationName}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-400 font-semibold uppercase">TEMPERATURE:</span>
+                          <span className="text-slate-200 font-semibold uppercase">TEMPERATURE:</span>
                           <span className="text-cyan-400 font-extrabold">
                             {currentTemperature !== undefined ? `${currentTemperature}°C` : "--"}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-400 font-semibold uppercase">ATMOSPHERIC STATE:</span>
+                          <span className="text-slate-200 font-semibold uppercase">ATMOSPHERIC STATE:</span>
                           <span className="text-white font-bold uppercase">
                             {currentWeather === "SUNSHINE" ? "SUNNY" : currentWeather}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-400 font-semibold uppercase">INTERFERENCE:</span>
+                          <span className="text-slate-200 font-semibold uppercase">INTERFERENCE:</span>
                           <span className="text-amber-400 font-bold">
                             {atmosphericInterference}
                           </span>
@@ -5140,15 +5142,17 @@ export default function App() {
               {/* TAB 7: AI COMPLIANCE CHATBOT */}
               {fanActiveTab === "chat" && (
                 <div className="w-full animate-fadeIn">
-                  <StadiumAIComplianceChat
-                    chatMessages={chatMessages}
-                    chatInput={chatInput}
-                    setChatInput={setChatInput}
-                    isChatLoading={isChatLoading}
-                    sendChatMessage={sendChatMessage}
-                    currentSessionRole={currentSessionRole}
-                    selectedLanguage={selectedLanguage}
-                  />
+                  <Suspense fallback={<div className="p-8 text-center text-cyan-400 font-mono text-xs">LOADING CHAT MODULE...</div>}>
+                    <StadiumAIComplianceChat
+                      chatMessages={chatMessages}
+                      chatInput={chatInput}
+                      setChatInput={setChatInput}
+                      isChatLoading={isChatLoading}
+                      sendChatMessage={sendChatMessage}
+                      currentSessionRole={currentSessionRole}
+                      selectedLanguage={selectedLanguage}
+                    />
+                  </Suspense>
                 </div>
               )}
 
@@ -5439,20 +5443,24 @@ export default function App() {
 
       {currentView === "CHAT" && (
         <section className="flex flex-col gap-4 w-full animate-fadeIn">
-          <StadiumAIComplianceChat
-            chatMessages={chatMessages}
-            chatInput={chatInput}
-            setChatInput={setChatInput}
-            isChatLoading={isChatLoading}
-            sendChatMessage={sendChatMessage}
-            currentSessionRole={currentSessionRole}
-            selectedLanguage={selectedLanguage}
-          />
+          <Suspense fallback={<div className="p-8 text-center text-cyan-400 font-mono text-xs">LOADING CHAT MODULE...</div>}>
+            <StadiumAIComplianceChat
+              chatMessages={chatMessages}
+              chatInput={chatInput}
+              setChatInput={setChatInput}
+              isChatLoading={isChatLoading}
+              sendChatMessage={sendChatMessage}
+              currentSessionRole={currentSessionRole}
+              selectedLanguage={selectedLanguage}
+            />
+          </Suspense>
         </section>
       )}
 
       {currentView === "LOGS" && (
-        <TerminalLogs logs={logs} onClearLogs={() => setLogs([])} selectedLanguage={selectedLanguage} />
+        <Suspense fallback={<div className="p-8 text-center text-cyan-400 font-mono text-xs">LOADING TERMINAL LOGS...</div>}>
+          <TerminalLogs logs={logs} onClearLogs={() => setLogs([])} selectedLanguage={selectedLanguage} />
+        </Suspense>
       )}
 
       {currentView === "CORPUS" && (
@@ -5469,7 +5477,9 @@ export default function App() {
                 SECURED HANDBOOK
               </span>
             </div>
-            <GroundingManual onSelectQuery={handleSelectPresetQuery} />
+            <Suspense fallback={<div className="p-4 text-center text-amber-400 font-mono text-xs">LOADING MANUAL...</div>}>
+              <GroundingManual onSelectQuery={handleSelectPresetQuery} />
+            </Suspense>
           </div>
         </section>
       )}
@@ -5602,7 +5612,9 @@ export default function App() {
             </button>
 
             {/* Collapsible preloaded Manuals / Preset triggers */}
-            <GroundingManual onSelectQuery={handleSelectPresetQuery} />
+            <Suspense fallback={<div className="p-4 text-center text-amber-400 font-mono text-xs">LOADING MANUAL...</div>}>
+              <GroundingManual onSelectQuery={handleSelectPresetQuery} />
+            </Suspense>
           </div>
         </section>
       )}
@@ -6155,7 +6167,9 @@ export default function App() {
                                 </div>
 
                               {/* Density Trend Chart Visualization */}
-                              <DensityTrendChart data={densityHistory} />
+                              <Suspense fallback={<div className="h-[120px] flex items-center justify-center text-slate-500 font-mono text-[9px]">LOADING GRAPH...</div>}>
+                                <DensityTrendChart data={densityHistory} />
+                              </Suspense>
 
                               {engineResult.staff_operations_payload.hazards_or_anomalies_detected?.length > 0 && (
                                 <div className="text-[10px] space-y-0.5">
@@ -6848,16 +6862,18 @@ export default function App() {
       )}
 
       {/* Tactical Incident Registry Sidebar Panel */}
-      <IncidentHistorySidebar
-        isOpen={isSidebarOpen}
-        onClose={() => setIsSidebarOpen(false)}
-        history={incidentHistory}
-        onRestoreIncident={handleRestoreIncident}
-        activeIncidentId={activeIncidentId}
-        onClearIncident={handleClearIncident}
-        onResolveIncident={handleResolveIncident}
-        isLoading={isInitialLoading}
-      />
+      <Suspense fallback={null}>
+        <IncidentHistorySidebar
+          isOpen={isSidebarOpen}
+          onClose={() => setIsSidebarOpen(false)}
+          history={incidentHistory}
+          onRestoreIncident={handleRestoreIncident}
+          activeIncidentId={activeIncidentId}
+          onClearIncident={handleClearIncident}
+          onResolveIncident={handleResolveIncident}
+          isLoading={isInitialLoading}
+        />
+      </Suspense>
     </div>
   );
 }

@@ -729,9 +729,25 @@ export default function App() {
   const [fanActiveTab, setFanActiveTab] = useState<"food" | "navigation" | "help" | "seat" | "matches" | "rules" | "chat">("navigation");
 
   // AI Chatbot States
-  const [chatMessages, setChatMessages] = useState<Array<{ role: "user" | "model"; text: string }>>([
-    { role: "model", text: "👋 Hello! I am the FIFA World Cup 2026™ Venue Compliance Assistant, powered by Gemini. I can assist you with clear bag policies, ticketing scans, ADA bathroom locations, and other stadium regulations. How can I help you today?" }
-  ]);
+  const [chatHistories, setChatHistories] = useState<Record<string, Array<{ role: "user" | "model"; text: string }>>>({
+    UNASSIGNED: [
+      { role: "model", text: "👋 Hello! I am the FIFA World Cup 2026™ Venue Compliance Assistant, powered by Gemini. Please select a security or spectator role to start compliance checks. How can I assist you today?" }
+    ],
+    FAN: [
+      { role: "model", text: "👋 Hello Spectator! I am the FIFA World Cup 2026™ Fan Compliance Assistant. I can assist you with bag rules, tickets, gates, concessions, and accessibility locations. How can I help you today?" }
+    ],
+    ORGANIZER: [
+      { role: "model", text: "👋 Hello Organizer! I am the Command and Compliance Intelligence Assistant. I can assist you with tactical logistics, queue overrides, venue profile configurations, and incident dispatch rules. How can I assist you today?" }
+    ],
+    VENUE_STAFF: [
+      { role: "model", text: "👋 Hello Venue Staff member! I am your Technical Compliance and Venue Operations Assistant. I can help with stadium structural tags, active queue congestions, or gate threshold warnings. How can I assist you today?" }
+    ],
+    VOLUNTEER: [
+      { role: "model", text: "👋 Hello Volunteer! I am your Tactical On-Field Compliance Assistant. I can guide you on rule lookups, fan assistance procedures, and volunteer guidelines. How can I help you today?" }
+    ]
+  });
+
+  const chatMessages = chatHistories[currentSessionRole] || chatHistories.UNASSIGNED;
   const [chatInput, setChatInput] = useState("");
   const [isChatLoading, setIsChatLoading] = useState(false);
 
@@ -830,15 +846,21 @@ export default function App() {
     }
 
     // Append user message immediately
-    const updatedMessages = [...chatMessages, { role: "user" as const, text: textToSend }];
-    setChatMessages(updatedMessages);
+    const roleKey = currentSessionRole || "UNASSIGNED";
+    const currentHistory = chatHistories[roleKey] || [];
+    const updatedMessages = [...currentHistory, { role: "user" as const, text: textToSend }];
+    
+    setChatHistories(prev => ({
+      ...prev,
+      [roleKey]: updatedMessages
+    }));
     setChatInput("");
     setIsChatLoading(true);
 
     try {
       const data = await fetchGeminiApi<{ detectedLanguage?: string; text: string }>("/api/chat", {
         message: textToSend,
-        history: chatMessages,
+        history: currentHistory,
         identity: currentSessionRole,
         target_language: selectedLanguage
       });
@@ -846,10 +868,16 @@ export default function App() {
       if (data.detectedLanguage) {
         setSelectedLanguage(data.detectedLanguage);
       }
-      setChatMessages([...updatedMessages, { role: "model" as const, text: data.text || "No response received." }]);
+      setChatHistories(prev => ({
+        ...prev,
+        [roleKey]: [...updatedMessages, { role: "model" as const, text: data.text || "No response received." }]
+      }));
     } catch (err: any) {
       console.error("Chat error:", err);
-      setChatMessages([...updatedMessages, { role: "model" as const, text: `⚠️ Connection error: ${err.message || "Failed to connect to the Monterrey Security Firewall."}` }]);
+      setChatHistories(prev => ({
+        ...prev,
+        [roleKey]: [...updatedMessages, { role: "model" as const, text: `⚠️ Connection error: ${err.message || "Failed to connect to the Monterrey Security Firewall."}` }]
+      }));
     } finally {
       setIsChatLoading(false);
     }

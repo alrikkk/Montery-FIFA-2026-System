@@ -42,7 +42,7 @@ const getBandName = (val: number) => {
 export default function DensityTrendChart({ data }: DensityTrendChartProps) {
   if (!data || data.length === 0) {
     return (
-      <div className="flex items-center justify-center h-28 border border-slate-900/60 bg-slate-950/40 rounded p-2 text-center text-[10px] text-slate-500 font-mono">
+      <div className="flex items-center justify-center h-28 border border-slate-900/60 bg-slate-950/40 rounded p-2 text-center text-[10px] text-slate-400 font-mono">
         NO DENSITY TELEMETRY RECORDED
       </div>
     );
@@ -55,7 +55,7 @@ export default function DensityTrendChart({ data }: DensityTrendChartProps) {
           <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse" />
           DENSITY LEVEL TREND OVER TIME
         </span>
-        <span className="text-[8px] text-slate-500">REALTIME TELEMETRY</span>
+        <span className="text-[8px] text-slate-400">REALTIME TELEMETRY</span>
       </div>
 
       <div className="h-28 w-full">
@@ -122,7 +122,7 @@ export default function DensityTrendChart({ data }: DensityTrendChartProps) {
         </ResponsiveContainer>
       </div>
 
-      <div className="flex items-center justify-between text-[8px] font-mono text-slate-500 pt-0.5 border-t border-slate-900/40">
+      <div className="flex items-center justify-between text-[8px] font-mono text-slate-400 pt-0.5 border-t border-slate-900/40">
         <span className="flex items-center gap-1">
           <span className="w-1 h-1 bg-[#06b6d4] rounded-full" /> SPARSE
         </span>

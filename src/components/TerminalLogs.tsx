@@ -33,7 +33,7 @@ export default function TerminalLogs({ logs, onClearLogs, selectedLanguage = "en
         <button
           onClick={onClearLogs}
           aria-label="Purge security logs archive"
-          className="text-[10px] text-slate-500 hover:text-red-400 font-mono transition border border-slate-800 hover:border-red-900 px-2 py-0.5 rounded bg-slate-900/40"
+          className="text-[10px] text-slate-400 hover:text-red-400 font-mono transition border border-slate-800 hover:border-red-900 px-2 py-0.5 rounded bg-slate-900/40"
         >
           SYS_PURGE_LOGS
         </button>
@@ -41,8 +41,8 @@ export default function TerminalLogs({ logs, onClearLogs, selectedLanguage = "en
 
       <div className="flex-1 overflow-y-auto space-y-2 pr-1 scrollbar-thin scrollbar-thumb-slate-800">
         {logs.length === 0 ? (
-          <div className="text-[11px] text-slate-500 h-full flex flex-col items-center justify-center space-y-1">
-            <Cpu className="w-5 h-5 text-slate-600 animate-pulse" />
+          <div className="text-[11px] text-slate-400 h-full flex flex-col items-center justify-center space-y-1">
+            <Cpu className="w-5 h-5 text-slate-400 animate-pulse" />
             <span>STANDBY // CORE SECURITY FIRMWARE ONLINE</span>
             <span>NO ACTIVE PENETRATIONS OR TRAFFIC DETECTED</span>
           </div>
@@ -56,7 +56,7 @@ export default function TerminalLogs({ logs, onClearLogs, selectedLanguage = "en
                   : "bg-slate-950/40 border-slate-900/60 text-slate-300"
               }`}
             >
-              <div className="flex items-center justify-between mb-1 text-[9px] text-slate-500">
+              <div className="flex items-center justify-between mb-1 text-[9px] text-slate-400">
                 <span className="flex items-center gap-1 font-semibold text-slate-400">
                   {log.blocked ? (
                     <Shield className="w-3 h-3 text-red-500 animate-pulse" />
@@ -69,7 +69,7 @@ export default function TerminalLogs({ logs, onClearLogs, selectedLanguage = "en
               </div>
 
               <div className="mb-1 text-xs">
-                <span className="text-slate-500 font-bold font-sans">Query:</span> "{log.query}"
+                <span className="text-slate-400 font-bold font-sans">Query:</span> "{log.query}"
               </div>
 
               <div className="grid grid-cols-2 gap-x-4 gap-y-0.5 text-[9px] text-slate-400 border-t border-slate-900/40 pt-1 mt-1">

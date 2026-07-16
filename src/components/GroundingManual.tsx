@@ -65,11 +65,12 @@ export default function GroundingManual({ onSelectQuery }: GroundingManualProps)
               {m.desc}
             </p>
             <div className="pl-6 flex flex-wrap gap-1.5">
-              <span className="text-[9px] text-slate-500 flex items-center font-mono uppercase mr-1">Preloaded Queries:</span>
+              <span className="text-[9px] text-slate-400 flex items-center font-mono uppercase mr-1">Preloaded Queries:</span>
               {m.presets.map((preset, pIdx) => (
                 <button
                   key={pIdx}
                   onClick={() => onSelectQuery(preset.query)}
+                  aria-label={`Ask preset query: ${preset.label}`}
                   className="text-[10px] text-emerald-400 bg-emerald-950/30 border border-emerald-900/40 px-2 py-0.5 rounded transition hover:bg-emerald-900/40 hover:text-white"
                 >
                   {preset.label}

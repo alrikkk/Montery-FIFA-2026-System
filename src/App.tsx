@@ -1814,7 +1814,7 @@ export default function App() {
               <ShieldAlert className="w-4 h-4 text-red-500 shrink-0 animate-pulse" />
               <span>{apiGlobalError}</span>
             </div>
-            <button
+            <button aria-label="Action Button"
               onClick={() => apiGlobalErrorStore.setError(null)}
               className="text-red-400 hover:text-red-100 font-bold px-2 py-0.5 rounded border border-red-500/20 hover:border-red-500/60 bg-red-900/30 transition-all cursor-pointer"
             >
@@ -1878,7 +1878,7 @@ export default function App() {
                   }}
                   className="bg-transparent text-white font-bold text-[10px] uppercase tracking-wide focus:outline-none border-none cursor-pointer py-1"
                 >
-                  <option value="UNASSIGNED" className="bg-slate-950 text-slate-500">UNASSIGNED</option>
+                  <option value="UNASSIGNED" className="bg-slate-950 text-slate-400">UNASSIGNED</option>
                   <option value="FAN" className="bg-slate-950 text-sky-400">FAN (Spectator Mode)</option>
                   <option value="VOLUNTEER" className="bg-slate-950 text-emerald-400">VOLUNTEER (Field Intelligence)</option>
                   <option value="VENUE_STAFF" className="bg-slate-950 text-amber-500">VENUE STAFF (Terminal Operations)</option>
@@ -1935,7 +1935,7 @@ export default function App() {
                 ? "border-sky-500/50 shadow-[0_0_10px_rgba(14,165,233,0.15)] text-sky-300" 
                 : "border-slate-900 text-slate-400"
             }`}>
-              <button
+              <button aria-label="Action Button"
                 onClick={() => {
                   const nextVal = !stepFreePreference;
                   setStepFreePreference(nextVal);
@@ -1946,8 +1946,8 @@ export default function App() {
                 className="flex items-center gap-1.5 focus:outline-none"
                 title="Toggle step-free wheelchair & stroller routing priority"
               >
-                <Accessibility className={`w-3.5 h-3.5 ${stepFreePreference ? "text-sky-400 animate-pulse" : "text-slate-500"}`} />
-                <span>STEP-FREE (ADA): <span className={`font-bold uppercase ${stepFreePreference ? "text-sky-400" : "text-slate-500"}`}>
+                <Accessibility className={`w-3.5 h-3.5 ${stepFreePreference ? "text-sky-400 animate-pulse" : "text-slate-400"}`} />
+                <span>STEP-FREE (ADA): <span className={`font-bold uppercase ${stepFreePreference ? "text-sky-400" : "text-slate-400"}`}>
                   {stepFreePreference ? "ACTIVE" : "DISABLED"}
                 </span></span>
               </button>
@@ -2006,11 +2006,11 @@ export default function App() {
                   <span className="text-cyan-400 font-semibold font-mono ml-0.5">({currentTemperature}°C)</span>
                 )}
                 {currentStadiumName && (
-                  <span className="text-slate-500 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden md:inline">
+                  <span className="text-slate-400 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden md:inline">
                     {currentStadiumName} • {currentLocationName}
                   </span>
                 )}
-                <span className="text-slate-500 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden sm:inline">
+                <span className="text-slate-400 font-normal ml-1.5 border-l border-slate-800 pl-1.5 hidden sm:inline">
                   INTERFERENCE: <span className="text-cyan-400 font-semibold">{atmosphericInterference}</span>
                 </span>
               </span>
@@ -2042,7 +2042,7 @@ export default function App() {
 
             {currentSessionRole !== "FAN" && (
               <div className="bg-slate-950/80 border border-slate-900 rounded px-2.5 py-1 flex items-center gap-2">
-                <button
+                <button aria-label="Toggle 3D Viewport Size"
                   onClick={toggleViewportExpansion}
                   className="flex items-center gap-1.5 text-slate-400 hover:text-white transition focus:outline-none"
                   title={isFullScreenViewport ? "Switch to 2-Column tactical layout" : "Switch to Full-Screen Viewport"}
@@ -2064,7 +2064,7 @@ export default function App() {
 
             {currentSessionRole !== "FAN" && (
               <div className="bg-slate-950/80 border border-slate-900 rounded px-2.5 py-1 flex items-center gap-2">
-                <button
+                <button aria-label="Action Button"
                   onClick={() => setIsSoundMuted(prev => !prev)}
                   className="flex items-center gap-1.5 text-slate-400 hover:text-white transition focus:outline-none"
                   title={isSoundMuted ? "Unmute tactical audio alert cues" : "Mute tactical audio alert cues"}
@@ -2079,7 +2079,7 @@ export default function App() {
                   </span></span>
                 </button>
                 <span className="text-slate-800">|</span>
-                <button
+                <button aria-label="Action Button"
                   onClick={playLowFrequencyAlertSound}
                   className="text-cyan-400 hover:text-cyan-300 font-bold transition text-[9px] uppercase tracking-wide hover:underline"
                   title="Test 5-second tactical blaring alarm"
@@ -2089,7 +2089,7 @@ export default function App() {
               </div>
             )}
 
-            <button
+            <button aria-label="Action Button"
               id="quit-to-start-button"
               onClick={() => {
                 setCurrentSessionRole("UNASSIGNED");
@@ -2188,7 +2188,7 @@ export default function App() {
                   {/* Options Deck (2x2 Grid) */}
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {/* FAN ROLE CARD */}
-                    <button
+                    <button aria-label="Action Button"
                       onClick={() => { setSelectedLoginRole("FAN"); setLoginError(""); }}
                       className="relative overflow-hidden p-4 rounded-xl border border-sky-900/30 bg-sky-950/10 hover:bg-sky-950/20 hover:border-sky-500/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] text-left flex flex-col gap-2 group cursor-pointer shadow-md hover:shadow-sky-500/5"
                     >
@@ -2212,7 +2212,7 @@ export default function App() {
                     </button>
 
                     {/* VOLUNTEER ROLE CARD */}
-                    <button
+                    <button aria-label="Action Button"
                       onClick={() => { setSelectedLoginRole("VOLUNTEER"); setLoginError(""); }}
                       className="relative overflow-hidden p-4 rounded-xl border border-emerald-900/30 bg-emerald-950/10 hover:bg-emerald-950/20 hover:border-emerald-500/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] text-left flex flex-col gap-2 group cursor-pointer shadow-md hover:shadow-emerald-500/5"
                     >
@@ -2236,7 +2236,7 @@ export default function App() {
                     </button>
 
                     {/* VENUE_STAFF CARD */}
-                    <button
+                    <button aria-label="Action Button"
                       onClick={() => { setSelectedLoginRole("VENUE_STAFF"); setLoginError(""); }}
                       className="relative overflow-hidden p-4 rounded-xl border border-amber-900/30 bg-amber-950/10 hover:bg-amber-950/20 hover:border-amber-500/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] text-left flex flex-col gap-2 group cursor-pointer shadow-md hover:shadow-amber-500/5"
                     >
@@ -2260,7 +2260,7 @@ export default function App() {
                     </button>
 
                     {/* ORGANIZER CARD */}
-                    <button
+                    <button aria-label="Action Button"
                       onClick={() => { setSelectedLoginRole("ORGANIZER"); setLoginError(""); }}
                       className="relative overflow-hidden p-4 rounded-xl border border-rose-900/30 bg-rose-950/10 hover:bg-rose-950/20 hover:border-rose-500/50 transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] text-left flex flex-col gap-2 group cursor-pointer shadow-md hover:shadow-rose-500/5"
                     >
@@ -2295,13 +2295,13 @@ export default function App() {
                 >
                   {/* Top back button */}
                   <div className="flex items-center justify-between border-b border-[#1b2531]/80 pb-4">
-                    <button
+                    <button aria-label="Action Button"
                       onClick={() => { setSelectedLoginRole(null); setLoginError(""); }}
                       className="text-slate-400 hover:text-white transition flex items-center gap-1.5 text-xs font-mono font-bold focus:outline-none cursor-pointer"
                     >
                       <ArrowLeft className="w-4 h-4 text-emerald-400" /> {getTranslation("back_to_identities", selectedLanguage, engineResult)}
                     </button>
-                    <span className="text-[10px] font-mono text-slate-500 uppercase">
+                    <span className="text-[10px] font-mono text-slate-400 uppercase">
                       {getTranslation("secure_portal_entry", selectedLanguage, engineResult)}
                     </span>
                   </div>
@@ -2391,7 +2391,7 @@ export default function App() {
                         </div>
                       </div>
 
-                      <button
+                      <button aria-label="Action Button"
                         onClick={async () => {
                           if (!fanInputName.trim()) {
                             setLoginError("Please enter your Full Name.");
@@ -2518,7 +2518,7 @@ export default function App() {
                         Name: <code className="text-emerald-300">Kevin</code> • No: <code className="text-emerald-300">092</code> • Stadium: <code className="text-emerald-300">Arrowhead Stadium</code>
                       </div>
 
-                      <button
+                      <button aria-label="Action Button"
                         onClick={() => {
                           const num = parseInt(volunteerInputNum, 10);
                           // 1. Volunteer number must be between 0 and 100
@@ -2607,7 +2607,7 @@ export default function App() {
                         <div>2. Name: <code className="text-amber-300">Allen Irving</code> • ID: <code className="text-amber-300">FIFA26223</code></div>
                       </div>
 
-                      <button
+                      <button aria-label="Action Button"
                         onClick={() => {
                           const normalizedInputName = staffInputName.trim().toLowerCase();
                           const normalizedInputId = staffInputId.trim().toUpperCase();
@@ -2694,7 +2694,7 @@ export default function App() {
                         <div>2. Name: <code className="text-rose-300">TripleT</code> • Pass: <code className="text-rose-300">tungtungtungsahur</code> • OGCODE: <code className="text-rose-300">0067</code></div>
                       </div>
 
-                      <button
+                      <button aria-label="Action Button"
                         onClick={() => {
                           const normalName = organizerInputName.trim();
                           const normalPass = organizerInputPass;
@@ -2738,10 +2738,10 @@ export default function App() {
                 </div>
                 <div className="text-[11px] font-mono text-left">
                   <span className="text-slate-300 block uppercase font-bold">Step-Free Accessibility Routing Priority</span>
-                  <span className="text-slate-500 leading-normal">Ensures all wayfinding directions and guides optimize for lifts, elevators, and ramps (strollers & wheelchairs).</span>
+                  <span className="text-slate-400 leading-normal">Ensures all wayfinding directions and guides optimize for lifts, elevators, and ramps (strollers & wheelchairs).</span>
                 </div>
               </div>
-              <button
+              <button aria-label="Action Button"
                 onClick={() => setStepFreePreference(!stepFreePreference)}
                 className={`px-4 py-2 rounded-lg text-xs font-mono font-bold transition-all shrink-0 ${
                   stepFreePreference 
@@ -2778,13 +2778,13 @@ export default function App() {
             <div className="flex flex-col sm:flex-row items-center gap-4 shrink-0">
               <MonteryLanguageDropdown selectedLanguage={selectedLanguage} onLanguageChange={handleLanguageChange} inline={true} className="border border-slate-900 bg-[#07090c] hover:border-slate-800 px-3 py-2.5 h-[50px] text-xs" />
               <div className="bg-[#07090c] border border-slate-900 rounded-lg p-3 flex items-center gap-3">
-                <Accessibility className={`w-6 h-6 ${stepFreePreference ? "text-sky-400 animate-pulse" : "text-slate-500"}`} />
+                <Accessibility className={`w-6 h-6 ${stepFreePreference ? "text-sky-400 animate-pulse" : "text-slate-400"}`} />
                 <div className="text-left">
-                  <span className="text-[9px] text-slate-500 block font-mono uppercase">Step-Free Routing</span>
+                  <span className="text-[9px] text-slate-400 block font-mono uppercase">Step-Free Routing</span>
                   <span className="text-[11px] font-bold text-slate-300">ADA ASSISTED NAVIGATION</span>
                 </div>
               </div>
-              <button
+              <button aria-label="Action Button"
                 onClick={() => {
                   const nextVal = !stepFreePreference;
                   setStepFreePreference(nextVal);
@@ -2815,7 +2815,7 @@ export default function App() {
             >
               <div className="bg-[#0b0e12]/95 border border-[#1b2531] rounded-xl p-4 shadow-2xl flex flex-col gap-4 font-mono select-none">
                 <div className="border-b border-[#1b2531] pb-3">
-                  <div className="text-[9px] text-slate-500 uppercase tracking-widest font-semibold flex items-center gap-2">
+                  <div className="text-[9px] text-slate-400 uppercase tracking-widest font-semibold flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-cyan-400 animate-pulse" />
                     <span>SPECTATOR DECK</span>
                   </div>
@@ -2893,7 +2893,7 @@ export default function App() {
                     const isActive = fanActiveTab === item.id;
                     const Icon = item.icon;
                     return (
-                      <button
+                      <button aria-label="Action Button"
                         key={item.id}
                         onClick={() => {
                           setFanActiveTab(item.id);
@@ -2910,7 +2910,7 @@ export default function App() {
                         <div className="flex items-center gap-2">
                           <div
                             className={`p-1 rounded bg-slate-950 border border-[#1b2531] ${
-                              isActive ? item.color : "text-slate-500 group-hover:text-slate-300"
+                              isActive ? item.color : "text-slate-400 group-hover:text-slate-300"
                             } transition-colors duration-200`}
                           >
                             {item.id === "help" && helpIconPulseActive ? (
@@ -2989,10 +2989,10 @@ export default function App() {
                           <span className="text-cyan-400 font-bold uppercase tracking-wider">3D VENUE SIMULATOR</span>
                         </div>
                         <div className="flex items-center gap-4">
-                          <div className="text-slate-500 text-[9px] hidden sm:block uppercase">
+                          <div className="text-slate-400 text-[9px] hidden sm:block uppercase">
                             DRAG TO ROTATE • SCROLL TO ZOOM • RIGHT-CLICK TO PAN
                           </div>
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => setIsFanViewportExpanded(!isFanViewportExpanded)}
                             className="flex items-center gap-1.5 px-2.5 py-1 bg-cyan-950/40 hover:bg-cyan-950/80 text-cyan-400 border border-cyan-900/60 hover:border-cyan-500/50 rounded text-[10px] font-mono transition-all duration-150 uppercase tracking-wider font-bold cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.05)]"
                           >
@@ -3059,7 +3059,7 @@ export default function App() {
                           <Globe className="w-4 h-4 text-cyan-400" />
                           SELECT HOST STADIUM
                         </h3>
-                        <p className="text-[11px] text-slate-500 font-sans mt-1">
+                        <p className="text-[11px] text-slate-400 font-sans mt-1">
                           Select a host city stadium to load the 3D digital twin:
                         </p>
                       </div>
@@ -3071,7 +3071,7 @@ export default function App() {
                           { id: "MEXICO_CITY", shortName: "Estadio Azteca", flag: "🇲🇽", city: "Mexico City" },
                           { id: "VANCOUVER", shortName: "BC Place", flag: "🇨🇦", city: "Vancouver" },
                         ].map((btn) => (
-                          <button
+                          <button aria-label="Action Button"
                             key={btn.id}
                             onClick={() => setFanSelectedStadiumId(btn.id)}
                             className={`p-2.5 rounded-lg border text-left transition-all duration-300 flex flex-col justify-between h-[65px] cursor-pointer ${
@@ -3123,32 +3123,32 @@ export default function App() {
 
                       <div className="bg-[#07090c] border border-[#1b2531]/40 rounded-lg p-3.5 space-y-3 font-mono text-xs">
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-500 font-semibold uppercase">ACTIVE LOCATION:</span>
+                          <span className="text-slate-400 font-semibold uppercase">ACTIVE LOCATION:</span>
                           <span className="text-white font-extrabold text-right truncate max-w-[150px]">
                             {currentLocationName}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-500 font-semibold uppercase">TEMPERATURE:</span>
+                          <span className="text-slate-400 font-semibold uppercase">TEMPERATURE:</span>
                           <span className="text-cyan-400 font-extrabold">
                             {currentTemperature !== undefined ? `${currentTemperature}°C` : "--"}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-500 font-semibold uppercase">ATMOSPHERIC STATE:</span>
+                          <span className="text-slate-400 font-semibold uppercase">ATMOSPHERIC STATE:</span>
                           <span className="text-white font-bold uppercase">
                             {currentWeather === "SUNSHINE" ? "SUNNY" : currentWeather}
                           </span>
                         </div>
                         <div className="flex justify-between items-center">
-                          <span className="text-slate-500 font-semibold uppercase">INTERFERENCE:</span>
+                          <span className="text-slate-400 font-semibold uppercase">INTERFERENCE:</span>
                           <span className="text-amber-400 font-bold">
                             {atmosphericInterference}
                           </span>
                         </div>
                       </div>
 
-                      <p className="text-[9px] text-slate-500 leading-normal font-sans">
+                      <p className="text-[9px] text-slate-400 leading-normal font-sans">
                         * Atmospheric simulation and environmental effects are updated dynamically on weather pattern state changes.
                       </p>
                     </div>
@@ -3160,12 +3160,12 @@ export default function App() {
                           <Flame className="w-4 h-4 text-red-500" />
                           REAL-TIME CONGESTION MONITOR
                         </h3>
-                        <button
+                        <button aria-label="Action Button"
                           onClick={() => setIsFloorHeatmapEnabled(!isFloorHeatmapEnabled)}
                           className={`text-[8px] border px-2 py-0.5 rounded font-mono font-bold transition-all cursor-pointer ${
                             isFloorHeatmapEnabled
                               ? "bg-red-950 text-red-400 border-red-800 animate-pulse shadow-[0_0_8px_rgba(239,68,68,0.25)]"
-                              : "bg-slate-950 text-slate-500 border-slate-900"
+                              : "bg-slate-950 text-slate-400 border-slate-900"
                           }`}
                         >
                           {isFloorHeatmapEnabled ? "FLOOR OVERLAY: ON" : "FLOOR OVERLAY: OFF"}
@@ -3295,11 +3295,11 @@ export default function App() {
                                   {/* Dynamic Walking Estimates display */}
                                   <div className="flex justify-between items-center text-[9px] text-slate-400 font-mono">
                                     <div className="flex items-center gap-1">
-                                      <span className="text-[7.5px] text-slate-500 uppercase font-semibold">Distance:</span>
+                                      <span className="text-[7.5px] text-slate-400 uppercase font-semibold">Distance:</span>
                                       <span className="text-cyan-400 font-bold">{meters}m</span>
                                     </div>
                                     <div className="flex items-center gap-1">
-                                      <span className="text-[7.5px] text-slate-500 uppercase font-semibold">Est. Walk:</span>
+                                      <span className="text-[7.5px] text-slate-400 uppercase font-semibold">Est. Walk:</span>
                                       <span className="text-amber-400 font-black animate-pulse">{minutes} min</span>
                                     </div>
                                   </div>
@@ -3339,7 +3339,7 @@ export default function App() {
                                         </div>
                                         {/* Quadrant info */}
                                         <div className="space-y-0.5 text-left">
-                                          <span className="text-slate-500 text-[8px] uppercase font-bold tracking-wider block">Stadium Quadrant:</span>
+                                          <span className="text-slate-400 text-[8px] uppercase font-bold tracking-wider block">Stadium Quadrant:</span>
                                           <span className="text-slate-200 font-bold text-[9.5px] block">
                                             {gateName.includes("Gate A") ? "NORTH-WEST QUADRANT" :
                                              gateName.includes("Gate B") ? "SOUTH-WEST QUADRANT" :
@@ -3349,7 +3349,7 @@ export default function App() {
                                         </div>
                                         {/* Occupancy */}
                                         <div className="space-y-0.5 text-left">
-                                          <span className="text-slate-500 text-[8px] uppercase font-bold tracking-wider block">Current Occupancy Load:</span>
+                                          <span className="text-slate-400 text-[8px] uppercase font-bold tracking-wider block">Current Occupancy Load:</span>
                                           <span className={`${colorClass} font-black text-xs block flex items-center gap-1.5`}>
                                             <span className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
                                             {val}% CAPACITY
@@ -3357,7 +3357,7 @@ export default function App() {
                                         </div>
                                         {/* Dynamic Walking Estimates inside Tooltip */}
                                         <div className="space-y-0.5 text-left pt-1 border-t border-[#1b2531]/40">
-                                          <span className="text-slate-500 text-[8px] uppercase font-bold tracking-wider block">Route from Seat {activeSeatObj.section}-{activeSeatObj.row}-{activeSeatObj.seat}:</span>
+                                          <span className="text-slate-400 text-[8px] uppercase font-bold tracking-wider block">Route from Seat {activeSeatObj.section}-{activeSeatObj.row}-{activeSeatObj.seat}:</span>
                                           <span className="text-slate-200 font-black text-[10px] block flex justify-between items-center">
                                             <span>🚶 {minutes} MINS</span>
                                             <span className="text-cyan-400 font-bold">{meters} meters</span>
@@ -3425,7 +3425,7 @@ export default function App() {
                         <span className={`text-[8px] border px-1.5 py-0.5 rounded font-mono font-bold ${
                           stepFreePreference 
                             ? "bg-sky-950 text-sky-400 border-sky-800 animate-pulse" 
-                            : "bg-slate-950 text-slate-500 border-slate-900"
+                            : "bg-slate-950 text-slate-400 border-slate-900"
                         }`}>
                           {stepFreePreference ? "STEP_FREE: ACTIVE" : "STANDARD PATH"}
                         </span>
@@ -3441,10 +3441,10 @@ export default function App() {
                           </div>
                         </div>
                       ) : !engineResult ? (
-                        <div className="py-4 text-center space-y-2 text-slate-500 font-mono text-[10px]">
-                          <ShieldAlert className="w-5 h-5 mx-auto text-slate-600 animate-bounce" />
+                        <div className="py-4 text-center space-y-2 text-slate-400 font-mono text-[10px]">
+                          <ShieldAlert className="w-5 h-5 mx-auto text-slate-400 animate-bounce" />
                           <span>AWAITING ROUTE SELECTION OR INPUT</span>
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => {
                               const activeQuery = "Where is Section 118 elevator? I need accessible directions.";
                               setQuery(activeQuery);
@@ -3458,7 +3458,7 @@ export default function App() {
                       ) : (
                         <div className="space-y-3">
                           <div className="bg-slate-950/60 p-2 border border-slate-900 rounded text-[10px] font-mono">
-                            <span className="text-slate-500 block text-[8px] uppercase">QUERY:</span>
+                            <span className="text-slate-400 block text-[8px] uppercase">QUERY:</span>
                             <span className="text-slate-300">"{engineResult.query || query}"</span>
                           </div>
 
@@ -3488,7 +3488,7 @@ export default function App() {
 
                       {/* Presets and custom question */}
                       <div className="pt-2 border-t border-[#1b2531]/50 space-y-2">
-                        <div className="text-[8.5px] font-mono text-slate-500 uppercase tracking-wider font-bold">
+                        <div className="text-[8.5px] font-mono text-slate-400 uppercase tracking-wider font-bold">
                           PRESET ROUTE SCENARIOS:
                         </div>
                         <div className="flex flex-col gap-1">
@@ -3496,7 +3496,7 @@ export default function App() {
                             { title: "📍 Elevator 118 Path Request", query: "Where is Section 118 elevator? I need accessible directions." },
                             { title: "🍔 Route to Closest ADA Concessions", query: "Show me how to reach Gate C concessions from wheelchair seating." }
                           ].map((scen, idx) => (
-                            <button
+                            <button aria-label="Action Button"
                               key={idx}
                               onClick={() => {
                                 setQuery(scen.query);
@@ -3520,14 +3520,14 @@ export default function App() {
                           value={query}
                           onChange={(e) => setQuery(e.target.value)}
                           placeholder="Ask where elevators, restrooms, gates are..."
-                          className="w-full bg-[#111827] border border-slate-800 rounded px-2 py-1 text-[10.5px] text-white focus:outline-none focus:border-sky-500 placeholder:text-slate-600 font-sans"
+                          className="w-full bg-[#111827] border border-slate-800 rounded px-2 py-1 text-[10.5px] text-white focus:outline-none focus:border-sky-500 placeholder:text-slate-400 font-sans"
                           onKeyDown={(e) => {
                             if (e.key === 'Enter' && query.trim() && !isAnalyzing) {
                               triggerQueryAnalysis(query, "FAN", stepFreePreference);
                             }
                           }}
                         />
-                        <button
+                        <button aria-label="Action Button"
                           onClick={() => triggerQueryAnalysis(query, "FAN", stepFreePreference)}
                           disabled={!query.trim() || isAnalyzing}
                           className="w-full py-1.5 bg-blue-950/80 hover:bg-blue-900 border border-blue-800 hover:border-blue-700 text-white text-[10px] font-bold rounded cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed font-mono uppercase tracking-wider"
@@ -3583,11 +3583,11 @@ export default function App() {
                               <p className="text-[10.5px] text-slate-400 font-sans leading-relaxed">{food.desc}</p>
                               <div className="flex gap-1 flex-wrap pt-1">
                                 {food.tags.map(t => (
-                                  <span key={t} className="text-[8px] bg-slate-900 text-slate-500 px-1.5 py-0.5 rounded font-mono font-bold">{t}</span>
+                                  <span key={t} className="text-[8px] bg-slate-900 text-slate-400 px-1.5 py-0.5 rounded font-mono font-bold">{t}</span>
                                 ))}
                               </div>
                             </div>
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => {
                                 setFoodCart((prev) => {
                                   const existing = prev.find(item => item.id === food.id);
@@ -3613,12 +3613,12 @@ export default function App() {
                       {/* Cart Panel */}
                       <div className="bg-[#07090c] border border-slate-900 rounded-lg p-4 flex flex-col gap-3 font-mono">
                         <div className="border-b border-slate-900 pb-2 flex justify-between items-center">
-                          <span className="text-[10px] text-slate-500 uppercase tracking-widest font-bold flex items-center gap-2">
+                          <span className="text-[10px] text-slate-400 uppercase tracking-widest font-bold flex items-center gap-2">
                             <ShoppingBag className="w-3.5 h-3.5 text-amber-400" />
                             CONCESSIONS BASKET
                           </span>
                           {foodCart.length > 0 && (
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => setFoodCart([])}
                               className="text-[9px] text-red-500 hover:text-red-400 uppercase tracking-wider"
                             >
@@ -3635,7 +3635,7 @@ export default function App() {
                               <p className="text-[8.5px] text-slate-400 leading-normal">
                                 Your concessions order <span className="text-white font-bold">{activeOrder.orderNo}</span> is currently in progress. The basket is locked during preparation.
                               </p>
-                              <div className="text-left text-[8.5px] text-slate-500 border-t border-slate-900 pt-2 mt-2">
+                              <div className="text-left text-[8.5px] text-slate-400 border-t border-slate-900 pt-2 mt-2">
                                 <span className="font-bold text-slate-400 block uppercase mb-1">Items cooking:</span>
                                 {activeOrder.items.map((i: any, idx: number) => (
                                   <div key={idx} className="flex justify-between">
@@ -3646,10 +3646,10 @@ export default function App() {
                               </div>
                             </div>
                           ) : (
-                            <div className="py-8 text-center text-slate-500 text-[10px] font-mono space-y-1">
+                            <div className="py-8 text-center text-slate-400 text-[10px] font-mono space-y-1">
                               <ShoppingBag className="w-6 h-6 mx-auto text-slate-700 animate-pulse" />
                               <p>BASKET IS CURRENTLY EMPTY</p>
-                              <p className="text-[8.5px] text-slate-600">Select food items from the menu to build your concessions order.</p>
+                              <p className="text-[8.5px] text-slate-400">Select food items from the menu to build your concessions order.</p>
                             </div>
                           )
                         ) : (
@@ -3659,10 +3659,10 @@ export default function App() {
                                 <div key={item.id} className="flex justify-between items-center text-[11px] bg-slate-950/50 border border-slate-950 p-1.5 rounded">
                                   <div className="flex-1 min-w-0 pr-2">
                                     <span className="text-white block truncate text-[10px]">{item.name}</span>
-                                    <span className="text-slate-500 text-[9px]">${item.price.toFixed(2)} each</span>
+                                    <span className="text-slate-400 text-[9px]">${item.price.toFixed(2)} each</span>
                                   </div>
                                   <div className="flex items-center gap-1.5">
-                                    <button
+                                    <button aria-label="Action Button"
                                       onClick={() => {
                                         setFoodCart(prev => prev.map(i => i.id === item.id ? { ...i, qty: Math.max(1, i.qty - 1) } : i));
                                       }}
@@ -3671,7 +3671,7 @@ export default function App() {
                                       -
                                     </button>
                                     <span className="text-slate-300 font-bold text-[10px] w-3 text-center">{item.qty}</span>
-                                    <button
+                                    <button aria-label="Action Button"
                                       onClick={() => {
                                         setFoodCart(prev => prev.map(i => i.id === item.id ? { ...i, qty: i.qty + 1 } : i));
                                       }}
@@ -3679,7 +3679,7 @@ export default function App() {
                                     >
                                       +
                                     </button>
-                                    <button
+                                    <button aria-label="Action Button"
                                       onClick={() => {
                                         setFoodCart(prev => prev.filter(i => i.id !== item.id));
                                       }}
@@ -3708,7 +3708,7 @@ export default function App() {
                               </div>
                             </div>
 
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => {
                                 const totalVal = parseFloat((foodCart.reduce((acc, i) => acc + (i.price * i.qty), 0) * 1.085).toFixed(2));
                                 setActiveOrder({
@@ -3782,7 +3782,7 @@ export default function App() {
                           </div>
 
                           {activeOrder.status === "READY" && (
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => setActiveOrder(null)}
                               className="w-full py-1 bg-slate-950 hover:bg-slate-900 border border-slate-800 text-slate-400 rounded text-[9.5px] uppercase cursor-pointer"
                             >
@@ -3855,7 +3855,7 @@ export default function App() {
                             </div>
                           </div>
 
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => {
                               setHelpTicketSubmitted(false);
                               setHelpDescription("");
@@ -3920,7 +3920,7 @@ export default function App() {
                             </label>
                           </div>
 
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => {
                               if (!helpDescription.trim()) return;
                               
@@ -4011,7 +4011,7 @@ export default function App() {
                     {/* Visual Seat Map Grid */}
                     <div className="lg:col-span-3 space-y-4">
                       <div className="bg-slate-950/60 border border-slate-900 rounded-xl p-5 space-y-4">
-                        <div className="text-center font-bold text-[9px] text-slate-500 uppercase tracking-widest border-b border-slate-900 pb-2">
+                        <div className="text-center font-bold text-[9px] text-slate-400 uppercase tracking-widest border-b border-slate-900 pb-2">
                           🏟️ SECTION 118 SEATING MATRIX GRID
                         </div>
 
@@ -4023,7 +4023,7 @@ export default function App() {
                               <span className="font-extrabold block uppercase tracking-wide text-red-400">SEAT UNAVAILABLE</span>
                               <span className="text-slate-300 font-sans">{seatSelectionError}</span>
                             </div>
-                            <button 
+                            <button aria-label="Action Button" 
                               onClick={() => setSeatSelectionError(null)}
                               className="text-slate-400 hover:text-white font-bold px-1.5 focus:outline-none cursor-pointer text-[10px]"
                             >
@@ -4118,7 +4118,7 @@ export default function App() {
                             const rLetter = rowName.split(" ")[1];
                             return (
                               <div key={rowName} className="flex items-center gap-2">
-                                <span className="w-12 text-right text-[10px] font-mono text-slate-500 font-bold pr-2">{rowName}</span>
+                                <span className="w-12 text-right text-[10px] font-mono text-slate-400 font-bold pr-2">{rowName}</span>
                                 <div className="flex gap-1.5">
                                   {Array.from({ length: 10 }).map((_, i) => {
                                     const seatNo = String(i + 1);
@@ -4145,7 +4145,7 @@ export default function App() {
                                     const isSelected = selectedNewSeat?.row === rLetter && selectedNewSeat?.seat === seatNo;
                                     
                                     return (
-                                      <button
+                                      <button aria-label="Action Button"
                                         key={seatNo}
                                         data-seat-id={`seat-${rLetter}-${seatNo}`}
                                         onClick={async () => {
@@ -4209,7 +4209,7 @@ export default function App() {
                         </div>
 
                         {/* Legends */}
-                        <div className="flex justify-center gap-6 text-[9.5px] text-slate-500 pt-2 border-t border-slate-900/60">
+                        <div className="flex justify-center gap-6 text-[9.5px] text-slate-400 pt-2 border-t border-slate-900/60">
                           <div className="flex items-center gap-1.5">
                             <span className="w-3 h-3 rounded bg-cyan-500" />
                             <span>Your Seat</span>
@@ -4240,7 +4240,7 @@ export default function App() {
                             <p className="text-slate-400 font-sans">You have requested seat migration within Section 118:</p>
                             <div className="bg-slate-950 p-3 rounded border border-slate-900 space-y-1 font-mono text-[10.5px]">
                               <div className="flex justify-between">
-                                <span className="text-slate-500">ORIGINAL SEAT:</span>
+                                <span className="text-slate-400">ORIGINAL SEAT:</span>
                                 <span className="text-white font-bold">
                                   {currentSeat && currentSeat.row 
                                     ? `SEC 118, ROW ${currentSeat.row}, SEAT ${currentSeat.seat}` 
@@ -4254,7 +4254,7 @@ export default function App() {
                             </div>
                           </div>
 
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => {
                               setIsChangingSeat(true);
                               setSeatSelectionError(null);
@@ -4354,7 +4354,7 @@ export default function App() {
                               ||||| | | |||| |||||||| ||||||||| ||| | ||| || ||| |||| | | |||| |||||||| |||
                               ||||| | | |||| |||||||| ||||||||| ||| | ||| || ||| |||| | | |||| |||||||| |||
                             </div>
-                            <span className="text-[7.5px] text-slate-600 font-mono tracking-widest uppercase">WC2026-TICKET-LEDGER-{currentSeat ? `${currentSeat.section}${currentSeat.row}${currentSeat.seat}` : "UNASSIGNED"}-VERIFIED</span>
+                            <span className="text-[7.5px] text-slate-400 font-mono tracking-widest uppercase">WC2026-TICKET-LEDGER-{currentSeat ? `${currentSeat.section}${currentSeat.row}${currentSeat.seat}` : "UNASSIGNED"}-VERIFIED</span>
                           </div>
                         </div>
 
@@ -4391,13 +4391,13 @@ export default function App() {
                     <div className="flex flex-col lg:flex-row gap-4 items-stretch lg:items-center justify-between w-full">
                       {/* Search Bar */}
                       <div className="flex items-center gap-2 bg-[#07090c] border border-slate-800 rounded px-3 py-1.5 flex-1 max-w-md">
-                        <Search className="w-4 h-4 text-slate-500" />
+                        <Search className="w-4 h-4 text-slate-400" />
                         <input
                           type="text"
                           value={matchSearch}
                           onChange={(e) => setMatchSearch(e.target.value)}
                           placeholder="Search teams, city or venue..."
-                          className="bg-transparent border-none outline-none text-xs text-white focus:ring-0 placeholder:text-slate-600 w-full font-sans"
+                          className="bg-transparent border-none outline-none text-xs text-white focus:ring-0 placeholder:text-slate-400 w-full font-sans"
                         />
                       </div>
 
@@ -4406,13 +4406,13 @@ export default function App() {
                         {/* Status Filter Tabs */}
                         <div className="flex gap-0.5 bg-slate-950/80 border border-slate-900 p-0.5 rounded font-mono text-[9px] overflow-x-auto">
                           {(["ALL", "LIVE", "UPCOMING", "COMPLETED"] as const).map((st) => (
-                            <button
+                            <button aria-label="Action Button"
                               key={st}
                               onClick={() => setMatchFilterStatus(st)}
                               className={`px-2 py-1 rounded transition-all cursor-pointer font-bold ${
                                 matchFilterStatus === st 
                                   ? "bg-purple-900/60 text-purple-200 border border-purple-500/40" 
-                                  : "text-slate-500 hover:text-slate-300"
+                                  : "text-slate-400 hover:text-slate-300"
                               }`}
                             >
                               {st}
@@ -4423,13 +4423,13 @@ export default function App() {
                         {/* Date Filter Mode Selection */}
                         <div className="flex gap-0.5 bg-slate-950/80 border border-slate-900 p-0.5 rounded font-mono text-[9px] overflow-x-auto">
                           {(["ALL", "SINGLE", "RANGE"] as const).map((mode) => (
-                            <button
+                            <button aria-label="Action Button"
                               key={mode}
                               onClick={() => setMatchFilterDateMode(mode)}
                               className={`px-2 py-1 rounded transition-all cursor-pointer font-bold uppercase ${
                                 matchFilterDateMode === mode
                                   ? "bg-cyan-900/60 text-cyan-200 border border-cyan-500/40"
-                                  : "text-slate-500 hover:text-slate-300"
+                                  : "text-slate-400 hover:text-slate-300"
                               }`}
                             >
                               {mode === "ALL" ? "All Dates" : mode === "SINGLE" ? "📅 Calendar" : "↔ Range"}
@@ -4444,7 +4444,7 @@ export default function App() {
                       <div className="bg-[#0e1319]/80 border border-[#1b2531]/60 rounded-xl p-4 flex flex-col sm:flex-row items-center gap-4 text-xs">
                         <div className="flex flex-wrap items-center gap-4 w-full sm:w-auto">
                           <div className="flex items-center gap-2">
-                            <span className="text-slate-500 uppercase font-mono text-[9px] tracking-wider">Start Date:</span>
+                            <span className="text-slate-400 uppercase font-mono text-[9px] tracking-wider">Start Date:</span>
                             <input
                               type="date"
                               value={matchStartDate}
@@ -4455,7 +4455,7 @@ export default function App() {
                             />
                           </div>
                           <div className="flex items-center gap-2">
-                            <span className="text-slate-500 uppercase font-mono text-[9px] tracking-wider">End Date:</span>
+                            <span className="text-slate-400 uppercase font-mono text-[9px] tracking-wider">End Date:</span>
                             <input
                               type="date"
                               value={matchEndDate}
@@ -4469,8 +4469,8 @@ export default function App() {
 
                         {/* Presets and Actions */}
                         <div className="flex items-center gap-1.5 flex-wrap w-full sm:w-auto sm:ml-auto border-t sm:border-t-0 border-slate-900 pt-3 sm:pt-0">
-                          <span className="text-slate-500 font-mono text-[8px] uppercase mr-1 tracking-wider">PRESETS:</span>
-                          <button
+                          <span className="text-slate-400 font-mono text-[8px] uppercase mr-1 tracking-wider">PRESETS:</span>
+                          <button aria-label="Action Button"
                             onClick={() => {
                               setMatchStartDate("2026-06-11");
                               setMatchEndDate("2026-07-19");
@@ -4479,7 +4479,7 @@ export default function App() {
                           >
                             Tournament
                           </button>
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => {
                               setMatchStartDate("2026-06-11");
                               setMatchEndDate("2026-06-27");
@@ -4488,7 +4488,7 @@ export default function App() {
                           >
                             Group Stage
                           </button>
-                          <button
+                          <button aria-label="Action Button"
                             onClick={() => {
                               setMatchStartDate("2026-06-28");
                               setMatchEndDate("2026-07-19");
@@ -4498,7 +4498,7 @@ export default function App() {
                             Knockouts
                           </button>
                           {(matchStartDate || matchEndDate) && (
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => {
                                 setMatchStartDate("");
                                 setMatchEndDate("");
@@ -4521,7 +4521,7 @@ export default function App() {
                             <div className="text-center font-bold text-[10px] text-slate-400 uppercase font-mono tracking-wider mb-2 border-b border-slate-900 pb-1.5">
                               June 2026
                             </div>
-                            <div className="grid grid-cols-7 gap-1 text-[9px] font-mono text-center text-slate-500">
+                            <div className="grid grid-cols-7 gap-1 text-[9px] font-mono text-center text-slate-400">
                               {/* Mon, Tue, Wed, Thu, Fri, Sat, Sun headings */}
                               {["M", "T", "W", "T", "F", "S", "S"].map((d, idx) => (
                                 <span key={idx} className="font-extrabold pb-1">{d}</span>
@@ -4533,7 +4533,7 @@ export default function App() {
                                 const hasMatch = TOURNAMENT_MATCHES.some((m) => m.date === dateStr);
                                 const isSelected = matchSelectedDate === dateStr;
                                 return (
-                                  <button
+                                  <button aria-label="Action Button"
                                     key={idx}
                                     onClick={() => {
                                       setMatchSelectedDate(isSelected ? "" : dateStr);
@@ -4543,7 +4543,7 @@ export default function App() {
                                         ? "bg-cyan-500 text-slate-950 font-black shadow-[0_0_8px_rgba(34,211,238,0.5)] scale-105"
                                         : hasMatch
                                         ? "bg-purple-950/40 text-purple-300 border border-purple-900/60 hover:bg-purple-900/40 hover:text-white"
-                                        : "text-slate-600 hover:bg-slate-900/30"
+                                        : "text-slate-400 hover:bg-slate-900/30"
                                     }`}
                                     title={hasMatch ? "Matches scheduled" : ""}
                                   >
@@ -4562,7 +4562,7 @@ export default function App() {
                             <div className="text-center font-bold text-[10px] text-slate-400 uppercase font-mono tracking-wider mb-2 border-b border-slate-900 pb-1.5">
                               July 2026
                             </div>
-                            <div className="grid grid-cols-7 gap-1 text-[9px] font-mono text-center text-slate-500">
+                            <div className="grid grid-cols-7 gap-1 text-[9px] font-mono text-center text-slate-400">
                               {["M", "T", "W", "T", "F", "S", "S"].map((d, idx) => (
                                 <span key={idx} className="font-extrabold pb-1">{d}</span>
                               ))}
@@ -4575,7 +4575,7 @@ export default function App() {
                                 const hasMatch = TOURNAMENT_MATCHES.some((m) => m.date === dateStr);
                                 const isSelected = matchSelectedDate === dateStr;
                                 return (
-                                  <button
+                                  <button aria-label="Action Button"
                                     key={idx}
                                     onClick={() => {
                                       setMatchSelectedDate(isSelected ? "" : dateStr);
@@ -4585,7 +4585,7 @@ export default function App() {
                                         ? "bg-cyan-500 text-slate-950 font-black shadow-[0_0_8px_rgba(34,211,238,0.5)] scale-105"
                                         : hasMatch
                                         ? "bg-purple-950/40 text-purple-300 border border-purple-900/60 hover:bg-purple-900/40 hover:text-white"
-                                        : "text-slate-600 hover:bg-slate-900/30"
+                                        : "text-slate-400 hover:bg-slate-900/30"
                                     }`}
                                     title={hasMatch ? "Matches scheduled" : ""}
                                   >
@@ -4602,7 +4602,7 @@ export default function App() {
 
                         {/* Calendar Details Column */}
                         <div className="w-full md:w-64 border-t md:border-t-0 md:border-l border-[#1b2531]/40 pt-4 md:pt-0 md:pl-4 flex flex-col justify-center text-xs">
-                          <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest font-bold">SELECTED DATE</span>
+                          <span className="text-[9px] font-mono text-slate-400 uppercase tracking-widest font-bold">SELECTED DATE</span>
                           <div className="text-xs font-bold text-slate-200 font-mono mt-1 flex items-center gap-2">
                             <span className={`w-1.5 h-1.5 rounded-full ${matchSelectedDate ? "bg-cyan-400 animate-pulse" : "bg-slate-700"}`} />
                             {matchSelectedDate ? (
@@ -4625,7 +4625,7 @@ export default function App() {
                             )}
                           </p>
                           {matchSelectedDate && (
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => setMatchSelectedDate("")}
                               className="mt-3 px-2 py-1 self-start bg-red-950/30 hover:bg-red-950/60 text-red-400 hover:text-red-300 border border-red-900/40 hover:border-red-500/30 rounded font-mono text-[9px] uppercase tracking-wider transition cursor-pointer"
                             >
@@ -4672,12 +4672,12 @@ export default function App() {
                       >
                         {/* Stage flag / header */}
                         <div className="flex justify-between items-center text-[9px] font-mono">
-                          <span className="text-slate-500 font-bold tracking-wider uppercase">{match.matchNumber} • {match.stage}</span>
+                          <span className="text-slate-400 font-bold tracking-wider uppercase">{match.matchNumber} • {match.stage}</span>
                           <span className={`px-2 py-0.5 rounded font-bold flex items-center gap-1.5 ${
                             match.status === "LIVE" 
                               ? "bg-red-950/80 text-red-400 border border-red-500/40 shadow-[0_0_10px_rgba(239,68,68,0.25)] animate-pulse" 
                               : match.status === "COMPLETED"
-                              ? "bg-slate-900 text-slate-500 border border-slate-800"
+                              ? "bg-slate-900 text-slate-400 border border-slate-800"
                               : "bg-purple-950 text-purple-400 border border-purple-900"
                           }`}>
                             {match.status === "LIVE" && (
@@ -4712,14 +4712,14 @@ export default function App() {
                           </div>
                           
                           {match.status === "UPCOMING" && (
-                            <div className="text-center py-1 text-slate-500 text-[10px] font-mono tracking-widest border border-dashed border-slate-900/60 rounded bg-slate-950/20">
+                            <div className="text-center py-1 text-slate-400 text-[10px] font-mono tracking-widest border border-dashed border-slate-900/60 rounded bg-slate-950/20">
                               VS (UPCOMING)
                             </div>
                           )}
                         </div>
 
                         {/* Venue details */}
-                        <div className="border-t border-[#1b2531]/30 pt-3 space-y-1 font-mono text-[9px] text-slate-500 leading-relaxed">
+                        <div className="border-t border-[#1b2531]/30 pt-3 space-y-1 font-mono text-[9px] text-slate-400 leading-relaxed">
                           <div className="flex justify-between">
                             <span>DATE & TIME:</span>
                             <span className="text-purple-400 font-bold">{match.dateTime}</span>
@@ -4873,16 +4873,16 @@ export default function App() {
                     {/* Search and Filters */}
                     <div className="flex flex-col md:flex-row gap-4 justify-between items-stretch md:items-center border-b border-[#1b2531]/40 pb-5 font-sans text-xs">
                       <div className="flex items-center gap-2 bg-[#07090c] border border-slate-800 rounded px-3 py-1.5 flex-1 max-w-md">
-                        <Search className="w-4 h-4 text-slate-500" />
+                        <Search className="w-4 h-4 text-slate-400" />
                         <input
                           type="text"
                           value={rulesSearch}
                           onChange={(e) => setRulesSearch(e.target.value)}
                           placeholder="Search rules, codes, titles..."
-                          className="bg-transparent border-none outline-none text-xs text-white focus:ring-0 placeholder:text-slate-600 w-full font-sans"
+                          className="bg-transparent border-none outline-none text-xs text-white focus:ring-0 placeholder:text-slate-400 w-full font-sans"
                         />
                         {rulesSearch && (
-                          <button onClick={() => setRulesSearch("")} className="text-slate-500 hover:text-slate-300">
+                          <button aria-label="Action Button" onClick={() => setRulesSearch("")} className="text-slate-400 hover:text-slate-300">
                             ✕
                           </button>
                         )}
@@ -4890,13 +4890,13 @@ export default function App() {
 
                       <div className="flex gap-0.5 bg-slate-950/80 border border-slate-900 p-0.5 rounded font-mono text-[9px] overflow-x-auto self-start md:self-auto">
                         {["ALL", "SPECTATORS", "VOLUNTEERS", "STAFF", "ORGANIZERS"].map((cat) => (
-                          <button
+                          <button aria-label="Action Button"
                             key={cat}
                             onClick={() => setRulesActiveFilter(cat)}
                             className={`px-2.5 py-1 rounded transition-all cursor-pointer font-bold uppercase ${
                               rulesActiveFilter === cat
                                 ? "bg-rose-900/60 text-rose-200 border border-rose-500/40"
-                                : "text-slate-500 hover:text-slate-300"
+                                : "text-slate-400 hover:text-slate-300"
                             }`}
                           >
                             {cat}
@@ -4910,15 +4910,15 @@ export default function App() {
                       
                       {/* Left 2 Columns: Rules List */}
                       <div className="xl:col-span-2 flex flex-col gap-4">
-                        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider font-bold mb-1">
+                        <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider font-bold mb-1">
                           MATCHDAY REGULATIONS & CODES
                         </span>
                         
                         {filteredRules.length === 0 ? (
                           <div className="bg-[#07090c] border border-slate-900 rounded-lg p-8 text-center">
-                            <AlertTriangle className="w-8 h-8 text-slate-600 mx-auto mb-2" />
+                            <AlertTriangle className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                             <p className="text-slate-400 font-medium">No regulations found matching your query</p>
-                            <button
+                            <button aria-label="Action Button"
                               onClick={() => { setRulesSearch(""); setRulesActiveFilter("ALL"); }}
                               className="mt-3 px-3 py-1.5 bg-slate-900 border border-slate-800 text-xs text-slate-300 hover:bg-slate-800 rounded font-mono uppercase"
                             >
@@ -4949,7 +4949,7 @@ export default function App() {
                                     
                                     <div className="flex-1 min-w-0">
                                       <div className="flex flex-wrap items-center gap-2">
-                                        <span className="text-[9px] font-mono text-slate-500 bg-[#07090c] px-1.5 py-0.5 rounded border border-slate-900 font-bold uppercase tracking-wide">
+                                        <span className="text-[9px] font-mono text-slate-400 bg-[#07090c] px-1.5 py-0.5 rounded border border-slate-900 font-bold uppercase tracking-wide">
                                           {rule.code}
                                         </span>
                                         <span className={`text-[8.5px] font-mono font-extrabold px-1.5 py-0.5 rounded border ${rule.statusColor} uppercase tracking-wider`}>
@@ -4966,7 +4966,7 @@ export default function App() {
                                       </p>
                                     </div>
 
-                                    <div className="text-slate-500 hover:text-slate-300 self-center">
+                                    <div className="text-slate-400 hover:text-slate-300 self-center">
                                       <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${isExpanded ? "rotate-180" : ""}`} />
                                     </div>
                                   </div>
@@ -5056,7 +5056,7 @@ export default function App() {
                               const isSelected = selectedSimulatorIdx === index;
                               return (
                                 <div key={index} className="flex flex-col">
-                                  <button
+                                  <button aria-label="Action Button"
                                     onClick={() => setSelectedSimulatorIdx(isSelected ? null : index)}
                                     className={`w-full text-left p-2.5 rounded-lg border text-[11px] font-semibold transition-all cursor-pointer flex justify-between items-center ${
                                       isSelected
@@ -5198,7 +5198,7 @@ export default function App() {
               
               <div className="flex items-center gap-3.5 flex-wrap">
                 {/* Home View Reset Trigger Button */}
-                <button
+                <button aria-label="Reset Camera view to default wide overview"
                   id="btn-home-view"
                   onClick={() => handleFlyTo("OVERVIEW")}
                   className="flex items-center gap-1.5 px-3 py-1 bg-cyan-950/40 hover:bg-cyan-950/80 text-cyan-400 border border-cyan-900/60 hover:border-cyan-500/50 rounded text-[10px] font-mono transition-all duration-150 uppercase tracking-wider font-bold cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.05)]"
@@ -5209,7 +5209,7 @@ export default function App() {
                 </button>
 
                 {/* Viewport Resize Toggle Button */}
-                <button
+                <button aria-label="Toggle 3D Viewport Size"
                   id="btn-toggle-viewport-size"
                   onClick={toggleViewportExpansion}
                   className="flex items-center gap-1.5 px-3 py-1 bg-cyan-950/40 hover:bg-cyan-950/80 text-cyan-400 border border-cyan-900/60 hover:border-cyan-500/50 rounded text-[10px] font-mono transition-all duration-150 uppercase tracking-wider font-bold cursor-pointer shadow-[0_0_10px_rgba(34,211,238,0.05)]"
@@ -5323,7 +5323,7 @@ export default function App() {
                 <Sliders className="w-3 h-3 text-slate-400" /> Manual Camera Transit:
               </span>
               <div className="flex flex-wrap gap-1.5">
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("Overview")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === null
@@ -5333,7 +5333,7 @@ export default function App() {
                 >
                   OVERVIEW
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("GATE_A")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "GATE_A"
@@ -5343,7 +5343,7 @@ export default function App() {
                 >
                   GATE A (VERIZON)
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("GATE_B")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "GATE_B"
@@ -5353,7 +5353,7 @@ export default function App() {
                 >
                   GATE B (HCLTECH)
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("GATE_C")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "GATE_C"
@@ -5363,7 +5363,7 @@ export default function App() {
                 >
                   GATE C (METLIFE)
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("GATE_D")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "GATE_D"
@@ -5373,7 +5373,7 @@ export default function App() {
                 >
                   GATE D (WELCH'S)
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("TROUBLESHOOTING_BOOTH")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "TROUBLESHOOTING_BOOTH"
@@ -5383,7 +5383,7 @@ export default function App() {
                 >
                   TROUBLE BOOTH
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("SECTION_118")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "SECTION_118"
@@ -5393,7 +5393,7 @@ export default function App() {
                 >
                   SEC 118 (ACCESS RESTROOMS)
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={() => handleFlyTo("SECTION_143")}
                   className={`px-2.5 py-1 rounded transition border ${
                     activeAnchor === "SECTION_143"
@@ -5492,7 +5492,7 @@ export default function App() {
               </span>
               <div className="grid grid-cols-3 gap-2">
                 {PRESET_IMAGES.map((img, idx) => (
-                  <button
+                  <button aria-label="Action Button"
                     key={idx}
                     onClick={() => handlePresetSelect(idx)}
                     className={`p-2 rounded border text-left flex flex-col gap-1 transition ${
@@ -5519,7 +5519,7 @@ export default function App() {
               {customImage ? (
                 <div className="flex items-center gap-1.5">
                   <span className="text-emerald-400 font-bold truncate max-w-[120px]">{customImage.name}</span>
-                  <button onClick={clearImage} className="text-red-400 underline font-bold">CLEAR</button>
+                  <button aria-label="Clear uploaded image attachment" onClick={clearImage} className="text-red-400 underline font-bold">CLEAR</button>
                 </div>
               ) : (
                 <label className="text-cyan-400 font-bold hover:underline cursor-pointer">
@@ -5533,7 +5533,7 @@ export default function App() {
             <div className="space-y-1.5">
               <label className="text-[10px] font-mono text-slate-400 uppercase font-semibold flex items-center justify-between">
                 <span>Operation Intelligence Query Payload:</span>
-                <span className="text-slate-500 text-[9px]">RAW TEXT ONLY</span>
+                <span className="text-slate-400 text-[9px]">RAW TEXT ONLY</span>
               </label>
               <textarea
                 value={query}
@@ -5543,19 +5543,19 @@ export default function App() {
                 }}
                 placeholder="Ex: I have a big black leather backpack, can I enter Gate C? (or try one of the preloaded manual queries below)"
                 rows={4}
-                className="w-full bg-[#0d131a] border border-[#1b2530] text-slate-200 text-xs rounded p-2.5 font-sans focus:outline-none focus:border-cyan-500/60 placeholder:text-slate-600 resize-none leading-relaxed"
+                className="w-full bg-[#0d131a] border border-[#1b2530] text-slate-200 text-xs rounded p-2.5 font-sans focus:outline-none focus:border-cyan-500/60 placeholder:text-slate-400 resize-none leading-relaxed"
               />
             </div>
 
             {/* Submission button */}
-            <button
+            <button aria-label="Transmit secure payload to Montery core intelligence engine"
               onClick={triggerQueryAnalysis}
               disabled={isAnalyzing || !query.trim()}
               className={`w-full py-2 px-4 rounded font-mono text-xs font-semibold tracking-wider flex items-center justify-center gap-2 transition-all duration-200 select-none ${
                 isAnalyzing
                   ? "bg-slate-800 text-slate-400 cursor-not-allowed border border-slate-700"
                   : !query.trim()
-                  ? "bg-slate-900 text-slate-500 cursor-not-allowed border border-slate-950"
+                  ? "bg-slate-900 text-slate-400 cursor-not-allowed border border-slate-950"
                   : "bg-blue-600 text-white hover:bg-blue-500 hover:shadow-lg hover:shadow-blue-950/40 border border-blue-500 hover:scale-105"
               }`}
             >
@@ -5677,19 +5677,19 @@ export default function App() {
               <div className="flex items-center gap-2">
                 {/* Export Telemetry Dropdown / Button */}
                 <div className="relative">
-                  <button
+                  <button aria-label="Action Button"
                     onClick={() => setIsExportMenuOpen(!isExportMenuOpen)}
                     disabled={!engineResult}
                     className={`border text-[9px] font-mono font-bold px-2.5 py-0.5 rounded flex items-center gap-1.5 transition select-none cursor-pointer ${
                       engineResult
                         ? "bg-slate-950 hover:bg-slate-900 border-[#2b3a4a] hover:border-slate-700 text-amber-400 hover:text-amber-300"
-                        : "bg-slate-950/40 border-slate-950 text-slate-600 cursor-not-allowed opacity-50"
+                        : "bg-slate-950/40 border-slate-950 text-slate-400 cursor-not-allowed opacity-50"
                     }`}
                     title={engineResult ? "Export Current Telemetry as CSV or JSON" : "No telemetry data available to export"}
                   >
                     <Download className={`w-3 h-3 text-amber-500 shrink-0 ${engineResult ? "animate-pulse" : ""}`} />
                     <span>EXPORT TELEMETRY</span>
-                    <ChevronDown className={`w-2.5 h-2.5 transition-transform duration-200 text-slate-500 ${isExportMenuOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-2.5 h-2.5 transition-transform duration-200 text-slate-400 ${isExportMenuOpen ? "rotate-180" : ""}`} />
                   </button>
 
                   {isExportMenuOpen && engineResult && (
@@ -5701,7 +5701,7 @@ export default function App() {
                       />
                       {/* Menu */}
                       <div className="absolute right-0 mt-1.5 w-40 bg-[#0e1319] border border-[#1b2531] rounded-md shadow-2xl z-50 py-1 font-mono text-[10px] text-slate-300 divide-y divide-[#1b2531]/50 overflow-hidden">
-                        <button
+                        <button aria-label="Action Button"
                           onClick={() => {
                             exportTelemetryAsJSON();
                             setIsExportMenuOpen(false);
@@ -5711,7 +5711,7 @@ export default function App() {
                           <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
                           <span>Export as JSON</span>
                         </button>
-                        <button
+                        <button aria-label="Action Button"
                           onClick={() => {
                             exportTelemetryAsCSV();
                             setIsExportMenuOpen(false);
@@ -5726,7 +5726,7 @@ export default function App() {
                   )}
                 </div>
 
-                <button
+                <button aria-label="Action Button"
                   onClick={() => setIsSidebarOpen(true)}
                   className="bg-slate-950 hover:bg-slate-900 border border-slate-900 hover:border-slate-850 text-[9px] font-mono text-cyan-400 hover:text-cyan-300 font-bold px-2 py-0.5 rounded flex items-center gap-1.5 transition select-none cursor-pointer"
                   title="Open Tactical Incident History Logs"
@@ -5735,13 +5735,13 @@ export default function App() {
                   <span>HISTORY LOGS ({incidentHistory.length})</span>
                 </button>
                 <div className="flex bg-slate-950/80 p-0.5 rounded border border-slate-900 text-[9px] font-mono">
-                  <button
+                  <button aria-label="Action Button"
                     onClick={() => setActiveTab("visuals")}
                     className={`px-2 py-0.5 rounded ${activeTab === "visuals" ? "bg-slate-800 text-cyan-400 font-bold" : "text-slate-400"}`}
                   >
                     DECODED
                   </button>
-                  <button
+                  <button aria-label="Action Button"
                     onClick={() => setActiveTab("json")}
                     className={`px-2 py-0.5 rounded ${activeTab === "json" ? "bg-slate-800 text-cyan-400 font-bold" : "text-slate-400"}`}
                   >
@@ -5762,14 +5762,14 @@ export default function App() {
                     <p className="text-xs text-cyan-400 tracking-widest uppercase font-semibold animate-pulse">
                       {analysisStep}
                     </p>
-                    <p className="text-[10px] text-slate-500">
+                    <p className="text-[10px] text-slate-400">
                       SECURED ENVELOPE ENCRYPTED WITH MULTI-STAGE AES-256
                     </p>
                   </div>
                 </div>
               ) : !engineResult ? (
-                <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2 py-12 text-slate-500 font-mono text-[11px]">
-                  <ShieldAlert className="w-6 h-6 text-slate-600 animate-bounce" />
+                <div className="flex-1 flex flex-col items-center justify-center text-center space-y-2 py-12 text-slate-400 font-mono text-[11px]">
+                  <ShieldAlert className="w-6 h-6 text-slate-400 animate-bounce" />
                   <span>AWAITING MISSION DATA SUBMISSION</span>
                   <span>SUBMIT A STADIUM QUERY ABOVE TO POWER CORE ENGINE</span>
                 </div>
@@ -5993,7 +5993,7 @@ export default function App() {
                               <div className="overflow-x-auto">
                                 <table className="w-full text-left border-collapse text-[9px]">
                                   <thead>
-                                    <tr className="border-b border-slate-900 text-slate-500 font-bold">
+                                    <tr className="border-b border-slate-900 text-slate-400 font-bold">
                                       <th className="py-1">GATE</th>
                                       <th className="py-1 text-center">QUEUE</th>
                                       <th className="py-1 text-center">{getTranslation("label_gate_throughput", selectedLanguage, engineResult).split(" ").pop()?.toUpperCase() || "FLOW/MIN"}</th>
@@ -6131,7 +6131,7 @@ export default function App() {
 
                               {engineResult.staff_operations_payload.hazards_or_anomalies_detected?.length > 0 && (
                                 <div className="text-[10px] space-y-0.5">
-                                  <span className="text-slate-500 font-semibold">HAZARDS DETECTED:</span>
+                                  <span className="text-slate-400 font-semibold">HAZARDS DETECTED:</span>
                                   {engineResult.staff_operations_payload.hazards_or_anomalies_detected.map((hz: string, i: number) => (
                                     <div key={i} className="text-red-400 pl-2 border-l border-red-900">• {hz}</div>
                                   ))}
@@ -6208,7 +6208,7 @@ export default function App() {
                                   </div>
                                   
                                   <div className="grid grid-cols-3 gap-2">
-                                    <button
+                                    <button aria-label="Action Button"
                                       onClick={() => {
                                         setDispatchedAction({
                                           action: "Dispatch Security Detail",
@@ -6227,7 +6227,7 @@ export default function App() {
                                       <span className="text-[7px] opacity-60 font-normal mt-0.5 lowercase">ctrl+s / ⌘s</span>
                                     </button>
                                     
-                                    <button
+                                    <button aria-label="Action Button"
                                       onClick={() => {
                                         setDispatchedAction({
                                           action: "Medical Alert Broadcast",
@@ -6246,7 +6246,7 @@ export default function App() {
                                       <span className="text-[7px] opacity-60 font-normal mt-0.5 lowercase">ctrl+m / ⌘m</span>
                                     </button>
                                     
-                                    <button
+                                    <button aria-label="Action Button"
                                       onClick={() => {
                                         setDispatchedAction({
                                           action: "Queue Re-Route Command",
@@ -6297,19 +6297,19 @@ export default function App() {
 
                               <div className="grid grid-cols-2 gap-3.5 text-[10px]">
                                 <div className="space-y-1">
-                                  <span className="text-slate-500 uppercase text-[8px]">Venue ID:</span>
+                                  <span className="text-slate-400 uppercase text-[8px]">Venue ID:</span>
                                   <div className="text-white font-bold text-[11px] tracking-wide">
                                     {engineResult.venue_structural_profile.active_stadium_id}
                                   </div>
                                 </div>
                                 <div className="space-y-1">
-                                  <span className="text-slate-500 uppercase text-[8px]">Capacity:</span>
+                                  <span className="text-slate-400 uppercase text-[8px]">Capacity:</span>
                                   <div className="text-cyan-400 font-extrabold text-[11px]">
                                     {engineResult.venue_structural_profile.official_tournament_capacity?.toLocaleString()} Seats
                                   </div>
                                 </div>
                                 <div className="space-y-1 col-span-2">
-                                  <span className="text-slate-500 uppercase text-[8px]">Architectural & Design Tag:</span>
+                                  <span className="text-slate-400 uppercase text-[8px]">Architectural & Design Tag:</span>
                                   <div className="text-slate-300 font-semibold italic bg-[#05070a]/90 px-2 py-1 border border-slate-900 rounded">
                                     "{engineResult.venue_structural_profile.architectural_style_tag}"
                                   </div>
@@ -6361,7 +6361,7 @@ export default function App() {
                     /* TAB 2: Raw JSON Response inspector */
                     <div className="relative flex-1 flex flex-col justify-between">
                       <div className="absolute top-2 right-2 flex gap-1 z-10">
-                        <button
+                        <button aria-label="Copy Raw JSON response to clipboard"
                           onClick={handleCopyJSON}
                           className="bg-slate-900 border border-slate-800 text-[10px] text-slate-400 hover:text-white px-2.5 py-1 rounded flex items-center gap-1.5"
                         >
@@ -6385,7 +6385,7 @@ export default function App() {
                   )}
                   
                   {/* Footer status diagnostics bar */}
-                  <div className="border-t border-[#1b2531]/60 pt-2.5 mt-3 flex items-center justify-between text-[9px] font-mono text-slate-500">
+                  <div className="border-t border-[#1b2531]/60 pt-2.5 mt-3 flex items-center justify-between text-[9px] font-mono text-slate-400">
                     <span className="flex items-center gap-1">
                       <Database className="w-3 h-3 text-emerald-500" />
                       CONTEXT_INTEGRATED: <span className="text-slate-300">{engineResult.system_diagnostics?.grounded_in_context ? "TRUE" : "FALSE"}</span>
@@ -6417,7 +6417,7 @@ export default function App() {
                 <h2 className="text-xs font-semibold text-slate-200 uppercase tracking-widest">
                   {getTranslation("spectator_registry_database", selectedLanguage, engineResult)}
                 </h2>
-                <p className="text-[9px] text-slate-500 uppercase tracking-wide mt-0.5">
+                <p className="text-[9px] text-slate-400 uppercase tracking-wide mt-0.5">
                   Real-time verification matrix and tournament seat allocations
                 </p>
               </div>
@@ -6438,19 +6438,19 @@ export default function App() {
                 value={fanSearchQuery}
                 onChange={(e) => setFanSearchQuery(e.target.value)}
                 placeholder="Search registry by Full Name, Phone, Stadium, or Seat..."
-                className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg pl-9 pr-8 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500 transition-colors placeholder:text-slate-600"
+                className="w-full bg-[#07090c] border border-[#1b2531] rounded-lg pl-9 pr-8 py-2 text-xs text-slate-200 focus:outline-none focus:border-sky-500 transition-colors placeholder:text-slate-400"
               />
               {fanSearchQuery && (
-                <button 
+                <button aria-label="Action Button" 
                   onClick={() => setFanSearchQuery("")}
-                  className="absolute right-3 top-2.5 text-[9px] text-slate-500 hover:text-white font-bold cursor-pointer"
+                  className="absolute right-3 top-2.5 text-[9px] text-slate-400 hover:text-white font-bold cursor-pointer"
                 >
                   CLEAR
                 </button>
               )}
             </div>
             
-            <button
+            <button aria-label="Action Button"
               onClick={() => {
                 fetchFanAccounts();
                 playDispatchSuccessSound();
@@ -6463,7 +6463,7 @@ export default function App() {
             </button>
 
             {["ORGANIZER", "VENUE_STAFF"].includes(currentSessionRole) && (
-              <button
+              <button aria-label="Action Button"
                 onClick={() => {
                   setShowClearConfirm(true);
                   playLowFrequencyAlertSound();
@@ -6495,10 +6495,10 @@ export default function App() {
 
               if (filtered.length === 0) {
                 return (
-                  <div className="text-center py-12 border border-dashed border-[#1b2531] rounded-lg bg-[#07090c]/50 text-slate-500 text-xs">
-                    <Users className="w-8 h-8 text-slate-600 mx-auto mb-2 animate-pulse" />
+                  <div className="text-center py-12 border border-dashed border-[#1b2531] rounded-lg bg-[#07090c]/50 text-slate-400 text-xs">
+                    <Users className="w-8 h-8 text-slate-400 mx-auto mb-2 animate-pulse" />
                     <p className="uppercase font-bold tracking-wider text-slate-400">No Spectators Matched</p>
-                    <p className="text-[10px] text-slate-600 mt-1 uppercase">Adjust search keywords or add a new entry</p>
+                    <p className="text-[10px] text-slate-400 mt-1 uppercase">Adjust search keywords or add a new entry</p>
                   </div>
                 );
               }
@@ -6517,11 +6517,11 @@ export default function App() {
                           VERIFIED FAN
                         </span>
                       </div>
-                      <div className="text-[7.5px] text-slate-500 uppercase tracking-widest">
+                      <div className="text-[7.5px] text-slate-400 uppercase tracking-widest">
                         UUID: <span className="text-slate-400">{fan.id}</span>
                       </div>
                     </div>
-                    <span className="text-[8px] text-slate-600 font-mono text-right shrink-0">
+                    <span className="text-[8px] text-slate-400 font-mono text-right shrink-0">
                       REG: {fan.registeredAt ? new Date(fan.registeredAt).toLocaleString() : "UNKNOWN"}
                     </span>
                   </div>
@@ -6530,7 +6530,7 @@ export default function App() {
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-3.5 text-[10.5px]">
                     {/* Contact detail */}
                     <div className="bg-[#0b0e12]/80 border border-[#1b2531]/40 p-2 rounded flex flex-col gap-0.5">
-                      <span className="text-[7.5px] text-slate-500 uppercase tracking-wider">Verified Mobile Contact:</span>
+                      <span className="text-[7.5px] text-slate-400 uppercase tracking-wider">Verified Mobile Contact:</span>
                       <span className="text-slate-200 font-bold flex items-center gap-1.5">
                         <span className="text-xs">📞</span> {fan.phoneNumber || "UNSPECIFIED"}
                       </span>
@@ -6538,7 +6538,7 @@ export default function App() {
 
                     {/* Facility routing */}
                     <div className="bg-[#0b0e12]/80 border border-[#1b2531]/40 p-2 rounded flex flex-col gap-0.5">
-                      <span className="text-[7.5px] text-slate-500 uppercase tracking-wider">Facility Hub Assignment:</span>
+                      <span className="text-[7.5px] text-slate-400 uppercase tracking-wider">Facility Hub Assignment:</span>
                       <span className="text-slate-200 font-bold uppercase truncate">
                         📍 {(fan.selectedStadium || "NEW_YORK_NEW_JERSEY").replace(/_/g, " ")}
                       </span>
@@ -6546,13 +6546,13 @@ export default function App() {
 
                     {/* Seat allocation */}
                     <div className="bg-[#0b0e12]/80 border border-[#1b2531]/40 p-2 rounded flex flex-col gap-0.5">
-                      <span className="text-[7.5px] text-slate-500 uppercase tracking-wider">Stadium Seat Allocation:</span>
+                      <span className="text-[7.5px] text-slate-400 uppercase tracking-wider">Stadium Seat Allocation:</span>
                       {fan.seat ? (
                         <span className="text-emerald-400 font-extrabold uppercase tracking-wide">
                           🎟️ SEC {fan.seat.section} • ROW {fan.seat.row} • SEAT {fan.seat.seat}
                         </span>
                       ) : (
-                        <span className="text-slate-500 font-semibold italic">
+                        <span className="text-slate-400 font-semibold italic">
                           🎟️ NA (Not Selected)
                         </span>
                       )}
@@ -6561,21 +6561,21 @@ export default function App() {
 
                   {/* Card Actions Footer */}
                   <div className="flex justify-between items-center pt-2 border-t border-[#1b2531]/30 flex-wrap gap-2.5">
-                    <div className="text-[7.5px] text-slate-600 uppercase tracking-wide">
+                    <div className="text-[7.5px] text-slate-400 uppercase tracking-wide">
                       LAST TOUCH: {fan.lastLogin ? new Date(fan.lastLogin).toLocaleTimeString() : "N/A"}
                     </div>
                     
                     {/* Permission check */}
                     {["ORGANIZER", "VENUE_STAFF"].includes(currentSessionRole) ? (
                       <div className="flex items-center gap-2">
-                        <button
+                        <button aria-label="Action Button"
                           onClick={() => handleStartEditFan(fan)}
                           className="px-2.5 py-1 text-[9px] font-bold border border-amber-500/30 hover:border-amber-400 text-amber-400 hover:text-amber-300 hover:bg-amber-500/10 rounded uppercase transition cursor-pointer flex items-center gap-1"
                         >
                           <Edit2 className="w-2.5 h-2.5" />
                           <span>Edit Details</span>
                         </button>
-                        <button
+                        <button aria-label="Action Button"
                           onClick={() => setDeletingFan(fan)}
                           className="px-2.5 py-1 text-[9px] font-bold border border-red-500/30 hover:border-red-400 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded uppercase transition cursor-pointer flex items-center gap-1"
                         >
@@ -6584,7 +6584,7 @@ export default function App() {
                         </button>
                       </div>
                     ) : (
-                      <span className="text-[8px] bg-slate-900/60 border border-slate-950 px-2 py-0.5 rounded text-slate-500 italic uppercase">
+                      <span className="text-[8px] bg-slate-900/60 border border-slate-950 px-2 py-0.5 rounded text-slate-400 italic uppercase">
                         🔒 Operations Read-Only View
                       </span>
                     )}
@@ -6603,7 +6603,7 @@ export default function App() {
                 <span className="text-xs font-bold text-amber-400 uppercase tracking-widest flex items-center gap-1.5">
                   <Edit2 className="w-4 h-4" /> Edit Spectator Profile
                 </span>
-                <button 
+                <button aria-label="Action Button" 
                   onClick={() => setEditingFan(null)}
                   className="text-slate-400 hover:text-white text-xs font-bold uppercase cursor-pointer"
                 >
@@ -6620,7 +6620,7 @@ export default function App() {
               <div className="space-y-3.5 text-xs">
                 {/* Full Name */}
                 <div className="space-y-1">
-                  <label htmlFor="edit-fan-fullname-input" className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Full Name:</label>
+                  <label htmlFor="edit-fan-fullname-input" className="block text-[9px] text-slate-400 uppercase tracking-wider font-bold">Full Name:</label>
                   <input
                     id="edit-fan-fullname-input"
                     type="text"
@@ -6632,7 +6632,7 @@ export default function App() {
 
                 {/* Phone number */}
                 <div className="space-y-1">
-                  <label htmlFor="edit-fan-phone-input" className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Verified Phone Number:</label>
+                  <label htmlFor="edit-fan-phone-input" className="block text-[9px] text-slate-400 uppercase tracking-wider font-bold">Verified Phone Number:</label>
                   <input
                     id="edit-fan-phone-input"
                     type="text"
@@ -6644,7 +6644,7 @@ export default function App() {
 
                 {/* Selected Stadium */}
                 <div className="space-y-1">
-                  <label htmlFor="edit-fan-stadium-select" className="block text-[9px] text-slate-500 uppercase tracking-wider font-bold">Facility Hub Assignment:</label>
+                  <label htmlFor="edit-fan-stadium-select" className="block text-[9px] text-slate-400 uppercase tracking-wider font-bold">Facility Hub Assignment:</label>
                   <select
                     id="edit-fan-stadium-select"
                     value={editFanStadium}
@@ -6666,7 +6666,7 @@ export default function App() {
                   <span className="block text-[9.5px] text-sky-400 uppercase tracking-widest font-bold mb-2">Stadium Seat Allocation:</span>
                   <div className="grid grid-cols-3 gap-2">
                     <div>
-                      <label className="block text-[8px] text-slate-500 uppercase tracking-wider font-bold mb-1">Section:</label>
+                      <label className="block text-[8px] text-slate-400 uppercase tracking-wider font-bold mb-1">Section:</label>
                       <input
                         type="text"
                         value={editFanSeatSection}
@@ -6676,7 +6676,7 @@ export default function App() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[8px] text-slate-500 uppercase tracking-wider font-bold mb-1">Row:</label>
+                      <label className="block text-[8px] text-slate-400 uppercase tracking-wider font-bold mb-1">Row:</label>
                       <input
                         type="text"
                         value={editFanSeatRow}
@@ -6686,7 +6686,7 @@ export default function App() {
                       />
                     </div>
                     <div>
-                      <label className="block text-[8px] text-slate-500 uppercase tracking-wider font-bold mb-1">Seat Number:</label>
+                      <label className="block text-[8px] text-slate-400 uppercase tracking-wider font-bold mb-1">Seat Number:</label>
                       <input
                         type="text"
                         value={editFanSeatNumber}
@@ -6700,13 +6700,13 @@ export default function App() {
               </div>
 
               <div className="pt-3 border-t border-slate-900 flex justify-end gap-2 text-xs">
-                <button
+                <button aria-label="Action Button"
                   onClick={() => setEditingFan(null)}
                   className="px-4 py-2 hover:bg-slate-950 border border-slate-900 hover:border-slate-800 text-slate-400 hover:text-slate-200 rounded font-bold cursor-pointer"
                 >
                   Cancel
                 </button>
-                <button
+                <button aria-label="Action Button"
                   onClick={handleSaveEditFan}
                   disabled={isUpdatingFan}
                   className="px-4 py-2 bg-amber-500 hover:bg-amber-400 text-slate-950 rounded font-bold cursor-pointer transition-colors"
@@ -6738,13 +6738,13 @@ export default function App() {
               </p>
 
               <div className="pt-3 border-t border-slate-900 flex justify-end gap-2 text-xs">
-                <button
+                <button aria-label="Action Button"
                   onClick={() => setDeletingFan(null)}
                   className="px-4 py-2 hover:bg-slate-950 border border-slate-900 hover:border-slate-850 text-slate-400 hover:text-slate-200 rounded font-bold cursor-pointer"
                 >
                   Cancel
                 </button>
-                <button
+                <button aria-label="Delete spectator registry entry"
                   onClick={handleConfirmDeleteFan}
                   disabled={isUpdatingFan}
                   className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded font-bold cursor-pointer transition-colors"
@@ -6776,13 +6776,13 @@ export default function App() {
               </p>
 
               <div className="pt-3 border-t border-slate-900 flex justify-end gap-2 text-xs">
-                <button
+                <button aria-label="Action Button"
                   onClick={() => setShowClearConfirm(false)}
                   className="px-4 py-2 hover:bg-slate-950 border border-slate-900 hover:border-slate-850 text-slate-400 hover:text-slate-200 rounded font-bold cursor-pointer"
                 >
                   Cancel
                 </button>
-                <button
+                <button aria-label="Purge entire spectator database"
                   onClick={handleClearAllFans}
                   disabled={isUpdatingFan}
                   className="px-4 py-2 bg-red-600 hover:bg-red-500 text-white rounded font-bold cursor-pointer transition-colors"
@@ -6800,16 +6800,16 @@ export default function App() {
 )}
 
       {/* FOOTER credit and guidelines reference */}
-      <footer className="bg-[#0b0e12]/80 border-t border-[#1b2531]/40 px-6 py-4 text-center text-[11px] text-slate-500 font-mono mt-8">
+      <footer className="bg-[#0b0e12]/80 border-t border-[#1b2531]/40 px-6 py-4 text-center text-[11px] text-slate-400 font-mono mt-8">
         <p className="uppercase tracking-widest text-[9px] mb-1">Montery Matrix Terminal Security System 4.0.0</p>
-        <p className="leading-relaxed text-slate-600 font-sans max-w-2xl mx-auto">
+        <p className="leading-relaxed text-slate-400 font-sans max-w-2xl mx-auto">
           This system enforces severe firewalls protecting tournament facilities. Designed solely for official FIFA World Cup 2026 operations staff. Unauthorized access is recorded in system logs and blocked automatically.
         </p>
       </footer>
 
       {/* Floating Tactical Incident Registry Tab on the right screen edge */}
       {currentSessionRole !== "UNASSIGNED" && currentSessionRole !== "FAN" && (
-        <button
+        <button aria-label="Action Button"
           onClick={() => setIsSidebarOpen(true)}
           className="fixed right-0 top-1/3 z-40 bg-[#0e1319]/95 hover:bg-[#161d24] border border-r-0 border-[#1b2531] hover:border-cyan-500/50 text-cyan-400 py-3.5 px-2 rounded-l-md font-mono text-[9px] tracking-widest uppercase [writing-mode:vertical-lr] flex items-center gap-2 shadow-[0_0_20px_rgba(0,0,0,0.6)] transition group cursor-pointer"
           title="Open Collapsible Incident Registry"

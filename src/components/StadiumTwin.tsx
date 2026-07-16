@@ -4175,7 +4175,7 @@ export default function StadiumTwin({
               <h3 className="text-slate-200 text-[11px] font-bold font-mono tracking-wider uppercase">
                 CALIBRATING TELEMETRY SENSORS...
               </h3>
-              <p className="text-[8.5px] text-slate-500 font-mono tracking-wide">
+              <p className="text-[8.5px] text-slate-400 font-mono tracking-wide">
                 LOADING 3D GEOMETRY • SYNCHRONIZING REAL-TIME WEATHER FEEDS
               </p>
             </div>
@@ -4593,12 +4593,12 @@ export default function StadiumTwin({
             className={`flex items-center gap-1.5 px-2 py-1 rounded text-[8px] font-bold border transition-all cursor-pointer ${
               isHeatmapOverlayEnabled
                 ? "bg-red-950/50 text-red-400 border-red-800 shadow-[0_0_10px_rgba(239,68,68,0.25)] animate-pulse"
-                : "bg-[#111827] text-slate-500 border-slate-900 hover:text-slate-300 hover:border-slate-800"
+                : "bg-[#111827] text-slate-400 border-slate-900 hover:text-slate-300 hover:border-slate-800"
             }`}
             title="Toggle 3D Visitor Heatmap Overlay"
             aria-label="Toggle 3D Visitor Heatmap Overlay"
           >
-            <Flame className={`w-2.5 h-2.5 shrink-0 ${isHeatmapOverlayEnabled ? "text-red-500 animate-pulse" : "text-slate-500"}`} />
+            <Flame className={`w-2.5 h-2.5 shrink-0 ${isHeatmapOverlayEnabled ? "text-red-500 animate-pulse" : "text-slate-400"}`} />
             <span>VISITOR HEATMAP</span>
           </button>
 
@@ -4611,12 +4611,12 @@ export default function StadiumTwin({
             className={`flex items-center gap-1.5 px-2 py-1 rounded text-[8px] font-bold border transition-all cursor-pointer ${
               isStructuralWarningEnabled
                 ? "bg-amber-950/50 text-amber-400 border-amber-800 shadow-[0_0_10px_rgba(245,158,11,0.25)] animate-pulse"
-                : "bg-[#111827] text-slate-500 border-slate-900 hover:text-slate-300 hover:border-slate-800"
+                : "bg-[#111827] text-slate-400 border-slate-900 hover:text-slate-300 hover:border-slate-800"
             }`}
             title="Toggle 3D Weather Structural Warning Overlay"
             aria-label="Toggle 3D Weather Structural Warning Overlay"
           >
-            <AlertTriangle className={`w-2.5 h-2.5 shrink-0 ${isStructuralWarningEnabled ? "text-amber-500 animate-pulse" : "text-slate-500"}`} />
+            <AlertTriangle className={`w-2.5 h-2.5 shrink-0 ${isStructuralWarningEnabled ? "text-amber-500 animate-pulse" : "text-slate-400"}`} />
             <span>STRUCTURAL WARN</span>
           </button>
         </div>
@@ -4861,7 +4861,7 @@ export default function StadiumTwin({
                 title="Toggle Visitor Heatmap Seating Density Overlay"
                 aria-label="Toggle Visitor Heatmap Seating Density Overlay"
               >
-                <Flame className={`w-3.5 h-3.5 shrink-0 ${isHeatmapOverlayEnabled ? "text-red-500 animate-bounce" : "text-slate-500"}`} style={{ animationDuration: "1.2s" }} />
+                <Flame className={`w-3.5 h-3.5 shrink-0 ${isHeatmapOverlayEnabled ? "text-red-500 animate-bounce" : "text-slate-400"}`} style={{ animationDuration: "1.2s" }} />
                 <span>{isHeatmapOverlayEnabled ? "Deactivate Heatmap Overlay" : "Activate Visitor Heatmap"}</span>
               </button>
             </div>
@@ -4888,14 +4888,14 @@ export default function StadiumTwin({
                 title="Toggle Weather Structural Warning Overlay"
                 aria-label="Toggle Weather Structural Warning Overlay"
               >
-                <AlertTriangle className={`w-3.5 h-3.5 shrink-0 ${isStructuralWarningEnabled ? "text-amber-500 animate-bounce" : "text-slate-500"}`} style={{ animationDuration: "1.2s" }} />
+                <AlertTriangle className={`w-3.5 h-3.5 shrink-0 ${isStructuralWarningEnabled ? "text-amber-500 animate-bounce" : "text-slate-400"}`} style={{ animationDuration: "1.2s" }} />
                 <span>{isStructuralWarningEnabled ? "Deactivate Warning Overlay" : "Activate Warning Overlay"}</span>
               </button>
             </div>
 
             {/* Manual Weather State Overrides */}
             <div className="space-y-1">
-              <div className="text-[7.5px] text-slate-500 uppercase font-semibold">Dry-Run Weather Overrides:</div>
+              <div className="text-[7.5px] text-slate-400 uppercase font-semibold">Dry-Run Weather Overrides:</div>
               <div className="grid grid-cols-4 gap-1">
                 {(["SUNSHINE", "RAIN", "FOG", "SNOW"] as const).map((ws) => (
                   <button
@@ -4910,7 +4910,7 @@ export default function StadiumTwin({
                     className={`py-0.5 px-1 rounded text-[8px] border font-bold transition-all truncate text-center ${
                       activeWeather === ws
                         ? "bg-cyan-950 text-cyan-400 border-cyan-700 shadow-[0_0_8px_rgba(34,211,238,0.3)]"
-                        : "bg-[#111827] text-slate-500 border-slate-900 hover:text-slate-300 hover:border-slate-800"
+                        : "bg-[#111827] text-slate-400 border-slate-900 hover:text-slate-300 hover:border-slate-800"
                     }`}
                     aria-label={`Simulate ${ws} Weather`}
                   >

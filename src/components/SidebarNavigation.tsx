@@ -109,7 +109,7 @@ export default function SidebarNavigation({
     <div className="w-full lg:w-64 bg-[#0b0e12]/95 border border-[#1b2531] rounded-lg p-3 shadow-2xl flex flex-col gap-4 font-mono select-none h-fit">
       <div className="border-b border-[#1b2531] pb-3 flex flex-col gap-2.5">
         <div className="flex items-center justify-between">
-          <div className="text-[10px] text-slate-500 uppercase tracking-widest font-semibold flex items-center gap-2">
+          <div className="text-[10px] text-slate-400 uppercase tracking-widest font-semibold flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
             <span>{getTranslation("mux_control_panel", selectedLanguage)}</span>
           </div>
@@ -138,7 +138,7 @@ export default function SidebarNavigation({
               <div className="flex items-center gap-3">
                 <div
                   className={`p-1.5 rounded bg-slate-950 border border-[#1b2531] ${
-                    isActive ? item.color : "text-slate-500 group-hover:text-slate-300"
+                    isActive ? item.color : "text-slate-400 group-hover:text-slate-300"
                   } transition-colors duration-200`}
                 >
                   <Icon className="w-4 h-4" />
@@ -152,12 +152,12 @@ export default function SidebarNavigation({
                     {getTranslation(item.translationKey, selectedLanguage)}
                   </div>
                   <div className="flex items-center justify-between mt-0.5">
-                    <span className="text-[8px] text-slate-600 font-semibold tracking-wide">
+                    <span className="text-[8px] text-slate-400 font-semibold tracking-wide">
                       {getTranslation("nav_status", selectedLanguage)}:
                     </span>
                     <span
                       className={`text-[8.5px] font-extrabold tracking-widest ${
-                        isActive ? item.color : "text-slate-500"
+                        isActive ? item.color : "text-slate-400"
                       } uppercase`}
                     >
                       {item.status}

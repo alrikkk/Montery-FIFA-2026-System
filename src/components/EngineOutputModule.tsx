@@ -280,13 +280,13 @@ export default function EngineOutputModule({
                 className={`border text-[9px] font-mono font-bold px-2.5 py-0.5 rounded flex items-center gap-1.5 transition select-none cursor-pointer ${
                   engineResult
                     ? "bg-slate-950 hover:bg-slate-900 border-[#2b3a4a] hover:border-slate-700 text-amber-400 hover:text-amber-300"
-                    : "bg-slate-950/40 border-slate-950 text-slate-600 cursor-not-allowed opacity-50"
+                    : "bg-slate-950/40 border-slate-950 text-slate-400 cursor-not-allowed opacity-50"
                 }`}
                 title={engineResult ? "Export Current Telemetry as CSV or JSON" : "No telemetry data available to export"}
               >
                 <Download className={`w-3 h-3 text-amber-500 shrink-0 ${engineResult ? "animate-pulse" : ""}`} />
                 <span>EXPORT TELEMETRY</span>
-                <ChevronDown className={`w-2.5 h-2.5 transition-transform duration-200 text-slate-500 ${isExportMenuOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`w-2.5 h-2.5 transition-transform duration-200 text-slate-400 ${isExportMenuOpen ? "rotate-180" : ""}`} />
               </button>
 
               {isExportMenuOpen && engineResult && (
@@ -364,17 +364,17 @@ export default function EngineOutputModule({
                 <p className="text-xs text-cyan-400 tracking-widest uppercase font-semibold animate-pulse">
                   {analysisStep}
                 </p>
-                <p className="text-[10px] text-slate-500">
+                <p className="text-[10px] text-slate-400">
                   SECURED ENVELOPE ENCRYPTED WITH MULTI-STAGE AES-256
                 </p>
               </div>
             </div>
           ) : !engineResult ? (
-            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 py-12 text-slate-500 font-mono text-[11px]">
-              <ShieldAlert className="w-8 h-8 text-slate-600 animate-bounce" />
+            <div className="flex-1 flex flex-col items-center justify-center text-center space-y-4 py-12 text-slate-400 font-mono text-[11px]">
+              <ShieldAlert className="w-8 h-8 text-slate-400 animate-bounce" />
               <div className="space-y-1">
                 <span className="block font-bold">AWAITING SYSTEM INJECTION RUN</span>
-                <span className="block text-slate-600 text-[10px]">PLEASE GO TO THE 'COMMAND CONSOLE' PAGE TO SUBMIT A QUERY</span>
+                <span className="block text-slate-400 text-[10px]">PLEASE GO TO THE 'COMMAND CONSOLE' PAGE TO SUBMIT A QUERY</span>
               </div>
               <button
                 onClick={() => setCurrentView("COMMAND")}
@@ -605,7 +605,7 @@ export default function EngineOutputModule({
                           <div className="overflow-x-auto">
                             <table className="w-full text-left border-collapse text-[9px]">
                               <thead>
-                                <tr className="border-b border-slate-900 text-slate-500 font-bold">
+                                <tr className="border-b border-slate-900 text-slate-400 font-bold">
                                   <th className="py-1">GATE</th>
                                   <th className="py-1 text-center">QUEUE</th>
                                   <th className="py-1 text-center">FLOW/MIN</th>
@@ -743,7 +743,7 @@ export default function EngineOutputModule({
 
                           {engineResult.staff_operations_payload.hazards_or_anomalies_detected?.length > 0 && (
                             <div className="text-[10px] space-y-0.5">
-                              <span className="text-slate-500 font-semibold">HAZARDS DETECTED:</span>
+                              <span className="text-slate-400 font-semibold">HAZARDS DETECTED:</span>
                               {engineResult.staff_operations_payload.hazards_or_anomalies_detected.map((hz: string, i: number) => (
                                 <div key={i} className="text-red-400 pl-2 border-l border-red-900">• {hz}</div>
                               ))}
@@ -1001,7 +1001,7 @@ export default function EngineOutputModule({
               )}
               
               {/* Footer status diagnostics bar */}
-              <div className="border-t border-[#1b2531]/60 pt-2.5 mt-3 flex items-center justify-between text-[9px] font-mono text-slate-500">
+              <div className="border-t border-[#1b2531]/60 pt-2.5 mt-3 flex items-center justify-between text-[9px] font-mono text-slate-400">
                 <span className="flex items-center gap-1">
                   <Database className="w-3 h-3 text-emerald-500" />
                   CONTEXT_INTEGRATED: <span className="text-slate-300">{engineResult.system_diagnostics?.grounded_in_context ? "TRUE" : "FALSE"}</span>

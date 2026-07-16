@@ -299,7 +299,7 @@ export default function IncidentHistorySidebar({
             className={`flex-1 py-2 text-center border-b-2 transition-all cursor-pointer ${
               activeTab === "ACTIVE"
                 ? "border-cyan-500 text-cyan-400 font-extrabold bg-cyan-950/20"
-                : "border-transparent text-slate-500 hover:text-slate-300"
+                : "border-transparent text-slate-400 hover:text-slate-300"
             }`}
           >
             ACTIVE ({history.filter(i => !(i.resolved || i.status === "archived")).length})
@@ -313,7 +313,7 @@ export default function IncidentHistorySidebar({
             className={`flex-1 py-2 text-center border-b-2 transition-all cursor-pointer ${
               activeTab === "ARCHIVED"
                 ? "border-amber-500 text-amber-400 font-extrabold bg-amber-950/20"
-                : "border-transparent text-slate-500 hover:text-slate-300"
+                : "border-transparent text-slate-400 hover:text-slate-300"
             }`}
           >
             ARCHIVED ({history.filter(i => (i.resolved || i.status === "archived")).length})
@@ -355,7 +355,7 @@ export default function IncidentHistorySidebar({
         {/* Interactive Search & Filter Controls */}
         <div className="p-3 border-b border-[#1b2531]/50 bg-[#090c10] space-y-2">
           <div className="relative">
-            <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-500" />
+            <Search className="absolute left-2.5 top-2.5 h-3.5 w-3.5 text-slate-400" />
             <input
               type="text"
               placeholder="Search by classification, timestamp, query..."
@@ -366,7 +366,7 @@ export default function IncidentHistorySidebar({
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery("")}
-                className="absolute right-2 top-2 text-slate-500 hover:text-slate-300 transition"
+                className="absolute right-2 top-2 text-slate-400 hover:text-slate-300 transition"
                 title="Clear Search"
                 aria-label="Clear Search"
               >
@@ -432,18 +432,18 @@ export default function IncidentHistorySidebar({
               </div>
             ))
           ) : history.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center space-y-2 py-12 text-slate-500 font-mono text-[10px]">
+            <div className="h-full flex flex-col items-center justify-center text-center space-y-2 py-12 text-slate-400 font-mono text-[10px]">
               <ShieldAlert className="w-6 h-6 text-slate-700 animate-pulse" />
               <span>NO INCIDENTS RECORDED IN CURRENT SESSION</span>
-              <p className="text-[9px] text-slate-600 max-w-[200px]">
+              <p className="text-[9px] text-slate-400 max-w-[200px]">
                 Submit high-risk staff queries to automatically capture tactical events.
               </p>
             </div>
           ) : filteredHistory.length === 0 ? (
-            <div className="h-full flex flex-col items-center justify-center text-center space-y-2 py-12 text-slate-500 font-mono text-[10px]">
+            <div className="h-full flex flex-col items-center justify-center text-center space-y-2 py-12 text-slate-400 font-mono text-[10px]">
               <ShieldAlert className="w-6 h-6 text-cyan-700 animate-pulse" />
               <span>NO INCIDENTS MATCHING SEARCH CRITERIA</span>
-              <p className="text-[9px] text-slate-600 max-w-[200px]">
+              <p className="text-[9px] text-slate-400 max-w-[200px]">
                 Try filtering by keywords like "Security", "Medical", "Crowd", or adjust your search string.
               </p>
             </div>
@@ -469,7 +469,7 @@ export default function IncidentHistorySidebar({
                   {/* Card Header Info */}
                   <div className="p-3 space-y-2">
                     <div className="flex items-center justify-between text-[10px] font-mono">
-                      <span className="text-slate-500 font-bold">{incident.timestamp}</span>
+                      <span className="text-slate-400 font-bold">{incident.timestamp}</span>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center gap-1.5">
                           <span className={`text-[8px] px-1.5 py-0.5 rounded border font-bold uppercase tracking-wider ${badge.bg}`}>
@@ -485,7 +485,7 @@ export default function IncidentHistorySidebar({
                               e.stopPropagation();
                               onResolveIncident(incident.id);
                             }}
-                            className="text-slate-500 hover:text-emerald-400 p-1 rounded hover:bg-slate-900 transition shrink-0"
+                            className="text-slate-400 hover:text-emerald-400 p-1 rounded hover:bg-slate-900 transition shrink-0"
                             title="Mark incident as resolved"
                             aria-label="Mark incident as resolved"
                           >
@@ -498,7 +498,7 @@ export default function IncidentHistorySidebar({
                               e.stopPropagation();
                               onClearIncident(incident.id);
                             }}
-                            className="text-slate-500 hover:text-red-400 p-1 rounded hover:bg-slate-900 transition shrink-0"
+                            className="text-slate-400 hover:text-red-400 p-1 rounded hover:bg-slate-900 transition shrink-0"
                             title="Clear resolved incident"
                             aria-label="Clear resolved incident"
                           >
@@ -514,12 +514,12 @@ export default function IncidentHistorySidebar({
 
                     <div className="flex items-center justify-between text-[9px] font-mono pt-1">
                       {incident.coordinates ? (
-                        <span className="text-slate-500 flex items-center gap-1">
+                        <span className="text-slate-400 flex items-center gap-1">
                           <MapPin className="w-3 h-3 text-red-400" />
                           COORDS: ({incident.coordinates.x.toFixed(0)}, {incident.coordinates.z.toFixed(0)})
                         </span>
                       ) : (
-                        <span className="text-slate-600 font-semibold">NO GPS BOUNDS</span>
+                        <span className="text-slate-400 font-semibold">NO GPS BOUNDS</span>
                       )}
 
                       <div className="flex items-center gap-2">
@@ -549,7 +549,7 @@ export default function IncidentHistorySidebar({
                           {/* Dispatch Checklist */}
                           {incident.actionPlan && incident.actionPlan.length > 0 && (
                             <div className="space-y-1.5">
-                              <span className="text-slate-500 font-bold text-[9px] uppercase tracking-wider flex items-center gap-1">
+                              <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider flex items-center gap-1">
                                 <Zap className="w-3 h-3 text-cyan-400" /> DISPATCH PROTOCOL CHECKLIST
                               </span>
                               <div className="space-y-1 pl-1">
@@ -564,9 +564,9 @@ export default function IncidentHistorySidebar({
                                       {isChecked ? (
                                         <CheckSquare className="w-3.5 h-3.5 text-emerald-400 shrink-0 mt-0.5" />
                                       ) : (
-                                        <Square className="w-3.5 h-3.5 text-slate-600 group-hover/step:text-slate-400 shrink-0 mt-0.5" />
+                                        <Square className="w-3.5 h-3.5 text-slate-400 group-hover/step:text-slate-400 shrink-0 mt-0.5" />
                                       )}
-                                      <span className={`text-[10px] font-sans leading-normal ${isChecked ? "line-through text-slate-500" : ""}`}>
+                                      <span className={`text-[10px] font-sans leading-normal ${isChecked ? "line-through text-slate-400" : ""}`}>
                                         {step}
                                       </span>
                                     </div>
@@ -579,7 +579,7 @@ export default function IncidentHistorySidebar({
                           {/* Verbal Radio Transmission */}
                           {incident.verbalRadioBriefingScript && (
                             <div className="space-y-1">
-                              <span className="text-slate-500 font-bold text-[9px] uppercase tracking-wider flex items-center gap-1">
+                              <span className="text-slate-400 font-bold text-[9px] uppercase tracking-wider flex items-center gap-1">
                                 <Radio className="w-3 h-3 text-amber-500" /> ORIGINAL SECURED BROADCAST
                               </span>
                               <div className="bg-[#0b0e12] p-2 rounded text-amber-400 font-mono italic text-[10px] leading-relaxed border border-[#1b2531]/40">
@@ -625,11 +625,11 @@ export default function IncidentHistorySidebar({
         </motion.div>
 
         {/* Footer Statistics */}
-        <div className="p-3 bg-[#0b0e12] border-t border-[#1b2531] text-[9px] font-mono text-slate-500 flex items-center justify-between">
+        <div className="p-3 bg-[#0b0e12] border-t border-[#1b2531] text-[9px] font-mono text-slate-400 flex items-center justify-between">
           <span className="flex items-center gap-1 uppercase">
             <Activity className="w-3 h-3 text-cyan-500" /> TOTAL LOGGED: {history.length}/5
           </span>
-          <span className="text-slate-500">SYSTEM ARCHIVE V1</span>
+          <span className="text-slate-400">SYSTEM ARCHIVE V1</span>
         </div>
       </motion.div>
     </>

@@ -119,7 +119,7 @@ export default function StadiumAIComplianceChat({
                 SECURED
               </span>
             </div>
-            <p className="text-[9px] text-slate-500 uppercase tracking-wide mt-0.5 flex items-center gap-1">
+            <p className="text-[9px] text-slate-400 uppercase tracking-wide mt-0.5 flex items-center gap-1">
               <span>FIFA WC 2026 AI AGENT</span>
               <span>•</span>
               <span className="text-slate-400">ROLE: {currentSessionRole || "SPECTATOR"}</span>
@@ -226,7 +226,7 @@ export default function StadiumAIComplianceChat({
 
       {/* Dynamic Role Presets / Suggestions */}
       <div className="space-y-1.5">
-        <span className="text-[8px] text-slate-500 uppercase font-bold tracking-wider block">
+        <span className="text-[8px] text-slate-400 uppercase font-bold tracking-wider block">
           SUGGESTED COMPLIANCE PRESETS ({currentSessionRole}):
         </span>
         <div className="flex flex-wrap gap-1.5">
@@ -264,7 +264,7 @@ export default function StadiumAIComplianceChat({
             disabled={isChatLoading}
             className="w-full bg-[#07090c] border border-[#1b2531] focus:border-blue-500/50 rounded-lg pl-3 pr-14 py-2.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none transition-colors"
           />
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[8px] text-slate-600 font-bold">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[8px] text-slate-400 font-bold">
             {chatInput.length}/300
           </span>
         </div>
@@ -277,7 +277,7 @@ export default function StadiumAIComplianceChat({
           className={`p-2.5 rounded-lg border flex items-center justify-center transition-all duration-200 cursor-pointer ${
             chatInput.trim() && !isChatLoading
               ? "bg-blue-950 border-blue-500/40 hover:border-blue-400 text-blue-400 shadow-[0_0_15px_rgba(59,130,246,0.15)] hover:scale-105"
-              : "bg-slate-950 border-[#1b2531] text-slate-600"
+              : "bg-slate-950 border-[#1b2531] text-slate-400"
           }`}
           title="Submit secure compliance query"
         >

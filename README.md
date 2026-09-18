@@ -1,5 +1,7 @@
 # Montery — FIFA 2026 Smart Stadiums System
 BUILT FOR GOOGLE FOR DEV PROMPTWARS 2026
+
+
 Montery is an advanced, high-fidelity 3D Digital Twin and operations compliance platform tailored for the **FIFA World Cup 2026™**. Built on top of **React**, **TypeScript**, **Vite**, **Three.js**, and powered by the server-side **Gemini API**, Montery provides real-time situational awareness, multi-role compliance enforcement, dynamic routing, and intelligent multi-lingual safety assistance.
 
 ---
